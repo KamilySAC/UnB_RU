@@ -54,6 +54,10 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 end
 
+gem 'cucumber-rails', require: false
+  
+gem 'database_cleaner'
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
