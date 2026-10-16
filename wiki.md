@@ -76,7 +76,7 @@
 | Funcionalidade                               | Responsável                     | Pontos |
 | -------------------------------------------- | ------------------------------- | ------ |
 | Gestão de Restaurantes e Catracas            | João Pedro Rabelo do Nascimento | 5      |
-| Validação de Entrada na Catraca              | Arthur Santos Almeida           | 8      |
+| Validação de Entrada na Catraca              | Arthur Santos Almeida           | 5      |
 | Autenticação do funcionário                  | Kamily Silva Andrade Crispim    | 3      |
 | Cadastro de usuário                          | Ana Sarah Nagata                | 3      |
 | Recarga e saldo                              | Maria Luiza Macedo Bezerra      | 5      |
