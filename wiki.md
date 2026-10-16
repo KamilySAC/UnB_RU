@@ -37,7 +37,7 @@
 - Caso ocorra timeout (5 segundos) sem giro após a liberação, a catraca volta a bloquear e nenhum valor é debitado.
 - Leituras duplicadas do cartão enquanto a catraca aguarda o giro são desconsideradas para evitar cobrança em duplicidade.
 
-## Issue Cadastro de Usuário
+### Issue Cadastro de Usuário
 
 - O estudante se cadastra informando matrícula, nome completo e senha (com confirmação).
 - Todos os campos são obrigatórios; se algum estiver vazio, a conta não é criada.
@@ -45,7 +45,7 @@
 - Não pode haver duas contas com a mesma matrícula; se a matrícula já estiver cadastrada, a conta não é criada.
 - Quando o cadastro é concluído, a conta é criada e uma mensagem de confirmação é exibida.
 
-## Issue Autenticação de funcionário
+### Issue Autenticação de funcionário
 
 - O funcionário se autentica no aplicativo informando a matrícula SIAPE/nome e a senha.
 - A matrícula SIAPE/nome e a senha são obrigatórios; se algum estiver vazio, o login não é realizado e o sistema informa qual campo é obrigatório.
@@ -55,22 +55,29 @@
 - O fiscal pode alternar a visibilidade da senha durante o preenchimento (exibida em texto ou oculta).
 - Ao fazer logout, a sessão é encerrada e o fiscal retorna à tela "Autenticação do Operador".
 
-## Issue Recarga e Saldo
+### Issue Recarga e Saldo
+
 - O estudante precisa estar logado para adicionar créditos à conta.
-A recarga pode ser feita por PIX (geração de QR Code no valor desejado) ou por cartão de crédito.
+- A recarga pode ser feita por PIX (geração de QR Code no valor desejado) ou por cartão de crédito.
 - O saldo só é atualizado após a confirmação do pagamento (PIX pago ou cartão aprovado), somando o valor da recarga ao saldo atual.
 - Após uma recarga bem-sucedida, uma mensagem de sucesso é exibida.
-Se os dados do cartão forem inválidos, a recarga não é realizada, uma mensagem de erro é exibida e o saldo permanece inalterado.
+- Se os dados do cartão forem inválidos, a recarga não é realizada, uma mensagem de erro é exibida e o saldo permanece inalterado.
 
+### Issue Exportação em PDF do Histórico do Estudante
 
+- O estudante deve estar autenticado no sistema para exportar seu histórico em PDF.
+- A exportação é gerada automaticamente com base nas movimentações do mês atual vigente no momento da solicitação (não há seleção manual de período/mês nem exportação anual).
+- O relatório em PDF gerado para download apresenta os dados do discente, saldo atual e o extrato consolidado de movimentações (refeições e recargas) estritamente do mês atual.
+- Movimentações de meses anteriores são automaticamente desconsideradas na geração do documento e no cálculo dos totais do período.
+- Se o estudante não possuir nenhuma movimentação registrada no mês atual, o sistema não deve efetuar o download e deve exibir uma mensagem informativa.
 
 ## Funcionalidades e Responsáveis
 
-| Funcionalidade                    | Responsável                     | Pontos |
-| --------------------------------- | ------------------------------- | ------ |
-| Gestão de Restaurantes e Catracas | João Pedro Rabelo do Nascimento | 5      |
-| Validação de Entrada na Catraca   | Arthur Santos Almeida           | 8      |
-| Autenticação do funcionário       | Kamily Silva Andrade Crispim    | 3      |
-| Cadastro de usuário               | Ana Sarah Nagata                | 3      |
-| Recarga e saldo                   | Maria Luiza Macedo Bezerra      | 5      |
-| Validação de Entrada na Catraca   | Maria Luiza Macedo Bezerra      | 3      |
+| Funcionalidade                               | Responsável                     | Pontos |
+| -------------------------------------------- | ------------------------------- | ------ |
+| Gestão de Restaurantes e Catracas            | João Pedro Rabelo do Nascimento | 5      |
+| Validação de Entrada na Catraca              | Arthur Santos Almeida           | 8      |
+| Autenticação do funcionário                  | Kamily Silva Andrade Crispim    | 3      |
+| Cadastro de usuário                          | Ana Sarah Nagata                | 3      |
+| Recarga e saldo                              | Maria Luiza Macedo Bezerra      | 5      |
+| Exportação em PDF do Histórico do Estudante  | Arthur Santos Almeida           | 3      |
