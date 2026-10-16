@@ -1,0 +1,18 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+!/tmp/pids/.keep
+!/tmp/storage/.keep
+
+# Ignore storage
+/storage/*
+!/storage/.keep
+
+# Ignore master key
+/config/master.key
+/config/credentials/*.key
