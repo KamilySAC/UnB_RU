@@ -17,9 +17,11 @@
 ### Issue Gestão de Restaurantes e Catracas
 
 - Apenas administradores podem gerenciar restaurantes e catracas
+- Restaurantes cadastrados aparecem na lista e ficam disponíveis na Aplicação de Controle.
 - Não pode haver dois restaurantes ativos com o mesmo nome.
-- Cada catraca deve pertencer a um restaurante existente.
-
+- Não é possível adicionar catracas a restaurantes inexistentes.
+- Administradores podem editar o nome de um restaurante e o estado de uma catraca.
+- Funcionários não podem cadastrar ou gerenciar restaurantes.
 
 ### Issue Validação de Entrada na Catraca
 
@@ -71,13 +73,23 @@
 - Movimentações de meses anteriores são automaticamente desconsideradas na geração do documento e no cálculo dos totais do período.
 - Se o estudante não possuir nenhuma movimentação registrada no mês atual, o sistema não deve efetuar o download e deve exibir uma mensagem informativa.
 
+## Issue Histórico local da catraca
+
+- A opção “Histórico Local” exibe os registros da catraca selecionada.
+- Cada registro apresenta horário, matrícula do discente, modo de validação, tarifa e status da catraca.
+- Ao trocar de catraca, o histórico é atualizado e exibe apenas os registros da nova seleção.
+- Tentativas negadas aparecem no histórico com status “bloqueado” e o motivo da negativa.
+- Tentativas negadas por saldo insuficiente não debitam nenhum valor do discente.
+- É possível filtrar o histórico por turno e por status.
+
 ## Funcionalidades e Responsáveis
 
-| Funcionalidade                               | Responsável                     | Pontos |
-| -------------------------------------------- | ------------------------------- | ------ |
-| Gestão de Restaurantes e Catracas            | João Pedro Rabelo do Nascimento | 5      |
-| Validação de Entrada na Catraca              | Arthur Santos Almeida           | 5      |
-| Autenticação do funcionário                  | Kamily Silva Andrade Crispim    | 3      |
-| Cadastro de usuário                          | Ana Sarah Nagata                | 3      |
-| Recarga e saldo                              | Maria Luiza Macedo Bezerra      | 5      |
-| Exportação em PDF do Histórico do Estudante  | Arthur Santos Almeida           | 3      |
+| Funcionalidade                              | Responsável                     | Pontos |
+| ------------------------------------------- | ------------------------------- | ------ |
+| Gestão de Restaurantes e Catracas           | João Pedro Rabelo do Nascimento | 3      |
+| Histórico local da catraca                  | João Pedro Rabelo do Nascimento | 3      |
+| Validação de Entrada na Catraca             | Arthur Santos Almeida           | 5      |
+| Autenticação do funcionário                 | Kamily Silva Andrade Crispim    | 3      |
+| Cadastro de usuário                         | Ana Sarah Nagata                | 3      |
+| Recarga e saldo                             | Maria Luiza Macedo Bezerra      | 5      |
+| Exportação em PDF do Histórico do Estudante | Arthur Santos Almeida           | 3      |
