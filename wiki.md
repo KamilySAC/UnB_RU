@@ -82,6 +82,14 @@
 - Tentativas negadas por saldo insuficiente não debitam nenhum valor do discente.
 - É possível filtrar o histórico por turno e por status.
 
+### Issue Visualizar Cardápio da Refeição Atual
+
+- O estudante deve poder visualizar o cardápio da refeição que está sendo servida no momento.
+- O cardápio deve apresentar três opções: padrão, ovolactovegetariana e vegetariano estrito.
+- Cada opção de cardápio deve apresentar prato principal, guarnição, salada, sobremesa e bebida.
+- A seção de cardápio deve apresenta o nome do restaurante e seu horário de funcionamento.
+- Caso não exista cardápio cadastrado para a refeição atual, a seção deve apresentar uma mensagem informando sua indisponibilidade.
+
 ## Funcionalidades e Responsáveis
 
 | Funcionalidade                              | Responsável                     | Pontos |
@@ -93,3 +101,4 @@
 | Cadastro de usuário                         | Ana Sarah Nagata                | 3      |
 | Recarga e saldo                             | Maria Luiza Macedo Bezerra      | 5      |
 | Exportação em PDF do Histórico do Estudante | Arthur Santos Almeida           | 3      |
+| Visualizar cardápio da refeição atual | Ana Sarah Nagata | 1 |
