@@ -118,6 +118,25 @@
 - Ao selecionar uma recarga da lista, o estudante visualiza seus detalhes: data, valor, forma de pagamento e status.
 - Caso o estudante não possua refeições registradas no período, o sistema exibe uma mensagem informando que não há refeições no período e o total gasto é R$ 0,00.
 
+### Padrão de commits
+
+O grupo utiliza o padrão **Conventional Commits**, no formato `tipo: descrição curta no imperativo`.
+
+### Política de branching
+
+- A branch `main` do fork do grupo não recebe commits diretos.
+- Existe uma branch por sprint, que reúne o trabalho de todos os integrantes.
+- Cada integrante desenvolve em sua própria branch de feature ou fix, criada a partir da branch da sprint, com nome no formato `feat-nome-da-funcionalidade` ou `fix-nome-do-problema` (ex.: `feat-gestao_restaurante_catraca`).
+- O trabalho de cada branch entra na branch da sprint apenas por Pull Request.
+- Ao finalizar as tarefas da sprint, o grupo gera uma tag de Release e abre um Pull Request da branch da sprint para a `main` do repositório principal.
+
+### Política de revisão
+
+- Todo Pull Request para a branch da sprint pode ser revisado por qualquer integrante.
+- O revisor confere se os commits seguem o padrão, se os cenários e o código correspondem às regras de negócio da wiki e se não há conflitos.
+- O merge só é feito depois da aprovação do revisor.
+
+
 ## Funcionalidades e Responsáveis
 
 | Funcionalidade                              | Responsável                     | Pontos |
