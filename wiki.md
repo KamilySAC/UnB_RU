@@ -73,7 +73,7 @@
 - Movimentações de meses anteriores são automaticamente desconsideradas na geração do documento e no cálculo dos totais do período.
 - Se o estudante não possuir nenhuma movimentação registrada no mês atual, o sistema não deve efetuar o download e deve exibir uma mensagem informativa.
 
-## Issue Histórico local da catraca
+### Issue Histórico local da catraca
 
 - A opção “Histórico Local” exibe os registros da catraca selecionada.
 - Cada registro apresenta horário, matrícula do discente, modo de validação, tarifa e status da catraca.
