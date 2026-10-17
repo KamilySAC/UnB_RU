@@ -90,6 +90,34 @@
 - A seção de cardápio deve apresenta o nome do restaurante e seu horário de funcionamento.
 - Caso não exista cardápio cadastrado para a refeição atual, a seção deve apresentar uma mensagem informando sua indisponibilidade.
 
+
+### Issue Histórico global de acessos do campus
+
+- Apenas administradores podem visualizar o histórico global de acessos do campus.
+- O histórico exibe os acessos de todos os restaurantes e de todas as catracas do campus.
+- Cada acesso apresenta horário, matrícula do estudante, tarifa e status da catraca.
+- O histórico apresenta o total de acessos e a arrecadação bruta do campus.
+- Acessos bloqueados aparecem com tarifa "R$ 0,00" e com o motivo do bloqueio visível .
+- É possível filtrar o histórico por restaurante e por catraca específica.
+- Ao filtrar por restaurante, apenas as catracas desse restaurante ficam disponíveis como opção de filtro por catraca.
+- É possível agrupar os dados por restaurante: cada linha exibe acessos, pontualidade e arrecadação bruta, junto com o total consolidado de todos os restaurantes.
+- É possível agrupar os dados por catraca: cada linha exibe passagens e total debitado.
+- Caso não existam acessos para os filtros selecionados, nenhum acesso é exibido e o sistema informa que não há acessos para os filtros selecionados.
+- Fiscais não podem visualizar o histórico global: eles veem apenas o histórico local da própria catraca.
+
+### Issue Extrato de Recargas e Histórico de Refeições
+
+- O estudante deve estar autenticado no sistema para visualizar seu extrato e seu histórico.
+- O estudante visualiza apenas as próprias movimentações; movimentações de outros estudantes nunca são exibidas.
+- O extrato de recargas lista as recargas realizadas, e cada recarga apresenta data, valor e forma de pagamento.
+- O extrato de recargas apresenta o total recarregado no período.
+- O histórico de refeições lista as refeições realizadas, e cada refeição apresenta data, restaurante e valor debitado.
+- O histórico de refeições apresenta o total gasto no período.
+- A opção "Meus gastos" reúne o extrato e o histórico em um único painel, com as abas "Recargas" e "Refeições".
+- É possível filtrar as movimentações por período, e o total considera apenas o período filtrado.
+- Ao selecionar uma recarga da lista, o estudante visualiza seus detalhes: data, valor, forma de pagamento e status.
+- Caso o estudante não possua refeições registradas no período, o sistema exibe uma mensagem informando que não há refeições no período e o total gasto é R$ 0,00.
+
 ## Funcionalidades e Responsáveis
 
 | Funcionalidade                              | Responsável                     | Pontos |
@@ -97,8 +125,10 @@
 | Gestão de Restaurantes e Catracas           | João Pedro Rabelo do Nascimento | 3      |
 | Histórico local da catraca                  | João Pedro Rabelo do Nascimento | 3      |
 | Validação de Entrada na Catraca             | Arthur Santos Almeida           | 5      |
-| Autenticação do funcionário                 | Kamily Silva Andrade Crispim    | 3      |
-| Cadastro de usuário                         | Ana Sarah Nagata                | 3      |
-| Recarga e saldo                             | Maria Luiza Macedo Bezerra      | 5      |
 | Exportação em PDF do Histórico do Estudante | Arthur Santos Almeida           | 3      |
-| Visualizar cardápio da refeição atual | Ana Sarah Nagata | 1 |
+| Autenticação do funcionário                 | Kamily Silva Andrade Crispim    | 3      |
+| Histórico global de acessos do campus       | Kamily silva Andrade Crispim    | 3      |
+| Recarga e saldo                             | Maria Luiza Macedo Bezerra      | 5      |
+| Extrato e Histórico                         | Maria Luiza Macedo Bezerra      | 3      |
+| Visualizar cardápio da refeição atual       | Ana Sarah Nagata                | 1      |
+| Cadastro de usuário                         | Ana Sarah Nagata                | 3      |
