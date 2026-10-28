@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cantina RU</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+</head>
+<body>
+  <% if flash[:notice] %><p class="mensagem"><%= flash[:notice] %></p><% end %>
+  <% if flash[:alert]  %><p class="erro"><%= flash[:alert] %></p><% end %>
+  <%= yield %>
+</body>
+</html>

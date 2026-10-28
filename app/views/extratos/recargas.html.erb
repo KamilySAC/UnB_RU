@@ -1,0 +1,29 @@
+<h1>Extrato de recargas</h1>
+
+<%= form_with url: extrato_recargas_path, method: :get, local: true do %>
+  <%= label_tag :inicio, 'De' %>
+  <%= text_field_tag :inicio, params[:inicio], id: 'inicio' %>
+  <%= label_tag :fim, 'Até' %>
+  <%= text_field_tag :fim, params[:fim], id: 'fim' %>
+  <%= submit_tag 'Filtrar' %>
+<% end %>
+
+<% if @recargas.empty? %>
+  <p>Nenhuma recarga encontrada no período</p>
+<% else %>
+  <table id="tabela_recargas">
+    <thead><tr><th>Data</th><th>Valor</th><th>Forma</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% @recargas.each do |r| %>
+        <tr>
+          <td><%= r.data.strftime('%d/%m/%Y') %></td>
+          <td>R$ <%= format('%.2f', r.valor) %></td>
+          <td><%= r.forma %></td>
+          <td><%= r.status %></td>
+          <td><%= link_to 'Detalhes', detalhe_recarga_path(r) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<p id="total">Total recarregado: R$ <%= format('%.2f', @total) %></p>

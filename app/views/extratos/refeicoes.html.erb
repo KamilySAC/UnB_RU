@@ -1,0 +1,27 @@
+<h1>Histórico de refeições</h1>
+
+<%= form_with url: extrato_refeicoes_path, method: :get, local: true do %>
+  <%= label_tag :inicio, 'De' %>
+  <%= text_field_tag :inicio, params[:inicio], id: 'inicio' %>
+  <%= label_tag :fim, 'Até' %>
+  <%= text_field_tag :fim, params[:fim], id: 'fim' %>
+  <%= submit_tag 'Filtrar' %>
+<% end %>
+
+<% if @refeicoes.empty? %>
+  <p>Nenhuma refeição encontrada no período</p>
+<% else %>
+  <table id="tabela_refeicoes">
+    <thead><tr><th>Data</th><th>Restaurante</th><th>Valor</th></tr></thead>
+    <tbody>
+      <% @refeicoes.each do |r| %>
+        <tr>
+          <td><%= r.data.strftime('%d/%m/%Y') %></td>
+          <td><%= r.restaurante %></td>
+          <td>R$ <%= format('%.2f', r.valor) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<p id="total">Total gasto: R$ <%= format('%.2f', @total) %></p>

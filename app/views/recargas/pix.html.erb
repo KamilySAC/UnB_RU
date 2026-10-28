@@ -1,0 +1,7 @@
+<h1>QR Code PIX</h1>
+<p id="qr_code">QR-Code-<%= @token %>-R$<%= format('%.2f', @valor) %></p>
+
+<%= form_with url: recarga_pix_confirmar_path, method: :post, local: true do %>
+  <%= hidden_field_tag :token, @token %>
+  <%= submit_tag 'Confirmar pagamento PIX' %>
+<% end %>
