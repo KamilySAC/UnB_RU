@@ -1,0 +1,8 @@
+<h1>Dashboard</h1>
+<p id="saldo">Saldo: R$ <%= format('%.2f', @estudante.saldo) %></p>
+<ul>
+  <li><%= link_to 'Recarregar', recarga_path %></li>
+  <li><%= link_to 'Extrato de recargas', extrato_recargas_path %></li>
+  <li><%= link_to 'Histórico de refeições', extrato_refeicoes_path %></li>
+  <li><%= link_to 'Sair', logout_path, method: :delete %></li>
+</ul>
