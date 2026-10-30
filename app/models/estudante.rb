@@ -1,6 +1,6 @@
 class Estudante < ApplicationRecord
   has_many :recargas,  dependent: :destroy
-  has_many :refeicoes, class_name: 'Refeicao', dependent: :destroy
+  has_many :refeicoes, class_name: "Refeicao", dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :nome,  presence: true

@@ -1,6 +1,6 @@
 class Recarga < ApplicationRecord
-  FORMAS = ['PIX', 'Cartão de crédito'].freeze
-  STATUS = ['Aprovada', 'Pendente', 'Recusada'].freeze
+  FORMAS = [ "PIX", "Cartão de crédito" ].freeze
+  STATUS = [ "Aprovada", "Pendente", "Recusada" ].freeze
 
   belongs_to :estudante
 

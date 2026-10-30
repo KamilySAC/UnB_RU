@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   def require_estudante!
-    redirect_to login_path, alert: 'Faça login primeiro' unless estudante_logado?
+    redirect_to login_path, alert: "Faça login primeiro" unless estudante_logado?
   end
 end

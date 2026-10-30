@@ -16,7 +16,7 @@ class ExtratosController < ApplicationController
   end
 
   def painel
-    @aba              = params[:aba].presence || 'recargas'
+    @aba              = params[:aba].presence || "recargas"
     @recargas         = current_estudante.recargas.order(:data)
     @refeicoes        = current_estudante.refeicoes.order(:data)
     @total_recargas   = @recargas.sum(&:valor).round(2)
@@ -29,17 +29,17 @@ class ExtratosController < ApplicationController
     scope = scope.order(:data)
     if params[:inicio].present?
       ini = parse_date(params[:inicio])
-      scope = scope.where('data >= ?', ini) if ini
+      scope = scope.where("data >= ?", ini) if ini
     end
     if params[:fim].present?
       fim = parse_date(params[:fim])
-      scope = scope.where('data <= ?', fim) if fim
+      scope = scope.where("data <= ?", fim) if fim
     end
     scope
   end
 
   def parse_date(str)
-    Date.strptime(str, '%d/%m/%Y')
+    Date.strptime(str, "%d/%m/%Y")
   rescue ArgumentError
     nil
   end

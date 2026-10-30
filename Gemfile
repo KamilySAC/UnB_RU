@@ -17,8 +17,8 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem 'sinatra', '~> 4.0'
-gem 'rack-test', '~> 2.1'
+gem "sinatra", "~> 4.0"
+gem "rack-test", "~> 2.1"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -45,20 +45,20 @@ gem "image_processing", "~> 1.2"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem 'rspec-rails', '~> 7.1'
+  gem "rspec-rails", "~> 7.1"
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
-  gem 'rspec', '~> 3.13'
+  gem "rspec", "~> 3.13"
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 end
 
-gem 'cucumber-rails', require: false
-  
-gem 'database_cleaner'
+gem "cucumber-rails", require: false
+
+gem "database_cleaner"
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
@@ -68,6 +68,6 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem 'shoulda-matchers', '~> 6.0'
+  gem "shoulda-matchers", "~> 6.0"
   gem "selenium-webdriver"
 end

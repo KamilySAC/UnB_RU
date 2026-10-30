@@ -1,5 +1,5 @@
 class Refeicao < ApplicationRecord
-  self.table_name = 'refeicoes'
+  self.table_name = "refeicoes"
 
   belongs_to :estudante
 
