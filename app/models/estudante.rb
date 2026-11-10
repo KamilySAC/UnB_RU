@@ -12,6 +12,8 @@ class Estudante < ApplicationRecord
 
   # relação: um estudante tem muitos registros na catraca: um para muitos
   has_many :acessos_catraca, class_name: "AcessoCatraca", dependent: :destroy
+  has_many :recargas, dependent: :destroy
+  has_many :refeicoes, class_name: "Refeicao", dependent: :destroy
 
   # validaçoes dos campos
 

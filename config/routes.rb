@@ -11,4 +11,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # rota para download dohistorico do estudante em PDF
+  get "historico/exportar_pdf", to: "historicos#exportar_pdf", as: :exportar_historico_pdf
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_01_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_01_000001) do
   create_table "acessos_catraca", force: :cascade do |t|
     t.integer "estudante_id"
     t.string "identificacao_lida"
@@ -37,5 +37,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_01_000000) do
     t.index ["matricula"], name: "index_estudantes_on_matricula", unique: true
   end
 
+  create_table "recargas", force: :cascade do |t|
+    t.integer "estudante_id", null: false
+    t.decimal "valor", precision: 10, scale: 2, null: false
+    t.string "forma", default: "PIX", null: false
+    t.string "status", default: "Aprovada", null: false
+    t.date "data", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["estudante_id"], name: "index_recargas_on_estudante_id"
+  end
+
+  create_table "refeicoes", force: :cascade do |t|
+    t.integer "estudante_id", null: false
+    t.string "restaurante", default: "RU Darcy Ribeiro", null: false
+    t.decimal "valor", precision: 10, scale: 2, null: false
+    t.date "data", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["estudante_id"], name: "index_refeicoes_on_estudante_id"
+  end
+
   add_foreign_key "acessos_catraca", "estudantes"
+  add_foreign_key "recargas", "estudantes"
+  add_foreign_key "refeicoes", "estudantes"
 end
