@@ -1,6 +1,6 @@
 # language: pt
 
-Funcionalidade: Gerenciar restaurantes e catracas
+Funcionalidade: historico catracas
   Como funcionário
   Quero visualizar na aplicação de controle o histórico de todos os acessos registrados apenas na catraca que estou gerenciando no momento
   Para realizar auditorias ou conferências locais de fluxo.

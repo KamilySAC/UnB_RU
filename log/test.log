@@ -2,3 +2,38 @@ Using vips to process variants requires the libvips library. Please install libv
   [1m[35m (8.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
   [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
   [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::InternalMetadata Load (2.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (7.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-11-10 23:37:00.747405', '2026-11-10 23:37:00.747417') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateRestaurantes (20261110230816)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35m (4.7ms)[0m  [1m[35mCREATE TABLE "restaurantes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "codigo" varchar NOT NULL, "nome" varchar NOT NULL, "campus" varchar, "capacidade_por_hora" integer DEFAULT 0 NOT NULL, "total_pisos" integer DEFAULT 1 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_restaurantes_on_codigo" ON "restaurantes" ("codigo")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261110230816') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+Migrating to CreateCatracas (20261110230845)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "catracas" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "restaurante_id" integer NOT NULL, "codigo" varchar NOT NULL, "nome" varchar NOT NULL, "piso" integer DEFAULT 1 NOT NULL, "status" integer DEFAULT 0 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_36299f1fc2"
+FOREIGN KEY ("restaurante_id")
+  REFERENCES "restaurantes" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_catracas_on_restaurante_id" ON "catracas" ("restaurante_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_catracas_on_restaurante_id_and_codigo" ON "catracas" ("restaurante_id", "codigo")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_catracas_on_restaurante_id_and_piso" ON "catracas" ("restaurante_id", "piso")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261110230845') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+Migrating to CreateAcessos (20261110230900)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "acessos" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "catraca_id" integer NOT NULL, "matricula_discente" varchar NOT NULL, "turno" varchar NOT NULL, "modo_validacao" varchar NOT NULL, "tarifa" decimal(8,2) NOT NULL, "status_acesso" integer NOT NULL, "status_catraca" varchar NOT NULL, "motivo_negativa" varchar, "ocorrido_em" datetime(6) NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_487b1d6969"
+FOREIGN KEY ("catraca_id")
+  REFERENCES "catracas" ("id")
+)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_acessos_on_catraca_id" ON "acessos" ("catraca_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_acessos_on_catraca_id_and_ocorrido_em" ON "acessos" ("catraca_id", "ocorrido_em")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_acessos_on_catraca_id_and_status_acesso" ON "acessos" ("catraca_id", "status_acesso")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_acessos_on_catraca_id_and_turno" ON "acessos" ("catraca_id", "turno")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20261110230900') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
