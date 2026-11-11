@@ -1,0 +1,10 @@
+<h1>Login</h1>
+<%= form_with url: login_path, method: :post, local: true do |f| %>
+  <div>
+    <%= label_tag :email, 'Email' %>
+    <%= text_field_tag :email, nil, id: 'email' %>
+  </div>
+  <div>
+    <%= submit_tag 'Entrar' %>
+  </div>
+<% end %>

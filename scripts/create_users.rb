@@ -24,8 +24,8 @@ LAST_NAMES = %w[
 PASSWORD_LENGTH = 10
 
 def full_name
-  middle = rand < 0.5 ? [LAST_NAMES.sample] : []
-  [FIRST_NAMES.sample, *middle, LAST_NAMES.sample].join(' ')
+  middle = rand < 0.5 ? [ LAST_NAMES.sample ] : []
+  [ FIRST_NAMES.sample, *middle, LAST_NAMES.sample ].join(' ')
 end
 
 def password
@@ -39,7 +39,7 @@ end
 # 2 dígitos de ano + 2 dígitos de semestre (10 ou 20) + 5 dígitos aleatórios
 def student_registration
   year     = format('%02d', rand(17..26))
-  semester = [10, 20].sample
+  semester = [ 10, 20 ].sample
   "#{year}#{semester}#{random_digits(5)}"
 end
 

@@ -1,14 +1,21 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get    "login",  to: "sessions#new"
+  post   "login",  to: "sessions#create"
+  delete "logout", to: "sessions#destroy"
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  get "dashboard", to: "dashboard#show", as: :dashboard
+
+  get  "recarga",                to: "recargas#new",             as: :recarga
+  post "recarga/pix",            to: "recargas#create_pix",      as: :recarga_pix
+  post "recarga/pix/confirmar",  to: "recargas#confirmar_pix",   as: :recarga_pix_confirmar
+  post "recarga/cartao",         to: "recargas#create_cartao",   as: :recarga_cartao
+
+  get "extrato/recargas",        to: "extratos#recargas",        as: :extrato_recargas
+  get "extrato/recargas/:id",    to: "extratos#detalhe_recarga", as: :detalhe_recarga
+  get "extrato/refeicoes",       to: "extratos#refeicoes",       as: :extrato_refeicoes
+  get "meus_gastos",             to: "extratos#painel",          as: :painel
+
+  root "sessions#new"
 end

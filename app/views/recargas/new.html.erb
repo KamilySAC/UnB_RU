@@ -1,0 +1,19 @@
+<h1>Recarregar</h1>
+
+<h2>Via PIX</h2>
+<%= form_with url: recarga_pix_path, method: :post, local: true do %>
+  <%= label_tag :valor_pix, 'Valor' %>
+  <%= text_field_tag :valor, nil, id: 'valor_pix' %>
+  <%= submit_tag 'Gerar QR Code PIX' %>
+<% end %>
+
+<h2>Via cartão de crédito</h2>
+<%= form_with url: recarga_cartao_path, method: :post, local: true do %>
+  <%= label_tag :valor_cartao, 'Valor' %>
+  <%= text_field_tag :valor, nil, id: 'valor_cartao' %>
+  <%= label_tag :numero, 'Número' %>
+  <%= text_field_tag :numero, nil, id: 'numero' %>
+  <%= label_tag :cvv, 'CVV' %>
+  <%= text_field_tag :cvv, nil, id: 'cvv' %>
+  <%= submit_tag 'Confirmar recarga' %>
+<% end %>

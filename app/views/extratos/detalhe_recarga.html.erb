@@ -1,0 +1,6 @@
+<h1>Detalhes da recarga</h1>
+<p>Data: <%= @recarga.data.strftime('%d/%m/%Y') %></p>
+<p>Valor: R$ <%= format('%.2f', @recarga.valor) %></p>
+<p>Forma: <%= @recarga.forma %></p>
+<p>Status: <%= @recarga.status %></p>
+<%= link_to 'Voltar', extrato_recargas_path %>
