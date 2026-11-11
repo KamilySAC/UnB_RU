@@ -108,7 +108,7 @@ class AcessoCatraca < ApplicationRecord
       else 
         # Estudante pagantes: debita a tarifa do saldo e atualiza o status do acesso
         novo_saldo = (estudante.saldo - valor_debitado).round(2)
-        estudante.update(saldo: novo_saldo)
+        estudante.update!(saldo: novo_saldo)
         
         # marca acesso como concluído
         update!(

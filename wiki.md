@@ -232,14 +232,22 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
 
 | Tipo de Teste | Arquivos Avaliados | Total Executado | Falhas / Erros |
 | ------------- | ------------------ | --------------- | -------------- |
-| **RSpec**     | `estudante_spec.rb`, `acesso_catraca_spec.rb`, `gerador_historico_pdf_spec.rb` | **25 exemplos** | **0** (100% verde) |
+| **RSpec**     | `estudante_spec.rb`, `acesso_catraca_spec.rb`, `gerador_historico_pdf_spec.rb`, `recarga_spec.rb`, `refeicao_spec.rb`, `historicos_spec.rb` | **34 exemplos** | **0** (100% verde) |
 | **Cucumber**  | `validacao_entrada.feature`, `exportar_historico_pdf.feature` | **25 cenários / 156 passos** | **0** (100% verde) |
 
 ### Como reproduzir os testes localmente:
 ```bash
-# Executar todos os testes unitários RSpec
+# Executar todos os testes unitários e de requisição RSpec
 bundle exec rspec
 
 # Executar os testes BDD Cucumber de validação de catraca e exportação PDF
 bundle exec cucumber features/validacao_entrada.feature features/exportar_historico_pdf.feature
 ```
+
+---
+
+## 4. Declaração de Uso de Inteligência Artificial
+Em conformidade com as diretrizes da disciplina de Engenharia de Software:
+- **Ferramenta Utilizada:** Antigravity / Gemini.
+- **Partes do Projeto:** Apoio na estruturação inicial dos step definitions em Cucumber (`validacao_entrada_steps.rb` e `exportar_historico_pdf_steps.rb`), desenho da classe de serviço para geração de PDF com a gem Prawn (`gerador_historico_pdf.rb`) e montagem dos testes unitários em RSpec.
+- **Estratégia Adotada:** Pair programming assistido por IA com foco em metodologia TDD/BDD. Cada método, consulta ao banco e validação foi revisado, ajustado e executado iterativamente no terminal pelo desenvolvedor Arthur Santos Almeida, assegurando total domínio sobre a arquitetura do código e capacidade de explicabilidade técnica de cada componente.
