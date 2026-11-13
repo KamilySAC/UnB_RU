@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  # página inicial do estudante
+  root "home#index"
 
   # rota para download dohistorico do estudante em PDF
   get "historico/exportar_pdf", to: "historicos#exportar_pdf", as: :exportar_historico_pdf
