@@ -29,33 +29,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_230900) do
     t.index ["catraca_id"], name: "index_acessos_on_catraca_id"
   end
 
-  create_table "catracas", force: :cascade do |t|
-    t.integer "restaurante_id", null: false
-    t.string "codigo", null: false
-    t.string "nome", null: false
-    t.integer "piso", default: 1, null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["restaurante_id", "codigo"], name: "index_catracas_on_restaurante_id_and_codigo", unique: true
-    t.index ["restaurante_id", "piso"], name: "index_catracas_on_restaurante_id_and_piso"
-    t.index ["restaurante_id"], name: "index_catracas_on_restaurante_id"
-  end
-
-  create_table "restaurantes", force: :cascade do |t|
-    t.string "codigo", null: false
-    t.string "nome", null: false
-    t.string "campus"
-    t.integer "capacidade_por_hora", default: 0, null: false
-    t.integer "total_pisos", default: 1, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["codigo"], name: "index_restaurantes_on_codigo", unique: true
-  end
-
-  add_foreign_key "acessos", "catracas"
-  add_foreign_key "catracas", "restaurantes"
-ActiveRecord::Schema[8.1].define(version: 2026_06_01_000001) do
   create_table "acessos_catraca", force: :cascade do |t|
     t.integer "estudante_id"
     t.string "identificacao_lida"
@@ -67,6 +40,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_01_000001) do
     t.string "status_acesso", default: "pendente", null: false
     t.string "mensagem_visor"
     t.index ["estudante_id"], name: "index_acessos_catraca_on_estudante_id"
+  end
+
+  create_table "catracas", force: :cascade do |t|
+    t.integer "restaurante_id", null: false
+    t.string "codigo", null: false
+    t.string "nome", null: false
+    t.integer "piso", default: 1, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurante_id", "codigo"], name: "index_catracas_on_restaurante_id_and_codigo", unique: true
+    t.index ["restaurante_id", "piso"], name: "index_catracas_on_restaurante_id_and_piso"
+    t.index ["restaurante_id"], name: "index_catracas_on_restaurante_id"
   end
 
   create_table "estudantes", force: :cascade do |t|
@@ -103,7 +89,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_01_000001) do
     t.index ["estudante_id"], name: "index_refeicoes_on_estudante_id"
   end
 
+  create_table "restaurantes", force: :cascade do |t|
+    t.string "codigo", null: false
+    t.string "nome", null: false
+    t.string "campus"
+    t.integer "capacidade_por_hora", default: 0, null: false
+    t.integer "total_pisos", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["codigo"], name: "index_restaurantes_on_codigo", unique: true
+  end
+
+  add_foreign_key "acessos", "catracas"
   add_foreign_key "acessos_catraca", "estudantes"
+  add_foreign_key "catracas", "restaurantes"
   add_foreign_key "recargas", "estudantes"
   add_foreign_key "refeicoes", "estudantes"
 end
