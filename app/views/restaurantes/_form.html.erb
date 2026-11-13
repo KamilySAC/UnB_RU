@@ -1,0 +1,39 @@
+<%= form_with model: restaurante do |form| %>
+  <% if restaurante.errors.any? %>
+    <div role="alert">
+      <h2><%= pluralize(restaurante.errors.count, "erro") %> impediram o salvamento:</h2>
+      <ul>
+        <% restaurante.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :codigo, "Código" %>
+    <%= form.text_field :codigo, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :nome, "Nome" %>
+    <%= form.text_field :nome, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :campus, "Campus" %>
+    <%= form.text_field :campus %>
+  </div>
+
+  <div>
+    <%= form.label :capacidade_por_hora, "Capacidade por hora" %>
+    <%= form.number_field :capacidade_por_hora, min: 0, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :total_pisos, "Total de pisos" %>
+    <%= form.number_field :total_pisos, min: 1, required: true %>
+  </div>
+
+  <%= form.submit %>
+<% end %>

@@ -1,0 +1,34 @@
+<%= form_with model: (catraca.persisted? ? catraca : [restaurante, catraca]) do |form| %>
+  <% if catraca.errors.any? %>
+    <div role="alert">
+      <h2><%= pluralize(catraca.errors.count, "erro") %> impediram o salvamento:</h2>
+      <ul>
+        <% catraca.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :codigo, "Código" %>
+    <%= form.text_field :codigo, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :nome, "Nome" %>
+    <%= form.text_field :nome, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :piso, "Piso" %>
+    <%= form.number_field :piso, min: 1, max: restaurante.total_pisos, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status" %>
+    <%= form.select :status, Catraca.statuses.keys.map { |status| [status.humanize, status] } %>
+  </div>
+
+  <%= form.submit %>
+<% end %>

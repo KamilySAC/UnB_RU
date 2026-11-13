@@ -11,4 +11,11 @@ class Catraca < ApplicationRecord
 
   private
 
+  def piso_existe_no_restaurante
+    return if piso.blank? || restaurante.blank? || restaurante.total_pisos.blank?
+    return if piso <= restaurante.total_pisos
+
+    errors.add(:piso, "deve estar dentro do total de pisos do restaurante")
+  end
+
 end

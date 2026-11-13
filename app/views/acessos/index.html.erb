@@ -1,0 +1,73 @@
+<h1>Histórico da catraca <%= @catraca.nome %></h1>
+
+<% if notice.present? %>
+  <p role="status"><%= notice %></p>
+<% end %>
+
+<p>Passagens liberadas hoje: <%= @giros %></p>
+<p>Total debitado hoje: <%= number_to_currency(@total_debito, unit: "R$ ") %></p>
+
+<p><%= link_to "Registrar acesso", new_catraca_acesso_path(@catraca) %></p>
+
+<%= form_with url: catraca_acessos_path(@catraca), method: :get do |form| %>
+  <div>
+    <%= form.label :data, "Data" %>
+    <%= form.date_field :data, value: params[:data] %>
+  </div>
+
+  <div>
+    <%= form.label :turno, "Turno" %>
+    <%= form.select :turno,
+                    options_for_select(["Café da manhã", "Almoço", "Jantar"], params[:turno]),
+                    include_blank: "Todos" %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status do acesso" %>
+    <%= form.select :status,
+                    options_for_select(Acesso.status_acessos.keys.map { |status| [status.humanize, status] }, params[:status]),
+                    include_blank: "Todos" %>
+  </div>
+
+  <div>
+    <%= form.label :modo, "Modo de validacao" %>
+    <%= form.text_field :modo, value: params[:modo] %>
+  </div>
+
+  <%= form.submit "Filtrar" %>
+<% end %>
+
+<% if @acessos.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Horário</th>
+        <th>Matrícula</th>
+        <th>Modo de validação</th>
+        <th>Turno</th>
+        <th>Tarifa</th>
+        <th>Status</th>
+        <th>Status da catraca</th>
+        <th>Motivo da negativa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @acessos.each do |acesso| %>
+        <tr>
+          <td><%= l(acesso.ocorrido_em, format: :long) %></td>
+          <td><%= acesso.matricula_discente %></td>
+          <td><%= acesso.modo_validacao %></td>
+          <td><%= acesso.turno %></td>
+          <td><%= number_to_currency(acesso.tarifa, unit: "R$ ") %></td>
+          <td><%= acesso.status_acesso.humanize %></td>
+          <td><%= acesso.status_catraca.humanize %></td>
+          <td><%= acesso.motivo_negativa %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>Não há acessos para os filtros selecionados.</p>
+<% end %>
+
+<%= link_to "Voltar aos restaurantes", restaurantes_path %>

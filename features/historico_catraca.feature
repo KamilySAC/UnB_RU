@@ -32,7 +32,7 @@ Cenário: Exibir uma tentativa de acesso negada no histórico
   Então devo visualizar essa tentativa no histórico
   E o status do acesso deve ser "bloqueado"
   E o motivo da negativa deve ser "Saldo insuficiente"
-  E nenhum valor deve ser debitado do discente
+  E nenhum valor da tentativa deve ser contabilizado no total debitado
 
 Cenário: Filtrar o histórico por turno
   Dado que existem acessos registrados em diferentes turnos na catraca selecionada

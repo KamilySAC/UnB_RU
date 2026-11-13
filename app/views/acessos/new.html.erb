@@ -1,0 +1,71 @@
+<h1>Registrar acesso em <%= @catraca.nome %></h1>
+
+<p>O registro manual não altera o saldo do discente.</p>
+
+<% if @acesso.errors.any? %>
+  <div role="alert">
+    <h2><%= pluralize(@acesso.errors.count, "erro") %> impediram o registro:</h2>
+    <ul>
+      <% @acesso.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: [@catraca, @acesso] do |form| %>
+  <div>
+    <%= form.label :matricula_discente, "Matrícula do discente" %>
+    <%= form.text_field :matricula_discente, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :turno, "Turno" %>
+    <%= form.select :turno,
+                    ["Café da manhã", "Almoço", "Jantar"],
+                    { include_blank: "Selecione um turno" },
+                    required: true %>
+  </div>
+
+  <div>
+    <%= form.label :modo_validacao, "Modo de validação" %>
+    <%= form.text_field :modo_validacao, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :tarifa, "Tarifa" %>
+    <%= form.number_field :tarifa, min: 0, step: 0.01, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :status_acesso, "Status do acesso" %>
+    <%= form.select :status_acesso,
+                    Acesso.status_acessos.keys.map { |status| [status.humanize, status] },
+                    {},
+                    required: true %>
+  </div>
+
+  <div>
+    <%= form.label :status_catraca, "Status da catraca" %>
+    <%= form.select :status_catraca,
+                    Acesso.status_catracas.keys.map { |status| [status.humanize, status] },
+                    {},
+                    required: true %>
+  </div>
+
+  <div>
+    <%= form.label :motivo_negativa, "Motivo da negativa" %>
+    <%= form.text_field :motivo_negativa %>
+  </div>
+
+  <div>
+    <%= form.label :ocorrido_em, "Data e horário" %>
+    <%= form.datetime_local_field :ocorrido_em,
+                                  value: @acesso.ocorrido_em&.strftime("%Y-%m-%dT%H:%M"),
+                                  required: true %>
+  </div>
+
+  <%= form.submit "Registrar acesso" %>
+<% end %>
+
+<%= link_to "Voltar ao histórico", catraca_acessos_path(@catraca) %>
