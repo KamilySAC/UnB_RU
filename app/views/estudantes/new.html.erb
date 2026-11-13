@@ -1,0 +1,40 @@
+<% content_for :title, "Cadastro de estudante" %>
+
+<main class="container">
+  <h1>Cadastro de estudante</h1>
+  <p>Crie sua conta de acesso ao RU informando sua matrícula.</p>
+
+  <% if @cadastro.erros.any? %>
+    <div id="erros-cadastro" class="flash flash-alert" role="alert">
+      <ul>
+        <% @cadastro.erros.each do |erro| %>
+          <li><%= erro %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with url: cadastro_path, scope: :estudante, method: :post do |f| %>
+    <div class="campo">
+      <%= f.label :matricula, "Matrícula" %>
+      <%= f.text_field :matricula, value: @cadastro.matricula, autocomplete: "username", inputmode: "numeric" %>
+    </div>
+
+    <div class="campo">
+      <%= f.label :nome, "Nome completo" %>
+      <%= f.text_field :nome, value: @cadastro.nome, autocomplete: "name" %>
+    </div>
+
+    <div class="campo">
+      <%= f.label :senha, "Senha" %>
+      <%= f.password_field :senha, autocomplete: "new-password" %>
+    </div>
+
+    <div class="campo">
+      <%= f.label :confirmacao_senha, "Confirmação de senha" %>
+      <%= f.password_field :confirmacao_senha, autocomplete: "new-password" %>
+    </div>
+
+    <%= f.submit "Cadastrar" %>
+  <% end %>
+</main>

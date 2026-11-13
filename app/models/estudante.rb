@@ -10,6 +10,9 @@ class Estudante < ApplicationRecord
     "Grupo IV" => { "Café da manhã" => 1.50, "Almoço" => 2.50, "Jantar" => 2.50 }
   }.freeze
 
+  # senha criptografada (bcrypt) usada no cadastro e no login do estudante.
+  has_secure_password validations: false
+
   # relação: um estudante tem muitos registros na catraca: um para muitos
   has_many :acessos_catraca, class_name: "AcessoCatraca", dependent: :destroy
   has_many :recargas, dependent: :destroy
