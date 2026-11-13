@@ -774,3 +774,23 @@ Processing by RestaurantesController#new as HTML
 Completed 200 OK in 15ms (Views: 13.5ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
 
 
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='UnBRu'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='UnBRu'*/[0m
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Started GET "/" for ::1 at 2026-11-12 22:11:17 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='UnBRu'*/[0m
+Processing by RestaurantesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering restaurantes/index.html.erb within layouts/application
+  [1m[36mRestaurante Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurantes" LIMIT 1 /*action='index',application='UnBRu',controller='restaurantes'*/[0m
+  ↳ app/views/restaurantes/index.html.erb:6
+  [1m[36mRestaurante Load (0.5ms)[0m  [1m[34mSELECT "restaurantes".* FROM "restaurantes" ORDER BY "restaurantes"."nome" ASC /*action='index',application='UnBRu',controller='restaurantes'*/[0m
+  ↳ app/views/restaurantes/index.html.erb:20
+  [1m[36mCatraca Load (0.3ms)[0m  [1m[34mSELECT "catracas".* FROM "catracas" WHERE "catracas"."restaurante_id" = 2 /*action='index',application='UnBRu',controller='restaurantes'*/[0m
+  ↳ app/views/restaurantes/index.html.erb:20
+  Rendered restaurantes/index.html.erb within layouts/application (Duration: 141.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 192.6ms | GC: 0.0ms)
+Completed 200 OK in 270ms (Views: 200.8ms | ActiveRecord: 7.5ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
