@@ -22,17 +22,17 @@ class Estudante < ApplicationRecord
 
   validates :nome, presence: true # nome é obrigatório (não pode ser nulo ou vazio)
   validates :matricula, presence: true, uniqueness: true # não permite duas contas com a mesma matricula
-  validates :grupo, inclusion: { in: GRUPOS } #o grupo precisa ser dentro dos 4 grupos definidos
-  validates :saldo, numericality: { greater_than_or_equal_to: 0.00 } #saldo não pode ser negativo
+  validates :grupo, inclusion: { in: GRUPOS } # o grupo precisa ser dentro dos 4 grupos definidos
+  validates :saldo, numericality: { greater_than_or_equal_to: 0.00 } # saldo não pode ser negativo
 
 
-  # booleano retorna true se o grupo for I, 
+  # booleano retorna true se o grupo for I,
   def isento?
     grupo == "Grupo I"
   end
 
   # retorna a tarifa que este estudante deve pagar de acordo com o turno
-  #recebe o nome do turno e busca o valor em tarifas
+  # recebe o nome do turno e busca o valor em tarifas
   def tarifa_para(turno)
     BigDecimal((TARIFAS.dig(grupo, turno) || 0.0).to_s)
   end

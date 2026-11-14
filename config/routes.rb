@@ -9,13 +9,19 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  resources :restaurantes, except: :show do
+    resources :catracas, only: %i[new create]
+  end
+  resources :catracas, only: %i[edit update destroy] do
+    resources :acessos, only: %i[index new create]
+  end
   # Defines the root path route ("/")
   # página inicial do estudante
   root "home#index"
 
   # rota para download dohistorico do estudante em PDF
   get "historico/exportar_pdf", to: "historicos#exportar_pdf", as: :exportar_historico_pdf
-  
+
   # cadastro de estudante
   get  "cadastro", to: "estudantes#new",    as: :cadastro
   post "cadastro", to: "estudantes#create"

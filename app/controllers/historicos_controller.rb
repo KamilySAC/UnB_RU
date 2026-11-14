@@ -31,8 +31,8 @@ class HistoricosController < ApplicationController
     end
 
 
-    private 
-    #retorna o estudante autenticado na sessão (ou primeiro para testes)
+    private
+    # retorna o estudante autenticado na sessão (ou primeiro para testes)
     def current_estudante
       @current_estudante ||= Estudante.find_by(id: session[:estudante_id]) || Estudante.first
     end

@@ -90,7 +90,6 @@
 - A seção de cardápio deve apresenta o nome do restaurante e seu horário de funcionamento.
 - Caso não exista cardápio cadastrado para a refeição atual, a seção deve apresentar uma mensagem informando sua indisponibilidade.
 
-
 ### Issue Histórico global de acessos do campus
 
 - Apenas administradores podem visualizar o histórico global de acessos do campus.
@@ -136,13 +135,12 @@ O grupo utiliza o padrão **Conventional Commits**, no formato `tipo: descriçã
 - O revisor confere se os commits seguem o padrão, se os cenários e o código correspondem às regras de negócio da wiki e se não há conflitos.
 - O merge só é feito depois da aprovação do revisor.
 
-
 ## Funcionalidades e Responsáveis (Sprint 1 e Sprint 2)
 
 | Funcionalidade                              | Responsável                     | Pontos | Status Sprint 2 |
 | ------------------------------------------- | ------------------------------- | ------ | --------------- |
-| Gestão de Restaurantes e Catracas           | João Pedro Rabelo do Nascimento | 3      | Em andamento    |
-| Histórico local da catraca                  | João Pedro Rabelo do Nascimento | 3      | Em andamento    |
+| Gestão de Restaurantes e Catracas           | João Pedro Rabelo do Nascimento | 3      | Concluído ✅    |
+| Histórico local da catraca                  | João Pedro Rabelo do Nascimento | 3      | Concluído ✅    |
 | Validação de Entrada na Catraca             | Arthur Santos Almeida           | 5      | Concluído ✅    |
 | Exportação em PDF do Histórico do Estudante | Arthur Santos Almeida           | 3      | Concluído ✅    |
 | Autenticação do funcionário                 | Kamily Silva Andrade Crispim    | 3      | Em andamento    |
@@ -157,6 +155,7 @@ O grupo utiliza o padrão **Conventional Commits**, no formato `tipo: descriçã
 # Documentação da Sprint 2
 
 ## 1. Visão Geral
+
 Na **Sprint 2**, o objetivo principal é a implementação do código de produção das funcionalidades especificadas em BDD durante a Sprint 1, acompanhadas da respectiva suíte de testes unitários com **RSpec** e validação contínua de comportamento com **Cucumber**.
 
 ---
@@ -164,25 +163,28 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
 ## 2. Detalhamento das Features Entregues
 
 ### 2.1. Validação de Entrada na Catraca do RU
+
 - **Responsável:** Arthur Santos Almeida (Matrícula: 242009990)
 - **Pontuação:** 5 pontos
 - **Branch:** `feat/validacao_entrada` (Merged em `Sprint_2` via PR #9)
 - **Status:** Concluído e testado (100% de cobertura)
 
 #### Regras de Negócio e Comportamentos Implementados:
+
 1. **Identificação do Estudante:** Leitura e decodificação do identificador/QR-Code gerado pelo aplicativo institucional, validando existência na base de dados e vínculo ativo.
 2. **Cálculo Dinâmico de Tarifas:** Aplicação das tarifas vigentes de acordo com o turno da refeição e perfil socioeconômico:
-   - *Grupo I (Isenção Integral):* Tarifa R$ 0,00 para qualquer turno, liberando passagem sem exigência de saldo.
-   - *Grupo II (Graduação / Pós):* Café da manhã: R$ 2,00 | Almoço e Jantar: R$ 4,50.
-   - *Grupo III (Servidores / Terceirizados / Visitantes):* Café da manhã: R$ 7,05 | Almoço e Jantar: R$ 15,20.
-   - *Grupo IV (Cotas Escola Pública):* Café da manhã: R$ 1,50 | Almoço e Jantar: R$ 2,50.
-3. **Validação de Saldo Suficiente:** Verificação prévia de saldo para grupos pagantes. Caso o saldo seja inferior ao valor do turno, a catraca permanece bloqueada e o visor exibe *"Saldo insuficiente"*.
-4. **Tratamento de Usuário Inexistente:** Caso a matrícula lida não conste no cadastro, a catraca permanece bloqueada e o visor exibe *"Usuário não encontrado"*.
+   - _Grupo I (Isenção Integral):_ Tarifa R$ 0,00 para qualquer turno, liberando passagem sem exigência de saldo.
+   - _Grupo II (Graduação / Pós):_ Café da manhã: R$ 2,00 | Almoço e Jantar: R$ 4,50.
+   - _Grupo III (Servidores / Terceirizados / Visitantes):_ Café da manhã: R$ 7,05 | Almoço e Jantar: R$ 15,20.
+   - _Grupo IV (Cotas Escola Pública):_ Café da manhã: R$ 1,50 | Almoço e Jantar: R$ 2,50.
+3. **Validação de Saldo Suficiente:** Verificação prévia de saldo para grupos pagantes. Caso o saldo seja inferior ao valor do turno, a catraca permanece bloqueada e o visor exibe _"Saldo insuficiente"_.
+4. **Tratamento de Usuário Inexistente:** Caso a matrícula lida não conste no cadastro, a catraca permanece bloqueada e o visor exibe _"Usuário não encontrado"_.
 5. **Comando de Liberação e Timeout de 5 Segundos:** A catraca é colocada em estado de pré-liberação (`liberada`). Se o sensor de giro não for acionado dentro da janela de 5 segundos, a catraca volta ao estado `bloqueada` e nenhum valor é debitado do estudante.
 6. **Débito no Giro Físico:** O débito financeiro no saldo do estudante e a confirmação do registro de acesso acontecem exclusivamente no momento em que o giro físico da catraca é registrado.
-7. **Política Anti-Passback (Prevenção de Duplo Acesso):** Bloqueio automático de tentativas de entrada repetidas no mesmo turno e data para o mesmo discente, exibindo *"Refeição já utilizada neste turno"* sem cobrança duplicada.
+7. **Política Anti-Passback (Prevenção de Duplo Acesso):** Bloqueio automático de tentativas de entrada repetidas no mesmo turno e data para o mesmo discente, exibindo _"Refeição já utilizada neste turno"_ sem cobrança duplicada.
 
 #### Arquitetura e Arquivos da Feature:
+
 - **Models:**
   - `app/models/estudante.rb`: métodos de validação, cálculo de tarifas e manipulação de saldo.
   - `app/models/acesso_catraca.rb`: controle de status (`liberada`/`bloqueada`), timeout, anti-passback e confirmação de giro.
@@ -197,12 +199,14 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
 ---
 
 ### 2.2. Exportação em PDF do Histórico do Estudante
+
 - **Responsável:** Arthur Santos Almeida (Matrícula: 242009990)
 - **Pontuação:** 3 pontos
 - **Branch:** `feat/exportar_historico_pdf` (Merged em `Sprint_2` via PR #10)
 - **Status:** Concluído e testado (100% de cobertura)
 
 #### Regras de Negócio e Comportamentos Implementados:
+
 1. **Geração em Formato PDF:** Produção de documento formal estruturado no formato A4 através da gem `prawn` (~> 2.4).
 2. **Restrição Temporal ao Mês Atual:** Filtro estrito do período de apuração (`beginning_of_month..end_of_month`). Movimentações de meses anteriores são sumariamente desconsideradas na geração e no cálculo dos totais consolidados.
 3. **Consolidação Financeira:** Cálculo automático e formatação monetária (padrão BRL) do total recarregado e do total consumido no mês de referência.
@@ -210,9 +214,10 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
    - Dados cadastrais do discente: nome, matrícula, grupo tarifário e saldo atual.
    - Extrato de recargas do mês com data, modalidade de pagamento (PIX / Cartão), valor e status da transação.
    - Histórico de refeições do mês com data, restaurante de atendimento e valor debitado.
-5. **Tratamento de Ausência de Movimentações (Caminho Triste):** Quando o estudante não possui histórico nem recargas no mês corrente, o serviço aborta a emissão do PDF e a aplicação exibe a mensagem informativa: *"Não há movimentações registradas no mês atual"*, impedindo downloads de arquivos vazios.
+5. **Tratamento de Ausência de Movimentações (Caminho Triste):** Quando o estudante não possui histórico nem recargas no mês corrente, o serviço aborta a emissão do PDF e a aplicação exibe a mensagem informativa: _"Não há movimentações registradas no mês atual"_, impedindo downloads de arquivos vazios.
 
 #### Arquitetura e Arquivos da Feature:
+
 - **Service:** `app/services/gerador_historico_pdf.rb` (lógica de consulta, cálculo, composição visual e renderização do PDF).
 - **Controller e Rotas:** `app/controllers/historicos_controller.rb` e rota `get "historico/exportar_pdf"`.
 - **Models:**
@@ -226,16 +231,79 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
   - `features/exportar_historico_pdf.feature`: 3 cenários (caminho feliz com movimentações, caminho feliz ignorando meses anteriores e caminho triste sem movimentações).
   - `features/step_definitions/exportar_historico_pdf_steps.rb`: 16 passos automatizados com 100% de aprovação.
 
+### 2.3. Gestão de Restaurantes e Catracas
+
+- **Responsável:** João Pedro Rabelo do Nascimento (Matrícula: 241036160)
+- **Pontuação:** 3 pontos
+- **Status:** Implementado; cenários Cucumber e testes de requisição RSpec preparados.
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Listagem de Restaurantes:** Exibe restaurantes cadastrados, seus dados e as catracas associadas.
+2. **Cadastro e Edição de Restaurantes:** Permite cadastrar e alterar os dados do restaurante. O nome é obrigatório e não pode se repetir.
+3. **Cadastro de Catracas:** Cada catraca é associada a um restaurante existente e tem código, nome, piso e estado.
+4. **Validação do Piso:** O piso da catraca deve ser positivo e não pode ultrapassar o total de pisos do restaurante.
+5. **Edição de Catracas:** Permite alterar o estado da catraca entre online e offline.
+6. **Restaurante Inexistente:** A aplicação retorna “não encontrado” ao tentar abrir o cadastro de catraca para um restaurante inexistente.
+7. **Autorização por Papel:** A autenticação e a autorização de administradores e funcionários ainda não estão implementadas; portanto, a restrição por papel descrita nos requisitos não é aplicada pela aplicação.
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Controllers e Rotas:**
+  - `app/controllers/restaurantesController.rb`: listagem, cadastro, edição e remoção de restaurantes.
+  - `app/controllers/catracas_controller.rb`: cadastro, edição e remoção de catracas.
+  - `config/routes.rb`: rotas de restaurantes e catracas; a página inicial aponta para a listagem de restaurantes.
+- **Models:**
+  - `app/models/restaurante.rb`: valida nome obrigatório e exclusivo, capacidade e total de pisos.
+  - `app/models/catraca.rb`: associa a catraca a um restaurante e valida código, nome e piso.
+- **Views:** `app/views/restaurantes/` e `app/views/catracas/` contêm as telas e formulários de gestão.
+- **Testes de Requisição (RSpec):**
+  - `spec/requests/gestao_restaurantes_spec.rb`: 8 exemplos definidos para listagem, cadastro, validações, edição, associação de catracas e restaurante inexistente.
+- **Testes de Comportamento (BDD Cucumber):**
+  - `features/gerenciar_restaurantes.feature`: 8 cenários para cadastro, edição e validações de restaurantes e catracas.
+  - `features/step_definitions/gerenciar_restaurantes_steps.rb`: steps que interagem com as telas usando o navegador. O cenário de bloqueio de funcionário permanece pendente enquanto não houver autorização por papel.
+
+### 2.4. Histórico Local da Catraca
+
+- **Responsável:** João Pedro Rabelo do Nascimento (Matrícula: 241036160)
+- **Pontuação:** 3 pontos
+- **Status:** Implementado; cenários Cucumber e testes de requisição RSpec preparados.
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Histórico da Catraca Selecionada:** Exibe os acessos vinculados à catraca consultada, em ordem do mais recente para o mais antigo, com horário, matrícula, modo de validação, turno, tarifa, estado e motivo de bloqueio.
+2. **Separação por Catraca:** Ao consultar uma catraca, os acessos de outras catracas não são exibidos.
+3. **Filtros:** Permite filtrar os registros por data, turno, status do acesso e modo de validação. Um status desconhecido ou uma data inválida resulta em resposta de erro.
+4. **Resumo Diário:** Mostra a quantidade de passagens liberadas e o total debitado no dia; tentativas bloqueadas não entram nesses valores.
+5. **Tentativas Negadas:** Registra e mostra o status bloqueado e o motivo da negativa.
+6. **Registro Manual:** Disponibiliza um formulário para registrar acessos manualmente e retorna ao histórico após o registro.
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Controller e Rotas:**
+  - `app/controllers/acessos_controller.rb`: consulta e filtra o histórico, calcula o resumo diário e registra acessos manuais.
+  - `config/routes.rb`: rotas de histórico e registro de acesso aninhadas sob a catraca.
+- **Models:**
+  - `app/models/acesso.rb`: associa o acesso à catraca e valida os campos, tarifa e motivo obrigatório para acessos bloqueados.
+  - `app/models/catraca.rb`: associa a catraca ao restaurante e aos seus acessos.
+- **Views:** `app/views/acessos/index.html.erb` exibe o histórico e os filtros; `app/views/acessos/new.html.erb` contém o formulário de registro manual.
+- **Testes de Requisição (RSpec):**
+  - `spec/requests/acessos_spec.rb`: 7 exemplos definidos para exibição, isolamento por catraca, filtros, formulário e registro manual.
+- **Testes de Comportamento (BDD Cucumber):**
+  - `features/historico_catraca.feature`: 7 cenários de visualização, isolamento, troca de catraca, histórico vazio, tentativa negada e filtros por turno e status.
+  - `features/step_definitions/historico_catraca_steps.rb`: steps que preparam dados fixos e exercitam o histórico pela interface do navegador.
+
 ---
 
 ## 3. Resumo da Suíte de Testes (Arthur Santos Almeida)
 
-| Tipo de Teste | Arquivos Avaliados | Total Executado | Falhas / Erros |
-| ------------- | ------------------ | --------------- | -------------- |
-| **RSpec**     | `estudante_spec.rb`, `acesso_catraca_spec.rb`, `gerador_historico_pdf_spec.rb`, `recarga_spec.rb`, `refeicao_spec.rb`, `historicos_spec.rb` | **34 exemplos** | **0** (100% verde) |
-| **Cucumber**  | `validacao_entrada.feature`, `exportar_historico_pdf.feature` | **25 cenários / 156 passos** | **0** (100% verde) |
+| Tipo de Teste | Arquivos Avaliados                                                                                                                          | Total Executado              | Falhas / Erros     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ------------------ |
+| **RSpec**     | `estudante_spec.rb`, `acesso_catraca_spec.rb`, `gerador_historico_pdf_spec.rb`, `recarga_spec.rb`, `refeicao_spec.rb`, `historicos_spec.rb` | **34 exemplos**              | **0** (100% verde) |
+| **Cucumber**  | `validacao_entrada.feature`, `exportar_historico_pdf.feature`                                                                               | **25 cenários / 156 passos** | **0** (100% verde) |
 
 ### Como reproduzir os testes localmente:
+
 ```bash
 # Executar todos os testes unitários e de requisição RSpec
 bundle exec rspec
@@ -244,10 +312,34 @@ bundle exec rspec
 bundle exec cucumber features/validacao_entrada.feature features/exportar_historico_pdf.feature
 ```
 
+### 3.1. Suítes de Testes — Gestão e Histórico Local
+
+| Funcionalidade                    | RSpec                                                    | Cucumber                                               |
+| --------------------------------- | -------------------------------------------------------- | ------------------------------------------------------ |
+| Gestão de restaurantes e catracas | `spec/requests/gestao_restaurantes_spec.rb` — 8 exemplos | `features/gerenciar_restaurantes.feature` — 8 cenários |
+| Histórico local da catraca        | `spec/requests/acessos_spec.rb` — 7 exemplos             | `features/historico_catraca.feature` — 7 cenários      |
+
+Para executar somente essas suítes:
+
+```bash
+
+bundle exec rspec spec/requests/gestao_restaurantes_spec.rb spec/requests/acessos_spec.rb
+
+bundle exec cucumber features/gerenciar_restaurantes.feature features/historico_catraca.feature
+```
+
 ---
 
 ## 4. Declaração de Uso de Inteligência Artificial
+
 Em conformidade com as diretrizes da disciplina de Engenharia de Software:
+
 - **Ferramenta Utilizada:** Antigravity / Gemini.
 - **Partes do Projeto:** Apoio na estruturação inicial dos step definitions em Cucumber (`validacao_entrada_steps.rb` e `exportar_historico_pdf_steps.rb`), desenho da classe de serviço para geração de PDF com a gem Prawn (`gerador_historico_pdf.rb`) e montagem dos testes unitários em RSpec.
 - **Estratégia Adotada:** Pair programming assistido por IA com foco em metodologia TDD/BDD. Cada método, consulta ao banco e validação foi revisado, ajustado e executado iterativamente no terminal pelo desenvolvedor Arthur Santos Almeida, assegurando total domínio sobre a arquitetura do código e capacidade de explicabilidade técnica de cada componente.
+
+### Declaração de Uso de IA — João Pedro Rabelo do Nascimento
+
+- **Ferramenta Utilizada:** Copilot e Claude.
+- **Partes do Projeto:** Apoio na elaboração e ajuste dos steps Cucumber de gestão de restaurantes e catracas e do histórico local; configuração do workflow de CI para executar RuboCop, RSpec e Cucumber; e configuração da rota inicial para exibir a listagem de restaurantes, e também utilizada para gerar um front-end funcional, sendo necessário apenas alguns ajustes manuais para encaixar com a ideia do sistema.
+- **Uso da ferramenta:** A IA foi utilizada como apoio para explicar o código, sugerir e aplicar alterações. A validação final das mudanças e a compreensão do código permaneceram sob minha responsabilidade.

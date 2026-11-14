@@ -87,7 +87,7 @@ end
 
 # When: Açoes do usuário e eventos disparados
 
-#simula a leitura do qrcode do aluno no leitor da catraca
+# simula a leitura do qrcode do aluno no leitor da catraca
 Quando(/^a identificação(?: válida)? do (?:estudante|aluno) é lida na catraca$/) do
   @acesso = AcessoCatraca.ler_identificacao(
     identificacao: @estudante.matricula,
@@ -97,7 +97,7 @@ Quando(/^a identificação(?: válida)? do (?:estudante|aluno) é lida na catrac
 end
 
 
-#simula o escaneamento do qr code com identificação não cadastrada/oficial
+# simula o escaneamento do qr code com identificação não cadastrada/oficial
 Quando(/^a identificação "([^"]*)" é lida na catraca$/) do |identificacao|
   @acesso = AcessoCatraca.ler_identificacao(
     identificacao: identificacao,
@@ -106,19 +106,19 @@ Quando(/^a identificação "([^"]*)" é lida na catraca$/) do |identificacao|
 end
 
 
-#simula o aluno girando o braço mecânico da catraca após a leitura do qrcode
+# simula o aluno girando o braço mecânico da catraca após a leitura do qrcode
 Quando(/^o (?:estudante|aluno) gira a catraca$/) do
   @acesso.registrar_giro!
-end 
+end
 
 
-#simula o tempo esgotando após a leitura válida do qrcode sem que haja o giro fisica da catraca
+# simula o tempo esgotando após a leitura válida do qrcode sem que haja o giro fisica da catraca
 Quando(/^passam-se (\d+) segundos sem que o sensor de giro seja acionado$/) do |segundos|
   @acesso.verificar_timeout!(segundos.to_i)
 end
 
 
-#simula o discente tentando escanear o QR code uma segunda vez no mesmo turno
+# simula o discente tentando escanear o QR code uma segunda vez no mesmo turno
 Quando(/^o aluno tenta validar a entrada novamente no mesmo turno "([^"]*)"$/) do |turno|
   @acesso = AcessoCatraca.ler_identificacao(
     identificacao: @estudante.matricula,

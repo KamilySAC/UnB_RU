@@ -1,5 +1,5 @@
 # bloco 1: dado
-# 
+#
 # Cria o estudante e simula que ele está autenticado
 Dado(/^que estou autenticado como estudante$/) do
   @estudante = Estudante.create!(
@@ -27,7 +27,7 @@ Dado(/^possuo movimentações registradas no mês atual e em meses anteriores$/)
   # Movimentações de meses anteriores (devem ser ignoradas pelo PDF)
   @estudante.recargas.create!(valor: 100.00, data: 1.month.ago.to_date)
   @estudante.refeicoes.create!(valor: 30.00, data: 2.months.ago.to_date, restaurante: "RU Darcy Ribeiro")
-  
+
   # Movimentações do mês atual (devem aparecer no PDF)
   hoje = Date.current
   @estudante.recargas.create!(valor: 40.00, forma: "PIX", data: hoje)
