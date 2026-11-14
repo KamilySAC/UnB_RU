@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   # rota para download dohistorico do estudante em PDF
   get "historico/exportar_pdf", to: "historicos#exportar_pdf", as: :exportar_historico_pdf
-  
+
   # cadastro de estudante
   get  "cadastro", to: "estudantes#new",    as: :cadastro
   post "cadastro", to: "estudantes#create"
