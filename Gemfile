@@ -55,9 +55,9 @@ group :development, :test do
   gem "rspec-rails"
 end
 
-gem 'cucumber-rails', require: false
-  
-gem 'database_cleaner'
+gem "cucumber-rails", require: false
+
+gem "database_cleaner"
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]

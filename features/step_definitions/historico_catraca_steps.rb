@@ -15,7 +15,7 @@ Então("devo visualizar os acessos registrados nessa catraca") do
 end
 
 Então("cada registro deve apresentar horário, matricula do discente, modo de validação, tarifa e status da catraca.") do
-  ["Horário", "Matrícula", "Modo de validação", "Tarifa", "Status da catraca"].each do |cabecalho|
+  [ "Horário", "Matrícula", "Modo de validação", "Tarifa", "Status da catraca" ].each do |cabecalho|
     raise "Não apareceu a coluna #{cabecalho}" unless page.has_css?("th", text: cabecalho)
   end
 end
@@ -126,7 +126,7 @@ Então("devo visualizar apenas os acessos registrados no turno selecionado") do
   acesso_esperado = @acessos_por_turno.fetch(@turno_filtrado)
   exigir_texto(acesso_esperado.matricula_discente)
 
-  (@acessos_por_turno.keys - [@turno_filtrado]).each do |turno|
+  (@acessos_por_turno.keys - [ @turno_filtrado ]).each do |turno|
     raise "Acesso do turno #{turno} apareceu no filtro" if page.has_text?(@acessos_por_turno.fetch(turno).matricula_discente)
   end
 end
@@ -161,7 +161,7 @@ def criar_catraca(nome)
   @catracas_por_nome[nome] ||= begin
     numero = @catracas_por_nome.length + 1
     codigo = format("%02d", numero)
-    nome_restaurante = ["RU Darcy Ribeiro", "RU Gama", "RU Ceilândia"].fetch(numero - 1)
+    nome_restaurante = [ "RU Darcy Ribeiro", "RU Gama", "RU Ceilândia" ].fetch(numero - 1)
     restaurante = Restaurante.create!(
       codigo: codigo,
       nome: nome_restaurante,

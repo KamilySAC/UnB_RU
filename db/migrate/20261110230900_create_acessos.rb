@@ -14,8 +14,8 @@ class CreateAcessos < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :acessos, [:catraca_id, :ocorrido_em]
-    add_index :acessos, [:catraca_id, :status_acesso]
-    add_index :acessos, [:catraca_id, :turno]
+    add_index :acessos, [ :catraca_id, :ocorrido_em ]
+    add_index :acessos, [ :catraca_id, :status_acesso ]
+    add_index :acessos, [ :catraca_id, :turno ]
   end
 end

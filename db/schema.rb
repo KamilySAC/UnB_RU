@@ -47,7 +47,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_230900) do
     t.string "codigo", null: false
     t.string "nome", null: false
     t.integer "piso", default: 1, null: false
-    t.integer "status", default: 0, null: false
+    t.integer "status", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurante_id", "codigo"], name: "index_catracas_on_restaurante_id_and_codigo", unique: true

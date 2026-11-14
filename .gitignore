@@ -8,10 +8,12 @@
 !/tmp/.keep
 !/tmp/pids/.keep
 !/tmp/storage/.keep
+tmp/cache/bootsnap/*
 
 # Ignore storage
 /storage/*
 !/storage/.keep
+/storage/test.sqlite3
 
 # Ignore master key
 /config/master.key
