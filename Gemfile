@@ -52,11 +52,12 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "rspec-rails"
 end
 
-gem 'cucumber-rails', require: false
-  
-gem 'database_cleaner'
+gem "cucumber-rails", require: false
+
+gem "database_cleaner"
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]

@@ -54,11 +54,11 @@ class AcessoCatraca < ApplicationRecord
       )
     end
 
-    #calcula quanto custa a refeição para o referido discente
+    # calcula quanto custa a refeição para o referido discente
     tarifa = tarifa_customizada ? BigDecimal(tarifa_customizada.to_s) : estudante.tarifa_para(turno)
 
 
-    #terceira regra: verificação de saldo para não isentos
+    # terceira regra: verificação de saldo para não isentos
     if !estudante.isento? && estudante.saldo < tarifa
       return create!(
         estudante: estudante,
@@ -71,9 +71,9 @@ class AcessoCatraca < ApplicationRecord
       )
     end
 
-    #quarta regra: caminho feliz - autorização provisória
-    #destrava a catraca e aguarda o discente girar a catraca, o saldo aqui não é debitado, a catraca fica aguardando giro.
-    
+    # quarta regra: caminho feliz - autorização provisória
+    # destrava a catraca e aguarda o discente girar a catraca, o saldo aqui não é debitado, a catraca fica aguardando giro.
+
 
     create!(
       estudante: estudante,
@@ -86,16 +86,16 @@ class AcessoCatraca < ApplicationRecord
       status_acesso: "aguardando_giro",
       mensagem_visor: "Catraca liberada"
     )
-  end 
+  end
 
   # Função 2
   # método responsável por registrar o giro na catraca
   # a (!) indica que indica alteração de dados criticos - saldo
-  
+
   def registrar_giro!
-    #só é permitido o giro se o acesso estiver com o status de catraca liberada e aguardando giro
+    # só é permitido o giro se o acesso estiver com o status de catraca liberada e aguardando giro
     raise "Catraca não está liberada" unless status_catraca == "liberada" && status_acesso == "aguardando_giro"
-    
+
     # transaction garante que se der errado no meio do caminho ele volta o que fez
     transaction do
       if isento?
@@ -105,20 +105,20 @@ class AcessoCatraca < ApplicationRecord
           status_acesso: "isento",
           mensagem_visor: "Acesso Liberado - Isento"
         )
-      else 
+      else
         # Estudante pagantes: debita a tarifa do saldo e atualiza o status do acesso
         novo_saldo = (estudante.saldo - valor_debitado).round(2)
         estudante.update!(saldo: novo_saldo)
-        
+
         # marca acesso como concluído
         update!(
           status_acesso: "registrado",
           mensagem_visor: "Refeição efetuada com sucesso"
         )
       end
-    end 
+    end
   end
-      
+
   # timeout de seg sem giro
   def verificar_timeout!(segundos_decorridos)
     return false unless status_catraca == "liberada" && status_acesso == "aguardando_giro"

@@ -28,4 +28,3 @@ RSpec.describe Recarga, type: :model do
     expect(recarga_negativa).not_to be_valid
   end
 end
-

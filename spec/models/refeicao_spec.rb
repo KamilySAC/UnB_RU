@@ -37,4 +37,3 @@ RSpec.describe Refeicao, type: :model do
     expect(refeicao_negativa).not_to be_valid
   end
 end
-
