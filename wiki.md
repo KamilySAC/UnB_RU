@@ -341,5 +341,5 @@ Em conformidade com as diretrizes da disciplina de Engenharia de Software:
 ### Declaração de Uso de IA — João Pedro Rabelo do Nascimento
 
 - **Ferramenta Utilizada:** Copilot e Claude.
-- **Partes do Projeto:** Apoio na elaboração e ajuste dos steps Cucumber de gestão de restaurantes e catracas e do histórico local; configuração do workflow de CI para executar RuboCop, RSpec e Cucumber; e configuração da rota inicial para exibir a listagem de restaurantes.
+- **Partes do Projeto:** Apoio na elaboração e ajuste dos steps Cucumber de gestão de restaurantes e catracas e do histórico local; configuração do workflow de CI para executar RuboCop, RSpec e Cucumber; e configuração da rota inicial para exibir a listagem de restaurantes, e também utilizada para gerar um front-end funcional, sendo necessário apenas alguns ajustes manuais para encaixar com a ideia do sistema.
 - **Uso da ferramenta:** A IA foi utilizada como apoio para explicar o código, sugerir e aplicar alterações. A validação final das mudanças e a compreensão do código permaneceram sob minha responsabilidade.
