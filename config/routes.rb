@@ -18,8 +18,13 @@ Rails.application.routes.draw do
     resources :acessos, only: %i[index new create]
   end
   # Defines the root path route ("/")
-  # root "posts#index"
+  # página inicial do estudante
+  root "home#index"
 
   # rota para download dohistorico do estudante em PDF
   get "historico/exportar_pdf", to: "historicos#exportar_pdf", as: :exportar_historico_pdf
+  
+  # cadastro de estudante
+  get  "cadastro", to: "estudantes#new",    as: :cadastro
+  post "cadastro", to: "estudantes#create"
 end

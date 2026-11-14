@@ -29,6 +29,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_230900) do
     t.index ["catraca_id"], name: "index_acessos_on_catraca_id"
   end
 
+ActiveRecord::Schema[8.1].define(version: 2026_11_13_024040) do
   create_table "acessos_catraca", force: :cascade do |t|
     t.integer "estudante_id"
     t.string "identificacao_lida"
@@ -65,6 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_230900) do
     t.decimal "saldo", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
     t.index ["matricula"], name: "index_estudantes_on_matricula", unique: true
   end
 
