@@ -1,8 +1,3 @@
-Dado('que estou autenticado como estudante') do
-  @estudante = Estudante.create!(email: 'aluno@teste.com', nome: 'Ana')
-  page.driver.post login_path, email: @estudante.email
-end
-
 Dado('possuo movimentações registradas na minha conta') do
   @estudante.adicionar_recarga(
     Recarga.new(valor: 50.0, forma: 'PIX', data: Date.new(2026, 10, 5))

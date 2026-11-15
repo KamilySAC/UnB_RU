@@ -61,8 +61,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_024040) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
-    t.string "email", null: false
-    t.index ["email"], name: "index_estudantes_on_email", unique: true
     t.index ["matricula"], name: "index_estudantes_on_matricula", unique: true
   end
 

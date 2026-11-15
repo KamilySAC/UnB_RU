@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Recargas', type: :request do
-  let!(:estudante) { Estudante.create!(email: 'aluno@teste.com', nome: 'Ana', saldo: 0) }
+  let!(:estudante) { Estudante.create!(matricula: '250000001', nome: 'Ana', saldo: 0, password: 'senha123') }
 
   def login
-    post login_path, params: { email: estudante.email }
+    post login_path, params: { matricula: estudante.matricula, senha: 'senha123' }
   end
 
   describe 'POST /recarga/pix + confirmar' do

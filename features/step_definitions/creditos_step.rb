@@ -1,6 +1,6 @@
 Dado('que estou logado como estudante') do
-  @estudante = Estudante.create!(email: 'aluno@teste.com', nome: 'Ana', saldo: 0)
-  page.driver.post login_path, email: @estudante.email
+  @estudante = Estudante.create!(matricula: '250000001', nome: 'Ana', saldo: 0, password: 'senha123')
+  page.driver.post login_path, matricula: @estudante.matricula, senha: 'senha123'
 end
 
 Dado('meu saldo atual é de R$ {valor_brl}') do |valor|

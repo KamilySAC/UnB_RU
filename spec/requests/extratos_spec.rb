@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Extratos', type: :request do
-  let!(:estudante) { Estudante.create!(email: 'aluno@teste.com', nome: 'Ana', saldo: 0) }
-  let!(:outro)     { Estudante.create!(email: 'outro@teste.com', nome: 'Bia', saldo: 0) }
+  let!(:estudante) { Estudante.create!(matricula: '250000001', nome: 'Ana', saldo: 0, password: 'senha123') }
+  let!(:outro)     { Estudante.create!(matricula: '250000002', nome: 'Bia', saldo: 0, password: 'senha123') }
 
   before do
     estudante.adicionar_recarga(
@@ -14,7 +14,7 @@ RSpec.describe 'Extratos', type: :request do
     outro.adicionar_recarga(
       Recarga.new(valor: 999.0, forma: 'PIX', data: Date.new(2026, 10, 5))
     )
-    post login_path, params: { email: estudante.email }
+    post login_path, params: { matricula: estudante.matricula, senha: 'senha123' }
   end
 
   describe 'GET /extrato/recargas' do

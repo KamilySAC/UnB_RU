@@ -4,7 +4,6 @@ require "rails_helper"
 RSpec.describe Estudante, type: :model do
   subject(:estudante) do
     described_class.new(
-      email: "ana@teste.com",
       nome: "Ana",
       matricula: "242009990",
       grupo: "Grupo II",
@@ -13,13 +12,11 @@ RSpec.describe Estudante, type: :model do
   end
 
   describe "validações" do
-    it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:nome) }
-    it { is_expected.to validate_uniqueness_of(:email) }
     it { is_expected.to validate_presence_of(:matricula) }
-    it { is_expected.to validate_uniqueness_of(:matricula) }
+    it { is_expected.to validate_uniqueness_of(:matricula).ignoring_case_sensitivity }
     it { is_expected.to validate_inclusion_of(:grupo).in_array(Estudante::GRUPOS) }
-    it { is_expected.to validate_numericality_of(:saldo).is_greater_than_or_equal_to(0) }
+        it { is_expected.to validate_numericality_of(:saldo).is_greater_than_or_equal_to(0.0) }
 
     it "é válido quando possui nome, matrícula, grupo e saldo válidos" do
       expect(estudante).to be_valid
@@ -37,16 +34,14 @@ RSpec.describe Estudante, type: :model do
         nome: "Aluno 1",
         matricula: "242009991",
         grupo: "Grupo II",
-        saldo: 5.0,
-        email: "aluno1@teste.com"
+        saldo: 5.0
       )
 
       duplicado = Estudante.new(
         nome: "Aluno 2",
         matricula: "242009991",
         grupo: "Grupo II",
-        saldo: 5.0,
-        email: "aluno2@teste.com"
+        saldo: 5.0
       )
 
       expect(duplicado).not_to be_valid
@@ -82,8 +77,9 @@ RSpec.describe Estudante, type: :model do
     end
 
     it "incrementa o saldo" do
+      estudante.save!
+
       expect {
-        estudante.save!
         estudante.adicionar_recarga(recarga)
       }.to change { estudante.reload.saldo }.from(0.0).to(50.0)
     end

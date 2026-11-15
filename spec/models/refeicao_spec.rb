@@ -4,7 +4,6 @@ require "rails_helper"
 RSpec.describe Refeicao, type: :model do
   let(:estudante) do
     Estudante.create!(
-      email: "ana@teste.com",
       nome: "Ana",
       matricula: "242009990",
       grupo: "Grupo II",

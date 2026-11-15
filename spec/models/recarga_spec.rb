@@ -4,7 +4,6 @@ require "rails_helper"
 RSpec.describe Recarga, type: :model do
   let(:estudante) do
     Estudante.create!(
-      email: "r@teste.com",
       nome: "Ana",
       matricula: "242009990",
       grupo: "Grupo II",

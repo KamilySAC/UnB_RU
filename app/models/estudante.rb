@@ -19,7 +19,6 @@ class Estudante < ApplicationRecord
   has_many :refeicoes, class_name: "Refeicao", dependent: :destroy
 
   # validações
-  validates :email, presence: true, uniqueness: true
   validates :nome, presence: true
   validates :matricula, presence: true, uniqueness: true
   validates :grupo, inclusion: { in: GRUPOS }

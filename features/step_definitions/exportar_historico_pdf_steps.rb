@@ -1,16 +1,3 @@
-# bloco 1: dado
-#
-# Cria o estudante e simula que ele está autenticado
-Dado(/^que estou autenticado como estudante$/) do
-  @estudante = Estudante.create!(
-    nome: "Arthur Santos",
-    matricula: "242009990",
-    grupo: "Grupo II",
-    saldo: 25.00
-  )
-end
-
-
 # Cria recargas e refeições registradas no mês atual
 Dado(/^possuo movimentações registradas no mês atual$/) do
   hoje = Date.current

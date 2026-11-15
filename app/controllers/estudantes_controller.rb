@@ -16,7 +16,7 @@ class EstudantesController < ApplicationController
     if @cadastro.call
       reset_session
       session[:estudante_id] = @cadastro.estudante.id
-      redirect_to root_path, notice: CadastroEstudante::MSG_SUCESSO
+      redirect_to dashboard_path, notice: CadastroEstudante::MSG_SUCESSO
     else
       render :new, status: :unprocessable_content
     end
