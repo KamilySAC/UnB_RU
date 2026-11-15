@@ -1,150 +1,167 @@
-# carrega config do rails e RSpec
+
 require "rails_helper"
 
-# Define a suite de testes da classe estudante. teste unitário de modelo (AcitveRecord)
-RSpec.describe Estudante, tyoe: :model do
-  # bloco 1: teste  das validações do model
-  # describe agrupa um conjutno de testes relacionados a uma funcionalidade
+RSpec.describe Estudante, type: :model do
+  subject(:estudante) do
+    described_class.new(
+      nome: "Ana",
+      matricula: "242009990",
+      grupo: "Grupo II",
+      saldo: 0.0
+    )
+  end
 
-  describe "validações do modelo" do
-    # it define um cenário de teste individual
+  describe "validações" do
+    it { is_expected.to validate_presence_of(:nome) }
+    it { is_expected.to validate_presence_of(:matricula) }
+    it { is_expected.to validate_uniqueness_of(:matricula).ignoring_case_sensitivity }
+    it { is_expected.to validate_inclusion_of(:grupo).in_array(Estudante::GRUPOS) }
+        it { is_expected.to validate_numericality_of(:saldo).is_greater_than_or_equal_to(0.0) }
+
     it "é válido quando possui nome, matrícula, grupo e saldo válidos" do
-      # cria um objeto em memória, não salva no banco
-      estudante = Estudante.new(
-        nome: "Arthur Santos",
-        matricula: "242009990",
-        grupo: "Grupo II",
-        saldo: 10.00
-      )
-
-      # expect(...).to be_valid executa estudante.valid? e verifica se retorna true (passou na validação)
-      expect(estudante.valid?).to be true
+      expect(estudante).to be_valid
     end
 
-    it "é inválido sem nome (validação presence:true)" do
-      # cria com nome nulo para testar a obrigatoriedade
-      estudante = Estudante.new(
-        nome: nil,
-        matricula: "123456",
-        grupo: "Grupo II"
-      )
+    it "é inválido sem nome" do
+      estudante.nome = nil
 
-      # expect(...).not_to be_valid: garante que o Rails rejeita o objeto
       expect(estudante).not_to be_valid
-
-      # verifica se a mensagem de erro foi gerada especificamente para o atributo :nome
       expect(estudante.errors[:nome]).to be_present
     end
 
-    it "nao permite matrículas duplicadas (validação uniqueness: true)" do
-      # cria o primeiro estudante no banco de dados
+    it "não permite matrículas duplicadas" do
       Estudante.create!(
         nome: "Aluno 1",
-        matricula: "242009990",
+        matricula: "242009991",
         grupo: "Grupo II",
         saldo: 5.0
       )
 
-      # tenta criar outro estudante com a mesma matrícula
       duplicado = Estudante.new(
         nome: "Aluno 2",
-        matricula: "242009990",
+        matricula: "242009991",
         grupo: "Grupo II",
         saldo: 5.0
       )
 
-      # o Rails deve impedir e adicionar erro no campo de matrícula
       expect(duplicado).not_to be_valid
       expect(duplicado.errors[:matricula]).to be_present
     end
 
-    it "não permite saldo negativo (validação numerically >= 0)" do
-      # saldo negativo deve ser barrado pela validação
-      estudante = Estudante.new(
-        nome: "Arthur Santos",
-        matricula: "242009990",
-        grupo: "Grupo II",
-        saldo: -10.00
-      )
+    it "não permite saldo negativo" do
+      estudante.saldo = -10.00
 
       expect(estudante).not_to be_valid
     end
 
-
-    it "não permite grupo que não esteja na lista de grupos oficiais (validação inclusion)" do
-      # grupo x não existe no array GRUPOS, logo deve ser inválido
-      estudante = Estudante.new(
-        nome: "Arthur Santos",
-        matricula: "242009990",
-        grupo: "Grupo X",
-        saldo: 0.0
-      )
+    it "não permite grupo fora da lista oficial" do
+      estudante.grupo = "Grupo X"
 
       expect(estudante).not_to be_valid
     end
   end
 
-  # Bloco 2: testes da função isento
+  describe "associações" do
+    it { is_expected.to have_many(:recargas).dependent(:destroy) }
+    it { is_expected.to have_many(:refeicoes).class_name("Refeicao").dependent(:destroy) }
+    it { is_expected.to have_many(:acessos_catraca).class_name("AcessoCatraca").dependent(:destroy) }
+  end
+
+  describe "#adicionar_recarga" do
+    let(:recarga) do
+      Recarga.new(
+        valor: 50.0,
+        forma: "PIX",
+        data: Date.new(2026, 10, 5)
+      )
+    end
+
+    it "incrementa o saldo" do
+      estudante.save!
+
+      expect {
+        estudante.adicionar_recarga(recarga)
+      }.to change { estudante.reload.saldo }.from(0.0).to(50.0)
+    end
+
+    it "persiste a recarga associada" do
+      estudante.save!
+      estudante.adicionar_recarga(recarga)
+
+      expect(estudante.recargas.reload.count).to eq(1)
+    end
+
+    it "acumula múltiplas recargas" do
+      estudante.save!
+      estudante.adicionar_recarga(recarga)
+
+      estudante.adicionar_recarga(
+        Recarga.new(
+          valor: 30.0,
+          forma: "Cartão de crédito",
+          data: Date.new(2026, 10, 6)
+        )
+      )
+
+      expect(estudante.reload.saldo).to eq(80.0)
+    end
+
+    it "é transacional: se a recarga falhar, o saldo não muda" do
+      estudante.save!
+      invalida = Recarga.new(
+        valor: -10,
+        forma: "PIX",
+        data: Date.new(2026, 10, 5)
+      )
+
+      expect {
+        estudante.adicionar_recarga(invalida) rescue nil
+      }.not_to change { estudante.reload.saldo }
+    end
+  end
+
   describe "#isento?" do
-    it "retorna true para discentes do Grupo 1 (isenção integral)" do
+    it "retorna true para discentes do Grupo I" do
+      expect(Estudante.new(grupo: "Grupo I").isento?).to be true
+    end
+
+    it "retorna false para discentes dos grupos pagantes" do
+      %w[II III IV].each do |grupo|
+        expect(Estudante.new(grupo: "Grupo #{grupo}").isento?).to be false
+      end
+    end
+  end
+
+  describe "#tarifa_para" do
+    it "retorna R$ 0,00 para o Grupo I em todos os turnos" do
       estudante = Estudante.new(grupo: "Grupo I")
 
-      # testa se o retorno booleano é true.
-      expect(estudante.isento?).to be true
+      expect(estudante.tarifa_para("Café da manhã")).to eq(0.00)
+      expect(estudante.tarifa_para("Almoço")).to eq(0.00)
+      expect(estudante.tarifa_para("Jantar")).to eq(0.00)
     end
 
-
-    it "retorna false para discentes pagantes (Grupo II, III e IV)" do
-      # cria estudantes dos outros grupos para teste direto do retorno booleano 'false'
-      expect(Estudante.new(grupo: "Grupo II").isento?).to be false
-
-      expect(Estudante.new(grupo: "Grupo II").isento?).to be false
-
-      expect(Estudante.new(grupo: "Grupo II").isento?).to be false
-    end
-  end
-
-
-  # bloco da função tarifa_para(turno), verifica se o valor retornado é o esperado
-  describe "#tarifa_para" do
-    it "retorna R$ 0,00 em todos os discentes do grupo I" do
-        estudante = Estudante.new(grupo: "Grupo I")
-
-        # usa o 'to eq' para comparação de valor retornado e esperado
-        expect(estudante.tarifa_para("Café da manhã")).to eq(0.00)
-
-        expect(estudante.tarifa_para("Almoço")).to eq(0.00)
-
-        expect(estudante.tarifa_para("Jantar")).to eq(0.00)
-    end
-
-    it "retorna tarifas corretas para o grupo II (Café: 2.00, Almoço: 4.50, Jantar: 4.50)" do
+    it "retorna as tarifas corretas para o Grupo II" do
       estudante = Estudante.new(grupo: "Grupo II")
 
       expect(estudante.tarifa_para("Café da manhã")).to eq(2.00)
-
       expect(estudante.tarifa_para("Almoço")).to eq(4.50)
-
       expect(estudante.tarifa_para("Jantar")).to eq(4.50)
     end
 
-    it "retorna tarifas corretas para o grupo III (Café: 7.05, Almoço: 15.20, Jantar: 15.20)" do
+    it "retorna as tarifas corretas para o Grupo III" do
       estudante = Estudante.new(grupo: "Grupo III")
 
       expect(estudante.tarifa_para("Café da manhã")).to eq(7.05)
-
       expect(estudante.tarifa_para("Almoço")).to eq(15.20)
-
       expect(estudante.tarifa_para("Jantar")).to eq(15.20)
     end
 
-    it "retorna tarifas corretas para o grupo IV (Café: 1.50, Almoço: 2.50, Jantar: 2.50)" do
+    it "retorna as tarifas corretas para o Grupo IV" do
       estudante = Estudante.new(grupo: "Grupo IV")
 
       expect(estudante.tarifa_para("Café da manhã")).to eq(1.50)
-
       expect(estudante.tarifa_para("Almoço")).to eq(2.50)
-
       expect(estudante.tarifa_para("Jantar")).to eq(2.50)
     end
   end

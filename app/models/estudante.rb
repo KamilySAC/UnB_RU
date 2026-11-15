@@ -1,8 +1,8 @@
 class Estudante < ApplicationRecord
   # grupos tarifários
-  GRUPOS = [ "Grupo I", "Grupo II", "Grupo III", "Grupo IV" ].freeze # não altera em tempo de execução
+  GRUPOS = [ "Grupo I", "Grupo II", "Grupo III", "Grupo IV" ].freeze
 
-  # grupos de tarifas, hash
+  # grupos de tarifas
   TARIFAS = {
     "Grupo I" => { "Café da manhã" => 0.00, "Almoço" => 0.00, "Jantar" => 0.00 },
     "Grupo II" => { "Café da manhã" => 2.00, "Almoço" => 4.50, "Jantar" => 4.50 },
@@ -10,30 +10,37 @@ class Estudante < ApplicationRecord
     "Grupo IV" => { "Café da manhã" => 1.50, "Almoço" => 2.50, "Jantar" => 2.50 }
   }.freeze
 
-  # senha criptografada (bcrypt) usada no cadastro e no login do estudante.
+  # senha criptografada usada no cadastro e no login
   has_secure_password validations: false
 
-  # relação: um estudante tem muitos registros na catraca: um para muitos
+  # relacionamentos
   has_many :acessos_catraca, class_name: "AcessoCatraca", dependent: :destroy
   has_many :recargas, dependent: :destroy
   has_many :refeicoes, class_name: "Refeicao", dependent: :destroy
 
-  # validaçoes dos campos
+  # validações
+  validates :nome, presence: true
+  validates :matricula, presence: true, uniqueness: true
+  validates :grupo, inclusion: { in: GRUPOS }
+  validates :saldo, numericality: { greater_than_or_equal_to: 0.00 }
 
-  validates :nome, presence: true # nome é obrigatório (não pode ser nulo ou vazio)
-  validates :matricula, presence: true, uniqueness: true # não permite duas contas com a mesma matricula
-  validates :grupo, inclusion: { in: GRUPOS } # o grupo precisa ser dentro dos 4 grupos definidos
-  validates :saldo, numericality: { greater_than_or_equal_to: 0.00 } # saldo não pode ser negativo
-
-
-  # booleano retorna true se o grupo for I,
+  # verifica se o estudante é isento
   def isento?
     grupo == "Grupo I"
   end
 
-  # retorna a tarifa que este estudante deve pagar de acordo com o turno
-  # recebe o nome do turno e busca o valor em tarifas
+  # retorna a tarifa de acordo com o turno
   def tarifa_para(turno)
     BigDecimal((TARIFAS.dig(grupo, turno) || 0.0).to_s)
+  end
+
+  # adiciona uma recarga ao saldo do estudante
+  def adicionar_recarga(recarga)
+    transaction do
+      recarga.estudante = self
+      recarga.save!
+      update!(saldo: (saldo + recarga.valor).round(2))
+    end
+    recarga
   end
 end

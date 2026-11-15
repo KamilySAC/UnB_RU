@@ -20,7 +20,7 @@ RSpec.describe "Cadastro de estudante", type: :request do
       it "cria a conta, inicia a sessão e redireciona para a página inicial com mensagem de confirmação" do
         expect { post cadastro_path, params: parametros }.to change(Estudante, :count).by(1)
 
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(dashboard_path)
         follow_redirect!
         expect(response.body).to include(CadastroEstudante::MSG_SUCESSO)
         expect(response.body).to include("Ana Sarah Nagata")

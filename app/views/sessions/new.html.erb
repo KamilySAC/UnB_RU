@@ -1,0 +1,16 @@
+<h1>Login</h1>
+<%= form_with url: login_path, method: :post, local: true do |f| %>
+  <div>
+    <%= label_tag :matricula, "Matrícula" %>
+    <%= text_field_tag :matricula, params[:matricula], id: "matricula" %>
+  </div>
+  <div>
+    <%= label_tag :senha, "Senha" %>
+    <%= password_field_tag :senha, nil, id: "senha" %>
+  </div>
+  <div>
+    <%= submit_tag "Entrar" %>
+  </div>
+<% end %>
+
+<p>Ainda não tem conta? <%= link_to "Cadastre-se", cadastro_path %></p>

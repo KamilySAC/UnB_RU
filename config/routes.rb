@@ -1,29 +1,35 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get    "login",  to: "sessions#new"
+  post   "login",  to: "sessions#create"
+  delete "logout", to: "sessions#destroy"
+
+  get "dashboard", to: "dashboard#show", as: :dashboard
+
+  get  "recarga",               to: "recargas#new",             as: :recarga
+  post "recarga/pix",           to: "recargas#create_pix",      as: :recarga_pix
+  post "recarga/pix/confirmar", to: "recargas#confirmar_pix",   as: :recarga_pix_confirmar
+  post "recarga/cartao",        to: "recargas#create_cartao",   as: :recarga_cartao
+
+  get "extrato/recargas",     to: "extratos#recargas",        as: :extrato_recargas
+  get "extrato/recargas/:id", to: "extratos#detalhe_recarga", as: :detalhe_recarga
+  get "extrato/refeicoes",    to: "extratos#refeicoes",       as: :extrato_refeicoes
+  get "meus_gastos",          to: "extratos#painel",          as: :painel
 
   resources :restaurantes, except: :show do
     resources :catracas, only: %i[new create]
   end
+
   resources :catracas, only: %i[edit update destroy] do
     resources :acessos, only: %i[index new create]
   end
-  # Defines the root path route ("/")
-  # página inicial do estudante
-  root "home#index"
 
-  # rota para download dohistorico do estudante em PDF
-  get "historico/exportar_pdf", to: "historicos#exportar_pdf", as: :exportar_historico_pdf
+  get "historico/exportar_pdf",
+      to: "historicos#exportar_pdf",
+      as: :exportar_historico_pdf
 
-  # cadastro de estudante
-  get  "cadastro", to: "estudantes#new",    as: :cadastro
+    get  "cadastro", to: "estudantes#new", as: :cadastro
   post "cadastro", to: "estudantes#create"
 
   # autenticação do funcionário (fiscal e administrador)
@@ -35,9 +41,10 @@ Rails.application.routes.draw do
   get "ponto-de-acesso",       to: "painel#configuracao_ponto", as: :configuracao_ponto
   get "terminal-de-validacao", to: "painel#terminal_validacao", as: :terminal_validacao
   get "historico-local",       to: "painel#historico_local",    as: :historico_local
+
   # histórico global de acessos do campus (somente administrador)
   get "historico-global",      to: "historico_global#index",    as: :historico_global
 
-
-
+  root "sessions#new"
 end
+
