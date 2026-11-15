@@ -35,4 +35,9 @@ Rails.application.routes.draw do
   get "ponto-de-acesso",       to: "painel#configuracao_ponto", as: :configuracao_ponto
   get "terminal-de-validacao", to: "painel#terminal_validacao", as: :terminal_validacao
   get "historico-local",       to: "painel#historico_local",    as: :historico_local
+  # histórico global de acessos do campus (somente administrador)
+  get "historico-global",      to: "historico_global#index",    as: :historico_global
+
+
+
 end

@@ -32,7 +32,7 @@ module Autenticacao
     return if performed?
     return if funcionario_atual.administrador?
 
-    redirect_to configuracao_ponto_path, alert: "Você não tem permissão para acessar esta tela."
+    redirect_to historico_local_path, alert: "Você não tem permissão para acessar esta tela."
   end
 
   def iniciar_sessao(funcionario)
