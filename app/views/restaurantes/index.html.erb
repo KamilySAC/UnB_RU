@@ -1,0 +1,54 @@
+<h1>Restaurantes</h1>
+
+<p><%= link_to "Cadastrar restaurante", new_restaurante_path %></p>
+
+<% if @restaurantes.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Restaurante</th>
+        <th>Campus</th>
+        <th>Capacidade por hora</th>
+        <th>Pisos</th>
+        <th>Catracas</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @restaurantes.each do |restaurante| %>
+        <tr>
+          <td><%= restaurante.codigo %></td>
+          <td><%= restaurante.nome %></td>
+          <td><%= restaurante.campus.presence || "N/A" %></td>
+          <td><%= restaurante.capacidade_por_hora %></td>
+          <td><%= restaurante.total_pisos %></td>
+          <td>
+            <% if restaurante.catracas.any? %>
+              <ul>
+                <% restaurante.catracas.each do |catraca| %>
+                  <li>
+                    <%= catraca.codigo %> - <%= catraca.nome %>
+                    (<%= catraca.status.humanize %>, piso <%= catraca.piso %>)
+                    <%= link_to "Editar", edit_catraca_path(catraca) %>
+                    <%= link_to "Histórico", catraca_acessos_path(catraca) %>
+                    <%= button_to "Remover", catraca_path(catraca), method: :delete %>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              Nenhuma catraca cadastrada.
+            <% end %>
+            <%= link_to "Adicionar catraca", new_restaurante_catraca_path(restaurante) %>
+          </td>
+          <td>
+            <%= link_to "Editar", edit_restaurante_path(restaurante) %>
+            <%= button_to "Remover", restaurante_path(restaurante), method: :delete %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>Nenhum restaurante cadastrado.</p>
+<% end %>

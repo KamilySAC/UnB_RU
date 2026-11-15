@@ -1,0 +1,12 @@
+<% content_for :title, "Un B RU" %>
+
+<main class="container">
+  <h1>Un B RU</h1>
+
+  <% if @estudante %>
+    <p>Olá, <%= @estudante.nome %>!</p>
+  <% else %>
+    <p>Crie sua conta para acessar o sistema.</p>
+    <p><%= link_to "Cadastre-se", cadastro_path %></p>
+  <% end %>
+</main>

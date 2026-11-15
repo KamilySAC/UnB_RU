@@ -20,7 +20,7 @@ gem "jbuilder"
 gem "sinatra", "~> 4.0"
 gem "rack-test", "~> 2.1"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -54,6 +54,7 @@ group :development, :test do
   gem "rspec", "~> 3.13"
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "rspec-rails"
 end
 
 gem "cucumber-rails", require: false
@@ -70,4 +71,7 @@ group :test do
   gem "capybara"
   gem "shoulda-matchers", "~> 6.0"
   gem "selenium-webdriver"
+  gem "rspec-rails"
 end
+
+gem "prawn", "~> 2.4"

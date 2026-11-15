@@ -3,7 +3,7 @@ class Refeicao < ApplicationRecord
 
   belongs_to :estudante
 
-  validates :valor,       numericality: { greater_than: 0 }
+  validates :valor, numericality: { greater_than: 0 }
   validates :restaurante, presence: true
-  validates :data,        presence: true
+  validates :data, presence: true
 end
