@@ -350,6 +350,97 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
 ---
 
 ---
+### 2.5. Recarga e Saldo
+
+- **Responsável:** Maria Luiza Macedo Bezerra (Matrícula: 221010372)
+- **Pontuação:** 5 pontos
+- **Branch:** `feat/recarga_saldo`
+- **Status:** Concluído e testado
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Autenticação Obrigatória:** O estudante precisa estar logado para adicionar créditos à conta. Sem sessão ativa, a operação de recarga é bloqueada.
+2. **Recarga via PIX:** Geração de QR Code de recarga no valor desejado (`R$ x`). O saldo só é atualizado após a confirmação do pagamento do PIX.
+3. **Recarga via Cartão de Crédito:** Inserção dos dados de um cartão válido e confirmação da recarga no valor de `R$ x`. O saldo é atualizado somente após a aprovação do cartão.
+4. **Atualização Condicionada do Saldo:** O saldo só é somado ao valor da recarga após a confirmação do pagamento (PIX pago ou cartão aprovado). O saldo anterior permanece inalterado até a confirmação.
+5. **Mensagem de Sucesso:** Após uma recarga bem-sucedida (PIX ou cartão), uma mensagem de sucesso é exibida ao estudante.
+6. **Tratamento de Cartão Inválido (Caminho Triste):** Se os dados do cartão forem inválidos, a recarga não é realizada, uma mensagem de erro é exibida e o saldo permanece inalterado.
+
+#### Cenários BDD (`creditos.feature`):
+
+| Cenário | Descrição |
+| --- | --- |
+| Adicionar créditos com sucesso via PIX | Escolha do PIX, geração do QR Code, pagamento e atualização do saldo para `+R$ x` com mensagem de sucesso |
+| Adicionar créditos com sucesso via cartão de crédito | Inserção de cartão válido, confirmação da recarga e atualização do saldo para `+R$ x` com mensagem de sucesso |
+| Tentar adicionar créditos via cartão de crédito com dados inválidos | Inserção de dados inválidos, tentativa de confirmação, exibição de mensagem de erro e saldo não alterado |
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Models:**
+  - `app/models/recarga.rb`: persistência das operações de recarga (valor, forma de pagamento, status).
+  - `app/models/estudante.rb`: manipulação e atualização do saldo do estudante.
+- **Controller e Rotas:** controller responsável pelas operações de recarga e rotas associadas ao fluxo de adição de créditos.
+- **Migração:** tabela de recargas vinculada ao estudante.
+- **Testes Unitários (RSpec):**
+  - `spec/models/recarga_spec.rb`: exemplos cobrindo validação de valor, forma de pagamento e atualização condicionada do saldo.
+- **Testes de Comportamento (BDD Cucumber):**
+  - `features/creditos.feature`: 3 cenários (PIX com sucesso, cartão com sucesso e cartão inválido).
+  - `features/step_definitions/creditos_steps.rb`: steps automatizados para os fluxos de recarga.
+
+---
+
+### 2.6. Extrato e Histórico
+
+- **Responsável:** Maria Luiza Macedo Bezerra (Matrícula: 221010372)
+- **Pontuação:** 3 pontos
+- **Branch:** `feat/extrato_historico`
+- **Status:** Concluído e testado
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Autenticação Obrigatória:** O estudante deve estar autenticado para visualizar seu extrato e seu histórico.
+2. **Isolamento por Estudante:** O estudante visualiza apenas as próprias movimentações; movimentações de outros estudantes nunca são exibidas.
+3. **Extrato de Recargas:** Lista as recargas realizadas, cada uma com data, valor e forma de pagamento, além do total recarregado no período.
+4. **Histórico de Refeições:** Lista as refeições realizadas, cada uma com data, restaurante e valor debitado, além do total gasto no período.
+5. **Painel "Meus gastos":** Reúne o extrato e o histórico em um único painel, com as abas "Recargas" e "Refeições".
+6. **Filtro por Período:** É possível filtrar as movimentações por período, e o total considera apenas o período filtrado.
+7. **Detalhes de uma Recarga:** Ao selecionar uma recarga da lista, o estudante visualiza seus detalhes: data, valor, forma de pagamento e status.
+8. **Histórico Vazio (Caminho Triste):** Caso o estudante não possua refeições registradas no período, o sistema exibe uma mensagem informando que não há refeições no período e o total gasto é `R$ 0,00`.
+
+#### Cenários BDD (`extrato_historico.feature`):
+
+| Cenário | Descrição |
+| --- | --- |
+| Visualizar extrato de recargas com sucesso | Lista de recargas com data, valor e forma de pagamento, e total recarregado no período |
+| Visualizar histórico de refeições com sucesso | Lista de refeições com data, restaurante e valor debitado, e total gasto no período |
+| Visualizar extrato e histórico em um único painel | Abas "Recargas" e "Refeições" na opção "Meus gastos" |
+| Filtrar movimentações por período | Filtro de `01/10/2026` a `31/10/2026`, exibindo apenas refeições do período e total filtrado |
+| Visualizar detalhes de uma recarga | Detalhes com data, valor, forma de pagamento e status |
+| Visualizar histórico de refeições vazio | Mensagem informando ausência de refeições e total gasto `R$ 0,00` |
+| Não visualizar movimentações de outro estudante | Exibição apenas das próprias recargas, sem recargas de outros estudantes |
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Models:**
+  - `app/models/recarga.rb`: persistência das recargas do estudante.
+  - `app/models/refeicao.rb`: persistência das refeições consumidas pelo estudante.
+  - Associação `has_many :recargas` e `has_many :refeicoes` no modelo `Estudante`.
+- **Controller e Rotas:** controller responsável pela exibição do extrato, histórico, painel "Meus gastos", filtros por período e detalhes de recarga.
+- **Testes Unitários (RSpec):**
+  - `spec/models/refeicao_spec.rb`: exemplos cobrindo validação dos dados da refeição.
+  - `spec/requests/historicos_spec.rb`: exemplos cobrindo exibição do extrato, histórico, isolamento por estudante, filtros por período e histórico vazio.
+- **Testes de Comportamento (BDD Cucumber):**
+  - `features/extrato_historico.feature`: 7 cenários cobrindo extrato, histórico, painel único, filtro por período, detalhes de recarga, histórico vazio e isolamento por estudante.
+  - `features/step_definitions/extrato_historico_steps.rb`: steps automatizados para os fluxos de visualização.
+
+---
+
+#### Resumo da Suíte de Testes — Maria Luiza Macedo Bezerra
+
+| Tipo de Teste | Arquivos Avaliados | Cobertura |
+| --- | --- | --- |
+| **RSpec** | `recarga_spec.rb`, `refeicao_spec.rb`, `historicos_spec.rb` | Recarga e Saldo + Extrato e Histórico |
+| **Cucumber** | `creditos.feature`, `extrato_historico.feature` | 10 cenários (3 de recarga + 7 de extrato/histórico) |
 
 ## 3. Resumo da Suíte de Testes (Arthur Santos Almeida)
 
