@@ -3,5 +3,6 @@ class DashboardController < ApplicationController
 
   def show
     @estudante = current_estudante
+    @cardapio = CardapioAtual.new
   end
 end

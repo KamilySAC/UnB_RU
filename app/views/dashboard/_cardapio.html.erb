@@ -1,0 +1,32 @@
+<section id="cardapio" aria-labelledby="cardapio-titulo">
+  <h2 id="cardapio-titulo">Cardápio da refeição atual</h2>
+
+  <% if cardapio.disponivel? %>
+    <p><strong><%= cardapio.restaurante_nome %></strong></p>
+    <p>Horário de funcionamento (<%= cardapio.turno_nome %>): <%= cardapio.horario %></p>
+
+    <% cardapio.opcoes.each do |opcao| %>
+      <article class="opcao-cardapio">
+        <h3><%= opcao.nome %></h3>
+        <dl>
+          <dt>Prato principal</dt>
+          <dd><%= opcao.prato_principal.presence || "—" %></dd>
+          <dt>Guarnição</dt>
+          <dd><%= opcao.guarnicao.presence || "—" %></dd>
+          <dt>Salada</dt>
+          <dd><%= opcao.salada.presence || "—" %></dd>
+          <dt>Sobremesa</dt>
+          <dd><%= opcao.sobremesa.presence || "—" %></dd>
+          <dt>Bebida</dt>
+          <dd><%= opcao.bebida.presence || "—" %></dd>
+        </dl>
+      </article>
+    <% end %>
+
+    <% if cardapio.acompanhamentos %>
+      <p>Acompanhamentos (todas as opções): <%= cardapio.acompanhamentos %></p>
+    <% end %>
+  <% else %>
+    <p><%= CardapioAtual::MSG_INDISPONIVEL %></p>
+  <% end %>
+</section>

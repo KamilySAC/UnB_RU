@@ -143,12 +143,12 @@ O grupo utiliza o padrão **Conventional Commits**, no formato `tipo: descriçã
 | Histórico local da catraca                  | João Pedro Rabelo do Nascimento | 3      | Concluído ✅    |
 | Validação de Entrada na Catraca             | Arthur Santos Almeida           | 5      | Concluído ✅    |
 | Exportação em PDF do Histórico do Estudante | Arthur Santos Almeida           | 3      | Concluído ✅    |
-| Autenticação do funcionário                 | Kamily Silva Andrade Crispim    | 3      | Em andamento    |
-| Histórico global de acessos do campus       | Kamily Silva Andrade Crispim    | 3      | Em andamento    |
-| Recarga e saldo                             | Maria Luiza Macedo Bezerra      | 5      | Concluído ✅     |
-| Extrato e Histórico                         | Maria Luiza Macedo Bezerra      | 3      | Concluído ✅     |
-| Visualizar cardápio da refeição atual       | Ana Sarah Nagata                | 1      | Em andamento    |
-| Cadastro de usuário                         | Ana Sarah Nagata                | 3      | Em andamento    |
+| Autenticação do funcionário                 | Kamily Silva Andrade Crispim    | 3      | Concluído ✅    |
+| Histórico global de acessos do campus       | Kamily Silva Andrade Crispim    | 3      | Concluído ✅    |
+| Recarga e saldo                             | Maria Luiza Macedo Bezerra      | 5      | Concluído ✅    |
+| Extrato e Histórico                         | Maria Luiza Macedo Bezerra      | 3      | Concluído ✅    |
+| Visualizar cardápio da refeição atual       | Ana Sarah Nagata                | 1      | Concluído ✅    |
+| Cadastro de usuário                         | Ana Sarah Nagata                | 3      | Concluído ✅    |
 
 ---
 
@@ -293,6 +293,62 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
   - `features/historico_catraca.feature`: 7 cenários de visualização, isolamento, troca de catraca, histórico vazio, tentativa negada e filtros por turno e status.
   - `features/step_definitions/historico_catraca_steps.rb`: steps que preparam dados fixos e exercitam o histórico pela interface do navegador.
 
+### 2.5. Cadastro de Usuário
+
+- **Responsável:** Ana Sarah Nagata (Matrícula: 242023176)
+- **Pontuação:** 3 pontos
+- **Status:** Concluído e testado
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Dados do Cadastro:** O estudante informa matrícula, nome completo e senha (com confirmação) no formulário `/cadastro`.
+2. **Campos Obrigatórios:** Se algum campo estiver vazio (ou só com espaços), a conta não é criada e é exibida a mensagem "Todos os campos devem ser preenchidos".
+3. **Confirmação de Senha:** Senha e confirmação precisam ser iguais; caso contrário, "As senhas não são iguais". A senha aceita no máximo 72 bytes (limite do bcrypt).
+4. **Matrícula Única:** Não existem duas contas com a mesma matrícula ("Matrícula já cadastrada"), inclusive se duas requisições simultâneas tentarem o mesmo cadastro (índice único tratado).
+5. **Conta Criada:** A senha é guardada criptografada (`has_secure_password`), a sessão do estudante é iniciada e ele é levado ao dashboard com a mensagem "Cadastro realizado com sucesso! Sua conta foi criada."
+6. **Compatibilidade com o Login:** O login do estudante usa a mesma matrícula e senha do cadastro.
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Service:** `app/services/cadastro_estudante.rb` (validações e criação da conta).
+- **Controller, view e rotas:** `app/controllers/estudantes_controller.rb`, `app/views/estudantes/new.html.erb` e rotas `GET/POST /cadastro`.
+- **Model:** `app/models/estudante.rb` (`has_secure_password`, matrícula única).
+- **Testes Unitários e de Requisição (RSpec):**
+  - `spec/services/cadastro_estudante_spec.rb`
+  - `spec/requests/estudante_spec.rb`
+  - `spec/requests/sessions_spec.rb` (cadastro seguido de login com a mesma matrícula e senha)
+- **Testes de Comportamento (BDD Cucumber):**
+  - `features/cadastro_usuario.feature`: 4 cenários (1 caminho feliz e 3 caminhos tristes).
+  - `features/step_definitions/cadastro_usuario_steps.rb`: passos pela tela `/cadastro`, conferindo o banco.
+
+### 2.6. Visualizar Cardápio da Refeição Atual
+
+- **Responsável:** Ana Sarah Nagata (Matrícula: 242023176)
+- **Pontuação:** 1 ponto
+- **Status:** Concluído e testado
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Refeição Atual:** O turno em andamento é calculado pelo horário de Brasília: Café da manhã (07:00 às 09:00), Almoço (11:00 às 14:30) e Jantar (17:30 às 19:30). O início é inclusivo e o término é exclusivo.
+2. **Cardápio do Dia:** O cardápio vem do arquivo `cardapio.json`, indexado por dia da semana e turno.
+3. **Três Opções:** São exibidas as opções padrão, ovolactovegetariano e vegetariano estrito, cada uma com prato principal, guarnição, salada, sobremesa e bebida. No café da manhã, o complemento do pão faz o papel de prato principal e a fruta o de sobremesa; no jantar, sopa e torrada são a guarnição. Os acompanhamentos (arroz e feijão) aparecem uma vez para todas as opções.
+4. **Restaurante e Horário:** A seção exibe o nome do restaurante (o primeiro cadastrado; "RU Darcy Ribeiro" se não houver) e o horário de funcionamento do turno.
+5. **Indisponibilidade (Caminho Triste):** Fora do horário de funcionamento, em dia sem cardápio ou com arquivo ausente/inválido, a seção exibe "Cardápio indisponível para a refeição atual."
+6. **Onde Aparece:** Na página inicial do estudante logado (dashboard), logo abaixo do saldo; a raiz `/` redireciona o estudante logado para ela.
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Service:** `app/services/cardapio_atual.rb` (leitura do JSON, turno atual e montagem das opções).
+- **Controller e View:** `app/controllers/dashboard_controller.rb` e `app/views/dashboard/_cardapio.html.erb` (renderizada em `dashboard/show`).
+- **Testes Unitários e de Requisição (RSpec):**
+  - `spec/services/cardapio_atual_spec.rb`: 16 exemplos (turnos, limites de horário, fuso, café, jantar e indisponibilidade).
+  - `spec/requests/cardapio_spec.rb`: 5 exemplos (seção na página inicial, indisponibilidade e acesso sem login).
+- **Testes de Comportamento (BDD Cucumber):**
+  - `features/visualizar_cardapio.feature`: 2 cenários (caminho feliz e caminho triste).
+  - `features/step_definitions/visualizar_cardapio_steps.rb`: o relógio é fixado numa segunda-feira às 12h e o `cardapio.json` é trocado por um arquivo de teste.
+
+---
+
 ---
 ### 2.5. Recarga e Saldo
 
@@ -419,6 +475,21 @@ bundle exec rspec spec/requests/gestao_restaurantes_spec.rb spec/requests/acesso
 bundle exec cucumber features/gerenciar_restaurantes.feature features/historico_catraca.feature
 ```
 
+### 3.2. Suítes de Testes — Cadastro e Cardápio (Ana Sarah Nagata)
+
+| Funcionalidade | RSpec                                                                                        | Cucumber                                            |
+| -------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Cadastro       | `spec/services/cadastro_estudante_spec.rb` e `spec/requests/estudante_spec.rb` — 27 exemplos | `features/cadastro_usuario.feature` — 4 cenários    |
+| Cardápio       | `spec/services/cardapio_atual_spec.rb` e `spec/requests/cardapio_spec.rb` — 21 exemplos      | `features/visualizar_cardapio.feature` — 2 cenários |
+
+Para executar somente essas suítes:
+
+```bash
+bundle exec rspec spec/services/cadastro_estudante_spec.rb spec/requests/estudante_spec.rb spec/requests/sessions_spec.rb spec/services/cardapio_atual_spec.rb spec/requests/cardapio_spec.rb
+
+bundle exec cucumber features/cadastro_usuario.feature features/visualizar_cardapio.feature
+```
+
 ---
 
 ## 4. Declaração de Uso de Inteligência Artificial
@@ -435,8 +506,9 @@ Em conformidade com as diretrizes da disciplina de Engenharia de Software:
 - **Partes do Projeto:** Apoio na elaboração e ajuste dos steps Cucumber de gestão de restaurantes e catracas e do histórico local; configuração do workflow de CI para executar RuboCop, RSpec e Cucumber; e configuração da rota inicial para exibir a listagem de restaurantes, e também utilizada para gerar um front-end funcional, sendo necessário apenas alguns ajustes manuais para encaixar com a ideia do sistema.
 - **Uso da ferramenta:** A IA foi utilizada como apoio para explicar o código, sugerir e aplicar alterações. A validação final das mudanças e a compreensão do código permaneceram sob minha responsabilidade.
 
-### Declaração de Uso de IA — Maria Luiza Macedo Bezerra
 
-- **Ferramenta Utilizada:** deepseek.
-- **Partes do Projeto:** Apoio na elaboração e ajuste dos codigos desenvolvidos e resolução de eventuais bugs, utilizado como um segundo programador como em pair prograiming
-- **Uso da ferramenta:** A IA foi utilizada como apoio de resolução de erros de codigos, sugerir e aplicar alterações. A validação final das mudanças e a compreensão do código permaneceram sob minha responsabilidade.
+### Declaração de Uso de IA — Ana Sarah Nagata
+
+- **Ferramenta Utilizada:** Claude e ChatGPT.
+- **Partes do Projeto:** Apoio na análise da incompatibilidade entre o cadastro e o login por email, na implementação do cardápio da refeição e no esqueleto do cadastro de usuário.
+- **Uso da ferramenta:** A IA foi usada como apoio para sugerir e escrever código e testes; melhoramento de código e detectar bugs.

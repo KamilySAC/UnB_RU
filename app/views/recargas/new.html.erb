@@ -1,7 +1,7 @@
 <h1>Recarregar</h1>
 
 <h2>Via PIX</h2>
-<%= form_with url: recarga_pix_path, method: :post, local: true do %>
+<%= form_with url: recarga_pix_path, method: :post, data: { turbo: false } do %>
   <%= label_tag :valor_pix, 'Valor' %>
   <%= text_field_tag :valor, nil, id: 'valor_pix' %>
   <%= submit_tag 'Gerar QR Code PIX' %>
