@@ -24,6 +24,15 @@
   </head>
 
   <body>
+    <% if funcionario_autenticado? %>
+    <nav>
+      <%= link_to "Configuração de Ponto", configuracao_ponto_path %>
+      <%= link_to "Terminal de Validação", terminal_validacao_path %>
+      <%= link_to "Histórico Local", historico_local_path %>
+      <span><%= funcionario_atual.nome %></span>
+      <%= button_to "Sair", logout_funcionario_path, method: :delete %>
+    </nav>
+  <% end %>
     <% if notice.present? %><p class="flash flash-notice" role="status"><%= notice %></p><% end %>
     <% if alert.present? %><p class="flash flash-alert" role="alert"><%= alert %></p><% end %>
     <%= yield %>
