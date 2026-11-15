@@ -1,6 +1,8 @@
 <h1>Dashboard</h1>
 <p>Olá, <%= @estudante.nome %>!</p>
 <p id="saldo">Saldo: R$ <%= format('%.2f', @estudante.saldo) %></p>
+<%= render "dashboard/cardapio", cardapio: @cardapio %>
+
 <ul>
   <li><%= link_to 'Recarregar', recarga_path %></li>
   <li><%= link_to 'Extrato de recargas', extrato_recargas_path %></li>
