@@ -25,4 +25,19 @@ Rails.application.routes.draw do
   # cadastro de estudante
   get  "cadastro", to: "estudantes#new",    as: :cadastro
   post "cadastro", to: "estudantes#create"
+
+  # autenticação do funcionário (fiscal e administrador)
+  get    "funcionario/login",  to: "funcionario_sessions#new",     as: :login_funcionario
+  post   "funcionario/login",  to: "funcionario_sessions#create"
+  delete "funcionario/logout", to: "funcionario_sessions#destroy", as: :logout_funcionario
+
+  # telas do aplicativo (exigem funcionário autenticado)
+  get "ponto-de-acesso",       to: "painel#configuracao_ponto", as: :configuracao_ponto
+  get "terminal-de-validacao", to: "painel#terminal_validacao", as: :terminal_validacao
+  get "historico-local",       to: "painel#historico_local",    as: :historico_local
+  # histórico global de acessos do campus (somente administrador)
+  get "historico-global",      to: "historico_global#index",    as: :historico_global
+
+
+
 end

@@ -1,0 +1,32 @@
+<% content_for :title, "Autenticação do Operador" %>
+
+<main class="container">
+  <h1>Autenticação do Operador</h1>
+  <p>Entre com sua matrícula SIAPE ou com seu usuário.</p>
+
+  <% if @erros.any? %>
+    <div id="erros-login" class="flash flash-alert" role="alert">
+      <ul>
+        <% @erros.each do |erro| %>
+          <li><%= erro %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with url: login_funcionario_path, method: :post do |f| %>
+    <div class="campo">
+      <%= f.label :identificador, "Matrícula SIAPE ou usuário" %>
+      <%= f.text_field :identificador, value: @identificador, autocomplete: "username" %>
+    </div>
+
+    <div class="campo" data-controller="senha">
+      <%= f.label :senha, "Senha" %>
+      <%= f.password_field :senha, autocomplete: "current-password", data: { senha_target: "campo" } %>
+      <button type="button" id="alternar-senha" title="Mostrar senha" aria-label="Mostrar senha"
+              aria-pressed="false" data-senha-target="botao" data-action="senha#alternar">Mostrar</button>
+    </div>
+
+    <%= f.submit "Entrar no Sistema" %>
+  <% end %>
+</main>

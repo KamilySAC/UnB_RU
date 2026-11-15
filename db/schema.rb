@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_13_024040) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   create_table "acessos", force: :cascade do |t|
     t.integer "catraca_id", null: false
     t.string "matricula_discente", null: false
@@ -67,6 +67,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_024040) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.index ["matricula"], name: "index_estudantes_on_matricula", unique: true
+  end
+
+  create_table "funcionarios", force: :cascade do |t|
+    t.string "nome", null: false
+    t.string "matricula_siape", null: false
+    t.string "usuario"
+    t.string "password_digest", null: false
+    t.string "papel", default: "fiscal", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["matricula_siape"], name: "index_funcionarios_on_matricula_siape", unique: true
+    t.index ["usuario"], name: "index_funcionarios_on_usuario", unique: true
   end
 
   create_table "recargas", force: :cascade do |t|
