@@ -1,0 +1,18 @@
+<% content_for :title, "Histórico Local" %>
+
+<main class="container">
+  <h1>Histórico Local</h1>
+
+  <% if @catracas.any? %>
+    <ul>
+      <% @catracas.each do |catraca| %>
+        <li>
+          <%= catraca.restaurante.nome %> - <%= catraca.nome %>
+          <%= link_to "Ver histórico", catraca_acessos_path(catraca) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Nenhuma catraca cadastrada.</p>
+  <% end %>
+</main>

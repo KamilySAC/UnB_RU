@@ -1,0 +1,120 @@
+<% content_for :title, "Histórico Global de Acessos" %>
+
+<main class="container">
+  <h1>Histórico Global de Acessos</h1>
+
+  <%= form_with url: historico_global_path, method: :get do |form| %>
+    <div>
+      <%= form.label :restaurante_id, "Restaurante" %>
+      <%= form.select :restaurante_id,
+                      options_from_collection_for_select(@historico.restaurantes_disponiveis, :id, :nome, @historico.restaurante&.id),
+                      include_blank: "Todos" %>
+    </div>
+
+    <div>
+      <%= form.label :catraca_id, "Catraca" %>
+      <%= form.select :catraca_id,
+                      options_for_select(
+                        @historico.catracas_disponiveis.map { |catraca|
+                          [ @historico.restaurante ? catraca.nome : "#{catraca.restaurante.nome} - #{catraca.nome}", catraca.id ]
+                        },
+                        @historico.catraca&.id
+                      ),
+                      include_blank: "Todas" %>
+    </div>
+
+    <div>
+      <%= form.label :agrupar, "Agrupar por" %>
+      <%= form.select :agrupar,
+                      options_for_select([ [ "Restaurante", "restaurante" ], [ "Catraca", "catraca" ] ], @historico.agrupar),
+                      include_blank: "Sem agrupamento" %>
+    </div>
+
+    <%= form.submit "Filtrar" %>
+  <% end %>
+
+  <p>Total de acessos: <span id="total-acessos"><%= @historico.total_acessos %></span></p>
+  <p>Arrecadação bruta: <span id="arrecadacao-bruta"><%= formatar_real(@historico.arrecadacao_bruta) %></span></p>
+
+  <% if @historico.sem_acessos? %>
+    <p>Não há acessos para os filtros selecionados.</p>
+  <% elsif @historico.agrupar == "restaurante" %>
+    <table id="agrupado-restaurante">
+      <thead>
+      <tr>
+        <th>Restaurante</th>
+        <th>Acessos</th>
+        <th>Pontualidade</th>
+        <th>Arrecadação bruta</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @historico.linhas_por_restaurante.each do |linha| %>
+        <tr>
+          <td><%= linha.nome %></td>
+          <td><%= linha.acessos %></td>
+          <td><%= formatar_pontualidade(linha.pontualidade) %></td>
+          <td><%= formatar_real(linha.arrecadacao) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+      <tfoot>
+      <% total = @historico.totais %>
+      <tr>
+        <th>Total consolidado</th>
+        <td><%= total.acessos %></td>
+        <td><%= formatar_pontualidade(total.pontualidade) %></td>
+        <td><%= formatar_real(total.arrecadacao) %></td>
+      </tr>
+      </tfoot>
+    </table>
+  <% elsif @historico.agrupar == "catraca" %>
+    <table id="agrupado-catraca">
+      <thead>
+      <tr>
+        <th>Catraca</th>
+        <th>Passagens</th>
+        <th>Total debitado</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @historico.linhas_por_catraca.each do |linha| %>
+        <tr>
+          <td><%= linha.nome %></td>
+          <td><%= linha.passagens %></td>
+          <td><%= formatar_real(linha.arrecadacao) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <table id="acessos-globais">
+      <thead>
+      <tr>
+        <th>Horário</th>
+        <th>Restaurante</th>
+        <th>Catraca</th>
+        <th>Matrícula</th>
+        <th>Tarifa</th>
+        <th>Status</th>
+        <th>Status da catraca</th>
+        <th>Motivo do bloqueio</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @historico.acessos.each do |acesso| %>
+        <tr>
+          <td><%= l(acesso.ocorrido_em, format: "%d/%m/%Y %H:%M") %></td>
+          <td><%= acesso.catraca.restaurante.nome %></td>
+          <td><%= acesso.catraca.nome %></td>
+          <td><%= acesso.matricula_discente %></td>
+          <td><%= formatar_real(tarifa_cobrada(acesso)) %></td>
+          <td><%= acesso.status_acesso.humanize %></td>
+          <td><%= acesso.status_catraca.humanize %></td>
+          <td><%= acesso.motivo_negativa %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</main>

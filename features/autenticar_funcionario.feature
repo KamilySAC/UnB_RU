@@ -28,7 +28,7 @@ Funcionalidade: Autenticação do fiscal no aplicativo (US07)
     Dado que me autentiquei como "Fulano D." com a matrícula SIAPE "2948102"
     Quando acesso a tela "Configuração de Ponto de Acesso"
     Então devo ver "Fulano D." e a matrícula "2948102" identificados como funcionário autenticado
-
+  @javascript
   Cenário: Alternar a visibilidade da senha (Caminho Feliz)
     Dado que estou na tela "Autenticação do Operador"
     E informei a senha "Senha@123"
