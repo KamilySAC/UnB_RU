@@ -433,6 +433,8 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
   - `features/extrato_historico.feature`: 7 cenários cobrindo extrato, histórico, painel único, filtro por período, detalhes de recarga, histórico vazio e isolamento por estudante.
   - `features/step_definitions/extrato_historico_steps.rb`: steps automatizados para os fluxos de visualização.
 
+
+
 ---
 
 #### Resumo da Suíte de Testes — Maria Luiza Macedo Bezerra
@@ -441,6 +443,82 @@ Na **Sprint 2**, o objetivo principal é a implementação do código de produç
 | --- | --- | --- |
 | **RSpec** | `recarga_spec.rb`, `refeicao_spec.rb`, `historicos_spec.rb` | Recarga e Saldo + Extrato e Histórico |
 | **Cucumber** | `creditos.feature`, `extrato_historico.feature` | 10 cenários (3 de recarga + 7 de extrato/histórico) |
+
+---
+
+### 2.9. Autenticação do Funcionário
+
+- **Responsável:** Kamily Silva Andrade Crispim (Matrícula: 242009945)
+- **Pontuação:** 3 pontos
+- **Branch:** `feat/autenticacao_funcionario` (Pull Request para `Sprint_2`)
+- **Status:** Concluído e testado
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Entrar no sistema:** O funcionário abre a tela "Autenticação do Operador" (`/funcionario/login`) e informa a matrícula SIAPE (7 números) ou o nome de usuário, e a senha. Espaços sobrando não atrapalham, e o usuário pode ser escrito com letra maiúscula ou minúscula.
+2. **Campos obrigatórios:** Se faltar a matrícula/usuário ou a senha, o login não acontece e o sistema avisa qual campo está faltando ("A matrícula ou usuário é obrigatório." ou "A senha é obrigatória.").
+3. **Dados errados:** Se a matrícula/usuário não existir ou a senha estiver errada, aparece sempre a mesma mensagem: "Credenciais inválidas.". Assim, ninguém descobre se um cadastro existe.
+4. **Senha segura:** A senha tem no mínimo 8 caracteres e é guardada de forma criptografada (embaralhada), nunca como texto normal.
+5. **Depois do login:** O fiscal vai para a tela "Configuração de Ponto de Acesso", que mostra o nome e a matrícula dele. A cada login a sessão começa do zero, por segurança. Também há um limite de 10 tentativas a cada 3 minutos, para impedir quem tenta adivinhar senhas.
+6. **Telas que exigem login:** "Configuração de Ponto", "Terminal de Validação" e "Histórico Local" só abrem para quem está logado. Quem não entrou é levado ao login com o aviso "Faça login para continuar.". O "Histórico Local" mostra a lista de catracas, com um link para o histórico de cada uma.
+7. **Mostrar a senha:** Um botão ao lado do campo mostra ou esconde a senha enquanto ela é digitada.
+8. **Sair:** O botão "Sair" encerra a sessão e volta para o login, com a mensagem "Sessão encerrada.".
+9. **Tipos de funcionário:** Cada funcionário é "fiscal" ou "administrador". O administrador entra pelo mesmo login e também vê o histórico global. Quem não é administrador e tenta abrir uma tela só do administrador é levado ao "Histórico Local", com o aviso "Você não tem permissão para acessar esta tela.".
+10. **Ainda falta:** A regra "só administrador" ainda não foi aplicada na gestão de restaurantes e catracas (feature 2.3).
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Cadastro do funcionário (model):** `app/models/funcionario.rb` guarda nome, matrícula SIAPE (única), usuário (opcional e único), senha e tipo (fiscal ou administrador). Também confere se a matrícula/usuário e a senha estão certos.
+- **Banco de dados:** `db/migrate/20261114000000_create_funcionarios.rb` cria a tabela de funcionários.
+- **Controle de login:** `app/controllers/concerns/autenticacao.rb` reúne funções usadas pelo sistema todo: saber quem está logado, exigir login e exigir administrador.
+- **Controllers e rotas:**
+  - `app/controllers/funcionario_sessions_controller.rb`: entrar e sair (`/funcionario/login` e `/funcionario/logout`).
+  - `app/controllers/painel_controller.rb`: telas liberadas depois do login (`/ponto-de-acesso`, `/terminal-de-validacao` e `/historico-local`).
+- **Telas (views):** `app/views/funcionario_sessions/new.html.erb` (tela de login), `app/views/painel/` (telas depois do login) e o menu do funcionário no layout.
+- **JavaScript:** `app/javascript/controllers/senha_controller.js` faz o botão de mostrar e esconder a senha.
+- **Dados de demonstração:** `db/seeds.rb` cria um fiscal e um administrador de teste, só no ambiente de desenvolvimento.
+- **Testes de código (RSpec):**
+  - `spec/models/funcionario_spec.rb`: 11 exemplos (regras do cadastro, senha criptografada e conferência de matrícula/usuário e senha).
+  - `spec/requests/funcionario_sessions_spec.rb`: 7 exemplos (tela de login, login certo, dados errados, campos vazios e sair).
+  - `spec/requests/painel_spec.rb`: 7 exemplos (telas com e sem login e lista de catracas do Histórico Local).
+- **Testes de comportamento (Cucumber):**
+  - `features/autenticar_funcionario.feature`: 10 cenários (6 de caminho feliz e 4 de caminho triste). O cenário do botão de mostrar a senha usa o navegador Chrome, sem abrir janela.
+  - `features/step_definitions/autenticacao_steps.rb`: 26 passos que usam a tela de login de verdade.
+
+---
+
+### 2.10. Histórico Global de Acessos do Campus
+
+- **Responsável:** Kamily Silva Andrade Crispim (Matrícula: 242009945)
+- **Pontuação:** 3 pontos
+- **Branch:** `feat/relatorio_global_acesso` (Pull Request para `Sprint_2`)
+- **Status:** Concluído e testado
+
+#### Regras de Negócio e Comportamentos Implementados:
+
+1. **Só para administrador:** Apenas o administrador logado vê o histórico global. Quem não entrou é levado ao login. O fiscal é levado ao "Histórico Local", com um aviso. O link "Histórico Global" no menu só aparece para o administrador.
+2. **Lista completa:** Mostra todos os acessos de todos os restaurantes e catracas do campus, dos mais novos para os mais antigos. Cada acesso mostra horário, restaurante, catraca, matrícula, tarifa, status do acesso, status da catraca e motivo do bloqueio (quando houver).
+3. **Totais:** Mostra o total de acessos (contando também os bloqueados) e a arrecadação bruta (soma apenas dos acessos liberados). Os totais mudam conforme os filtros escolhidos.
+4. **Acessos bloqueados:** Aparecem com tarifa "R$ 0,00" e com o motivo do bloqueio, porque nada é cobrado nesses casos.
+5. **Filtros:** Dá para filtrar por restaurante e por catraca. Ao escolher um restaurante, só as catracas dele aparecem como opção. Se chegar uma catraca que não é daquele restaurante, ela é ignorada. Se o restaurante ou a catraca não existir, o sistema recusa o pedido (erro 400, "pedido inválido").
+6. **Agrupar por restaurante:** Mostra uma linha para cada restaurante (mesmo os sem acessos), com acessos, pontualidade e arrecadação bruta. No fim, uma linha "Total consolidado" soma todos. A pontualidade é a porcentagem de acessos que **não** foram bloqueados por "Janela Expirada". Quando não há acessos, aparece "—".
+7. **Agrupar por catraca:** Mostra uma linha para cada catraca ("Restaurante - Catraca"), com as passagens (acessos liberados) e o total debitado.
+8. **Sem resultado:** Se nenhum acesso combinar com os filtros, nenhum acesso é mostrado e aparece a mensagem "Não há acessos para os filtros selecionados.".
+9. **Fiscal:** O fiscal não vê o histórico global, só o histórico local.
+
+#### Arquitetura e Arquivos da Feature:
+
+- **Cálculos (service):** `app/services/historico_global.rb` aplica os filtros e faz as contas dos totais e dos agrupamentos.
+- **Controller e rota:** `app/controllers/historico_global_controller.rb` recebe o pedido `GET /historico-global` (com restaurante, catraca e agrupamento) e confere se quem pediu é administrador.
+- **Formatação (helper):** `app/helpers/historico_global_helper.rb` mostra os valores em reais (R$ 1.234,50) e a pontualidade em porcentagem, e faz o acesso bloqueado aparecer com tarifa zerada.
+- **Tela (view):** `app/views/historico_global/index.html.erb` tem os filtros, os totais e a lista (ou a tabela agrupada).
+- **Dados usados:** `Restaurante`, `Catraca` e `Acesso` (features 2.3 e 2.4) e o login da feature 2.9.
+- **Testes de código (RSpec):**
+  - `spec/services/historico_global_spec.rb`: 15 exemplos (filtros, totais, agrupamentos, restaurante sem acessos e pontualidade).
+  - `spec/requests/historico_global_spec.rb`: 15 exemplos (quem pode ver, lista, totais, bloqueados, filtros, agrupamentos e pedido inválido).
+- **Testes de comportamento (Cucumber):**
+  - `features/acesso_global.feature`: 10 cenários (7 de caminho feliz e 3 de caminho triste).
+  - `features/step_definitions/acesso_global_steps.rb`: 32 passos que usam a tela do histórico global.
 
 ## 3. Resumo da Suíte de Testes (Arthur Santos Almeida)
 
@@ -490,6 +568,23 @@ bundle exec rspec spec/services/cadastro_estudante_spec.rb spec/requests/estudan
 bundle exec cucumber features/cadastro_usuario.feature features/visualizar_cardapio.feature
 ```
 
+### 3.3. Suítes de Testes — Autenticação e Histórico Global (Kamily Silva Andrade Crispim)
+
+| Funcionalidade              | RSpec                                                                                                                          | Cucumber                                                |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
+| Autenticação do funcionário | `spec/models/funcionario_spec.rb`, `spec/requests/funcionario_sessions_spec.rb` e `spec/requests/painel_spec.rb` — 25 exemplos | `features/autenticar_funcionario.feature` — 10 cenários |
+| Histórico global de acessos | `spec/services/historico_global_spec.rb` e `spec/requests/historico_global_spec.rb` — 30 exemplos                              | `features/acesso_global.feature` — 10 cenários          |
+
+Para executar somente essas suítes:
+
+```bash
+bundle exec rspec spec/models/funcionario_spec.rb spec/requests/funcionario_sessions_spec.rb spec/requests/painel_spec.rb spec/services/historico_global_spec.rb spec/requests/historico_global_spec.rb
+
+bundle exec cucumber features/autenticar_funcionario.feature features/acesso_global.feature
+```
+
+O cenário "Alternar a visibilidade da senha" precisa do Google Chrome instalado. Se você não tiver o Chrome, rode o Cucumber com `--tags "not @javascript"` para pular esse cenário.
+
 ---
 
 ## 4. Declaração de Uso de Inteligência Artificial
@@ -512,3 +607,9 @@ Em conformidade com as diretrizes da disciplina de Engenharia de Software:
 - **Ferramenta Utilizada:** Claude e ChatGPT.
 - **Partes do Projeto:** Apoio na análise da incompatibilidade entre o cadastro e o login por email, na implementação do cardápio da refeição e no esqueleto do cadastro de usuário.
 - **Uso da ferramenta:** A IA foi usada como apoio para sugerir e escrever código e testes; melhoramento de código e detectar bugs.
+
+### Declaração de Uso de IA — Kamily Silva Andrade Crispim
+
+- **Ferramenta Utilizada:** Claude.
+- **Partes do Projeto:** Apoio na autenticação do funcionário e correção de erro na visibilidade da senha; Na resolução dos conflitos do merge; na correção de erros de configuração do ambiente no Windows; e na escrita do texto da wiki das minhas duas features.
+- **Uso da ferramenta:** A IA foi usada como apoio para melhorar codigo e para explicar os erros que apareciam.
