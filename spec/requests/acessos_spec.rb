@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe "Acessos", type: :request do
   let(:restaurante) do
     Restaurante.create!(
-      codigo: "RU-TESTE",
       nome: "Restaurante de teste",
       capacidade_por_hora: 100,
       total_pisos: 2
@@ -12,7 +11,6 @@ RSpec.describe "Acessos", type: :request do
 
   let(:catraca) do
     restaurante.catracas.create!(
-      codigo: "CAT-01",
       nome: "Catraca 01",
       piso: 1,
       status: :online
@@ -44,7 +42,6 @@ RSpec.describe "Acessos", type: :request do
     it "não inclui acessos de outra catraca" do
       acesso_da_catraca = criar_acesso(catraca, matricula_discente: "MAT-CORRETA")
       outra_catraca = restaurante.catracas.create!(
-        codigo: "CAT-02",
         nome: "Catraca 02",
         piso: 2,
         status: :online
@@ -111,6 +108,20 @@ RSpec.describe "Acessos", type: :request do
 
     it "reexibe o formulário quando uma tentativa bloqueada não tem motivo" do
       parametros_invalidos = parametros_validos.merge(status_acesso: "bloqueado")
+
+      expect do
+        post catraca_acessos_path(catraca), params: { acesso: parametros_invalidos }
+      end.not_to change(Acesso, :count)
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.body).to include("Motivo da negativa")
+    end
+
+    it "rejeita motivo da negativa quando o acesso está liberado" do
+      parametros_invalidos = parametros_validos.merge(
+        status_acesso: "liberado",
+        motivo_negativa: "Saldo insuficiente"
+      )
 
       expect do
         post catraca_acessos_path(catraca), params: { acesso: parametros_invalidos }

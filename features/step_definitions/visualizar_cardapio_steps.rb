@@ -26,7 +26,7 @@ module CardapioHelpers
   def usar_cardapio(conteudo)
     File.write(ARQUIVO_TESTE, conteudo.to_json)
     CardapioAtual.arquivo = ARQUIVO_TESTE
-    Restaurante.create!(codigo: "RU-DR", nome: "RU Darcy Ribeiro", total_pisos: 1)
+    Restaurante.create!(nome: "RU Darcy Ribeiro", total_pisos: 1)
     # segunda-feira, 16/11/2026, 12h em Brasília (horário do almoço)
     travel_to Time.find_zone!("Brasilia").local(2026, 11, 16, 12, 0)
   end

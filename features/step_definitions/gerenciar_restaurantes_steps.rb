@@ -10,7 +10,7 @@ end
 # Cenário: Cadastrar um restaurante (Caminho Feliz).
 Quando('cadastro o restaurante {string}') do |nome|
   visit new_restaurante_path
-  preencher_formulario_restaurante(codigo: '01', nome: nome)
+  preencher_formulario_restaurante(nome: nome)
   clicar_enviar_formulario
 end
 
@@ -25,7 +25,6 @@ end
 # Prepara um restaurante usado nos cenários de edição, catraca e nome duplicado.
 Dado('existe o restaurante {string}') do |nome|
   @restaurante = Restaurante.create!(
-    codigo: '01',
     nome: nome,
     capacidade_por_hora: 100,
     total_pisos: 3
@@ -37,7 +36,6 @@ Quando('adiciono a catraca {string} ao restaurante {string}') do |nome_catraca, 
   @restaurante = Restaurante.find_by!(nome: nome_restaurante)
   @catraca_nome = nome_catraca
   visit new_restaurante_catraca_path(@restaurante)
-  fill_in 'Código', with: 'CAT-01'
   fill_in 'Nome', with: nome_catraca
   fill_in 'Piso', with: 1
   clicar_enviar_formulario
@@ -48,7 +46,7 @@ Entao('a catraca {string} deve aparecer nos detalhes do restaurante') do |nome_c
 end
 
 Entao('deve estar disponível na Aplicação de Controle para esse restaurante') do
-  raise 'A catraca não apareceu nos detalhes do restaurante' unless page.has_css?('li', text: @catraca_nome)
+  raise 'A catraca não apareceu nos detalhes do restaurante' unless page.has_text?(@catraca_nome)
 end
 
 # Cenário: Editar um restaurante (Caminho Feliz).
@@ -65,13 +63,11 @@ end
 # Cenário: Editar uma catraca (Caminho Feliz).
 Dado('existe a catraca {string} associada ao restaurante {string}') do |nome_catraca, nome_restaurante|
   @restaurante = Restaurante.create!(
-    codigo: '01',
     nome: nome_restaurante,
     capacidade_por_hora: 100,
     total_pisos: 3
   )
   @catraca = @restaurante.catracas.create!(
-    codigo: 'CAT-01',
     nome: nome_catraca,
     piso: 1,
     status: :online
@@ -91,7 +87,7 @@ end
 # Cenário: Impedir cadastro de restaurante sem nome (Caminho Triste).
 Quando('tento cadastrar um restaurante sem informar o nome') do
   visit new_restaurante_path
-  preencher_formulario_restaurante(codigo: '01', nome: '')
+  preencher_formulario_restaurante(nome: '')
   clicar_enviar_formulario
 end
 
@@ -106,7 +102,7 @@ end
 # Cenário: Impedir cadastro de restaurante com nome já utilizado (Caminho Triste).
 Quando('tento cadastrar outro restaurante chamado {string}') do |nome|
   visit new_restaurante_path
-  preencher_formulario_restaurante(codigo: '02', nome: nome)
+  preencher_formulario_restaurante(nome: nome)
   clicar_enviar_formulario
 end
 
@@ -144,8 +140,7 @@ Entao('a catraca não deve ser cadastrada') do
   raise 'Uma catraca foi cadastrada para restaurante inexistente' unless Catraca.count == @catracas_antes
 end
 
-def preencher_formulario_restaurante(codigo:, nome:)
-  fill_in 'Código', with: codigo
+def preencher_formulario_restaurante(nome:)
   fill_in 'Nome', with: nome
   fill_in 'Campus', with: 'Darcy Ribeiro'
   fill_in 'Capacidade por hora', with: 100

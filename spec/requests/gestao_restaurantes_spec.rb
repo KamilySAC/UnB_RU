@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe "Gestão de restaurantes e catracas", type: :request do
   let(:restaurante) do
     Restaurante.create!(
-      codigo: "RU-TESTE",
       nome: "Restaurante de teste",
       capacidade_por_hora: 100,
       total_pisos: 2
@@ -12,7 +11,7 @@ RSpec.describe "Gestão de restaurantes e catracas", type: :request do
 
   describe "restaurantes" do
     it "lista restaurantes e catracas associadas" do
-      restaurante.catracas.create!(codigo: "CAT-01", nome: "Catraca 01", piso: 1, status: :online)
+      restaurante.catracas.create!(nome: "Catraca 01", piso: 1, status: :online)
 
       get restaurantes_path
 
@@ -22,7 +21,6 @@ RSpec.describe "Gestão de restaurantes e catracas", type: :request do
 
     it "cria um restaurante válido" do
       parametros = {
-        codigo: "RU-NOVO",
         nome: "RU Novo",
         campus: "Darcy Ribeiro",
         capacidade_por_hora: 100,
@@ -39,7 +37,7 @@ RSpec.describe "Gestão de restaurantes e catracas", type: :request do
     it "rejeita restaurante sem nome" do
       expect do
         post restaurantes_path, params: {
-          restaurante: { codigo: "RU-SEM-NOME", capacidade_por_hora: 100, total_pisos: 2 }
+          restaurante: { capacidade_por_hora: 100, total_pisos: 2 }
         }
       end.not_to change(Restaurante, :count)
 
@@ -52,7 +50,7 @@ RSpec.describe "Gestão de restaurantes e catracas", type: :request do
 
       expect do
         post restaurantes_path, params: {
-          restaurante: { codigo: "RU-DUP", nome: restaurante.nome, capacidade_por_hora: 100, total_pisos: 2 }
+          restaurante: { nome: restaurante.nome, capacidade_por_hora: 100, total_pisos: 2 }
         }
       end.not_to change(Restaurante, :count)
       expect(response).to have_http_status(:unprocessable_content)
@@ -65,7 +63,7 @@ RSpec.describe "Gestão de restaurantes e catracas", type: :request do
 
   describe "catracas" do
     let(:parametros_validos) do
-      { codigo: "CAT-NOVA", nome: "Catraca Nova", piso: 1, status: "online" }
+      { nome: "Catraca Nova", piso: 1, status: "online" }
     end
 
     it "cria catraca associada ao restaurante" do
@@ -75,6 +73,32 @@ RSpec.describe "Gestão de restaurantes e catracas", type: :request do
 
       expect(response).to redirect_to(restaurantes_path)
       expect(restaurante.catracas.last.nome).to eq("Catraca Nova")
+    end
+
+    it "rejeita nome de catraca duplicado no mesmo restaurante" do
+      restaurante.catracas.create!(nome: "Catraca Nova", piso: 1, status: :online)
+
+      expect do
+        post restaurante_catracas_path(restaurante), params: { catraca: parametros_validos }
+      end.not_to change(Catraca, :count)
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it "permite o mesmo nome de catraca em outro restaurante" do
+      outro_restaurante = Restaurante.create!(
+        nome: "Outro restaurante",
+        capacidade_por_hora: 100,
+        total_pisos: 1
+      )
+      restaurante.catracas.create!(nome: "Catraca 01", piso: 1, status: :online)
+
+      expect do
+        post restaurante_catracas_path(outro_restaurante),
+             params: { catraca: parametros_validos.merge(nome: "Catraca 01") }
+      end.to change(Catraca, :count).by(1)
+
+      expect(response).to redirect_to(restaurantes_path)
     end
 
     it "rejeita catraca em piso acima do total do restaurante" do

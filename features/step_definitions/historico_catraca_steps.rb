@@ -160,16 +160,13 @@ def criar_catraca(nome)
   @catracas_por_nome ||= {}
   @catracas_por_nome[nome] ||= begin
     numero = @catracas_por_nome.length + 1
-    codigo = format("%02d", numero)
     nome_restaurante = [ "RU Darcy Ribeiro", "RU Gama", "RU Ceilândia" ].fetch(numero - 1)
     restaurante = Restaurante.create!(
-      codigo: codigo,
       nome: nome_restaurante,
       capacidade_por_hora: 100,
       total_pisos: 3
     )
     restaurante.catracas.create!(
-      codigo: "CAT-#{codigo}",
       nome: nome,
       piso: 1,
       status: :online
@@ -185,7 +182,7 @@ def criar_acesso(catraca, **atributos)
   @acessos_por_catraca ||= Hash.new { |hash, key| hash[key] = [] }
   numero = @acessos_por_catraca[catraca.nome].length + 1
   acesso = catraca.acessos.create!({
-    matricula_discente: "MAT-#{catraca.codigo.last(2)}-#{format('%02d', numero)}",
+    matricula_discente: "MAT-#{catraca.id}-#{format('%02d', numero)}",
     turno: "Almoço",
     modo_validacao: "Cartão",
     tarifa: 2.50,

@@ -34,8 +34,8 @@ RSpec.describe "Painel do funcionário", type: :request do
     end
 
     it "lista as catracas no Histórico Local com link para o histórico de cada uma" do
-      restaurante = Restaurante.create!(codigo: "RU-1", nome: "RU Teste", capacidade_por_hora: 100, total_pisos: 1)
-      catraca = restaurante.catracas.create!(codigo: "CAT-01", nome: "Catraca 01", piso: 1, status: :online)
+      restaurante = Restaurante.create!(nome: "RU Teste", capacidade_por_hora: 100, total_pisos: 1)
+      catraca = restaurante.catracas.create!(nome: "Catraca 01", piso: 1, status: :online)
 
       get historico_local_path
 

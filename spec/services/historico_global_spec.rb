@@ -1,12 +1,12 @@
 require "rails_helper"
 
 RSpec.describe HistoricoGlobal do
-  let!(:ru1) { Restaurante.create!(codigo: "RU-1", nome: "Restaurante 1", capacidade_por_hora: 100, total_pisos: 2) }
-  let!(:ru2) { Restaurante.create!(codigo: "RU-2", nome: "Restaurante 2", capacidade_por_hora: 100, total_pisos: 2) }
-  let!(:cat01) { ru1.catracas.create!(codigo: "CAT-01", nome: "Catraca 01", piso: 1, status: :online) }
-  let!(:cat04) { ru1.catracas.create!(codigo: "CAT-04", nome: "Catraca 04", piso: 1, status: :online) }
-  let!(:cat02) { ru2.catracas.create!(codigo: "CAT-02", nome: "Catraca 02", piso: 1, status: :online) }
-  let!(:cat05) { ru2.catracas.create!(codigo: "CAT-05", nome: "Catraca 05", piso: 1, status: :online) }
+  let!(:ru1) { Restaurante.create!(nome: "Restaurante 1", capacidade_por_hora: 100, total_pisos: 2) }
+  let!(:ru2) { Restaurante.create!(nome: "Restaurante 2", capacidade_por_hora: 100, total_pisos: 2) }
+  let!(:cat01) { ru1.catracas.create!(nome: "Catraca 01", piso: 1, status: :online) }
+  let!(:cat04) { ru1.catracas.create!(nome: "Catraca 04", piso: 1, status: :online) }
+  let!(:cat02) { ru2.catracas.create!(nome: "Catraca 02", piso: 1, status: :online) }
+  let!(:cat05) { ru2.catracas.create!(nome: "Catraca 05", piso: 1, status: :online) }
 
   def criar_acesso(catraca, **atributos)
     catraca.acessos.create!({
@@ -106,7 +106,7 @@ RSpec.describe HistoricoGlobal do
     end
 
     it "mostra restaurante sem acessos com zeros e sem pontualidade" do
-      ru3 = Restaurante.create!(codigo: "RU-3", nome: "Restaurante 3", capacidade_por_hora: 10, total_pisos: 1)
+      ru3 = Restaurante.create!(nome: "Restaurante 3", capacidade_por_hora: 10, total_pisos: 1)
 
       linha = described_class.new.linhas_por_restaurante.find { |l| l.nome == ru3.nome }
 

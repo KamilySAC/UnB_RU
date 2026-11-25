@@ -8,4 +8,13 @@ class Acesso < ApplicationRecord
             :status_catraca, :ocorrido_em, presence: true
   validates :tarifa, numericality: { greater_than_or_equal_to: 0 }
   validates :motivo_negativa, presence: true, if: :bloqueado?
+  validate :motivo_negativa_ausente_para_acesso_liberado
+
+  private
+
+  def motivo_negativa_ausente_para_acesso_liberado
+    return unless liberado? && motivo_negativa.present?
+
+    errors.add(:motivo_negativa, "não pode ser informado para um acesso liberado")
+  end
 end

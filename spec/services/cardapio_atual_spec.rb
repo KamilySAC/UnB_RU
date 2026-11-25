@@ -168,7 +168,7 @@ RSpec.describe CardapioAtual do
 
   describe "#restaurante_nome" do
     it "usa o primeiro restaurante cadastrado" do
-      Restaurante.create!(codigo: "RU-01", nome: "RU Darcy Ribeiro", total_pisos: 1)
+      Restaurante.create!(nome: "RU Darcy Ribeiro", total_pisos: 1)
 
       expect(described_class.new(agora: em(12, 0)).restaurante_nome).to eq("RU Darcy Ribeiro")
     end

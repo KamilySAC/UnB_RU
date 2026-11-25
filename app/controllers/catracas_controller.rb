@@ -39,6 +39,6 @@ class CatracasController < ApplicationController
   private
 
   def catraca_params
-    params.require(:catraca).permit(:codigo, :nome, :piso, :status)
+    params.require(:catraca).permit(:nome, :piso, :status)
   end
 end
