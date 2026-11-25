@@ -1,39 +1,39 @@
+# frozen_string_literal: true
+
+# Exports the student's current-month history as a downloadable PDF.
 class HistoricosController < ApplicationController
-    # desativa temporariamente a verificação de navegadores para facilitar testes
-    allow_browser versions: :all if respond_to? (:allow_browser)
+  allow_browser versions: :all if respond_to?(:allow_browser)
 
-    # ação responsável por gersr e disparar o download do PDF
-    # GET /historico/exportar_pdf
-    def exportar_pdf
-      estudante = current_estudante
+  # GET /historico/exportar_pdf
+  #
+  # Streams a PDF when the student has movements in the current month;
+  # otherwise responds with 422 and a message.
+  #
+  # @return [void]
+  def exportar_pdf
+    estudante = current_estudante
+    return redirect_to(root_path, alert: t(".not_authenticated")) unless estudante
 
-      # se não houver discente autenticado, barra o acesso
-      unless estudante
-        flash[:alert] = "Você precisa estar autenticado como estudante"
-        return redirect_to root_path
-      end
+    gerador = GeradorHistoricoPdf.new(estudante)
+    return render_no_movements unless gerador.possui_movimentacoes?
 
-      # instancia o gerador de pdf passando o estudante como parâmetro
-      gerador = GeradorHistoricoPdf.new(estudante)
+    send_data gerador.gerar,
+              filename: GeradorHistoricoPdf::NOME_ARQUIVO,
+              type: "application/pdf",
+              disposition: "attachment"
+  end
 
-      # regra: se possuir movimentações no mes atual, faz o download
-      if gerador.possui_movimentacoes?
-        pdf_data = gerador.gerar
-        send_data pdf_data,
-        filename: GeradorHistoricoPdf::NOME_ARQUIVO,
-        type: "application/pdf", # define o tipo de arquivo
-        disposition: "attachment" # força o download
-      else
-        # caminho triste: sem movimentações no mês atual - nenhum download e exibe mensagem
-        flash[:alert] = "Não há movimentações registradas no mês atual."
-        render plain: "Não há movimentações registradas no mês atual", status: :unprocessable_entity
-      end
-    end
+  private
 
+  # @return [void]
+  def render_no_movements
+    msg = t(".no_movements")
+    flash[:alert] = msg
+    render plain: msg, status: :unprocessable_entity
+  end
 
-    private
-    # retorna o estudante autenticado na sessão (ou primeiro para testes)
-    def current_estudante
-      @current_estudante ||= Estudante.find_by(id: session[:estudante_id]) || Estudante.first
-    end
+  # @return [Estudante, nil]
+  def current_estudante
+    @current_estudante ||= Estudante.find_by(id: session[:estudante_id])
+  end
 end

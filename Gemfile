@@ -6,6 +6,7 @@ gem "rails", "~> 8.1.4"
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
+gem "fukuzatsu"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
@@ -38,7 +39,8 @@ gem "kamal", require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
-
+# Ruby 3.4 removed getoptlong from default gems; Saikuro 1.2.1 still requires it.
+gem "getoptlong"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
@@ -51,9 +53,13 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
   gem "rspec", "~> 3.13"
+
+  gem "rubycritic", require: false
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  gem "rspec-rails"
+  gem "rspec-rails"     # keep this one
+  gem "saikuro"
+  gem "rubycritic", require: false
 end
 
 gem "cucumber-rails", require: false
@@ -70,7 +76,7 @@ group :test do
   gem "capybara"
   gem "shoulda-matchers", "~> 6.0"
   gem "selenium-webdriver"
-  gem "rspec-rails"
+  gem "simplecov", require: false
 end
 
 gem "prawn", "~> 2.4"
