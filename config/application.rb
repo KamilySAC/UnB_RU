@@ -20,3 +20,12 @@ module UnbRu
     # config.eager_load_paths << Rails.root.join("lib")
   end
 end
+
+# Compatible with saikuro on Ruby 3.4: rdoc/usage was removed, provide a no-op fallback
+begin
+  require 'rdoc/usage'
+rescue LoadError
+  module RDoc
+    def self.usage(*); end
+  end
+end

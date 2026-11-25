@@ -9,7 +9,7 @@
 #   estudante.tarifa_para("Almoço") #=> 0.0e0 for Grupo I
 class Estudante < ApplicationRecord
   # Tariff groups recognized by the system.
-  GRUPOS = ["Grupo I", "Grupo II", "Grupo III", "Grupo IV"].freeze
+  GRUPOS = [ "Grupo I", "Grupo II", "Grupo III", "Grupo IV" ].freeze
 
   # Per-shift prices (in BRL) for each tariff group.
   #

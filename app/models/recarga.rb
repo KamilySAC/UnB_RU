@@ -6,10 +6,10 @@
 # a valid payment form, a valid status, and a date.
 class Recarga < ApplicationRecord
   # Accepted payment methods.
-  FORMAS = ["PIX", "Cartão de crédito"].freeze
+  FORMAS = [ "PIX", "Cartão de crédito" ].freeze
 
   # Possible processing statuses.
-  STATUS = ["Aprovada", "Pendente", "Recusada"].freeze
+  STATUS = [ "Aprovada", "Pendente", "Recusada" ].freeze
 
   belongs_to :estudante
 
