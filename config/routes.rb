@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       to: "historicos#exportar_pdf",
       as: :exportar_historico_pdf
 
-    get  "cadastro", to: "estudantes#new", as: :cadastro
+    get "cadastro", to: "estudantes#new", as: :cadastro
   post "cadastro", to: "estudantes#create"
 
   # autenticação do funcionário (fiscal e administrador)
@@ -47,4 +47,3 @@ Rails.application.routes.draw do
 
   root "sessions#new"
 end
-

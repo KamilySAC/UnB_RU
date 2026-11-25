@@ -35,6 +35,7 @@ RSpec.describe "Historicos", type: :request do
       before do
         estudante.recargas.destroy_all
         estudante.refeicoes.destroy_all
+
       end
 
       it "retorna status 422 informando a ausência de movimentações" do

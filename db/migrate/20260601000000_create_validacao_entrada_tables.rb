@@ -1,19 +1,19 @@
 class CreateValidacaoEntradaTables < ActiveRecord::Migration[8.1]
   def change
-    #--- cria tabela de estudantes, armazena dados básicos de estudantes, grupo e saldo ---
     create_table(:estudantes, if_not_exists: true) do |t|
-      t.string :nome, null: false # nome completo do estudante
-      t.string :matricula, null: false # matricula do estudante
-      t.string :curso # curso do estudante
-      t.string :turno # turno do estudante
-      t.string :campus # campus do estudante
-      t.string :grupo, default: "Grupo II", null: false # tipo do estudante
-      t.decimal :saldo, precision: 10, scale: 2, default: 0.0, null: false # saldo do estudante
-      t.timestamps # timestamps
+      t.string :nome, null: false
+      t.string :matricula, null: false
+      t.string :curso
+      t.string :turno
+      t.string :campus
+      t.string :grupo, default: "Grupo II", null: false
+      t.decimal :saldo, precision: 10, scale: 2, default: 0.0, null: false
+      t.timestamps
     end
 
-    # adiciona indice na coluna matricula, que não haja duas contas com a mesma matrícula
+    # matricula column is now inside create_table above; remove the redundant add_column
     add_index(:estudantes, :matricula, unique: true, if_not_exists: true)
+
 
 
     # --- cria tabela de acessos_catraca ---

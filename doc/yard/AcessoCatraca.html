@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: AcessoCatraca
+  
+    &mdash; Documentation by YARD 0.9.45
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "AcessoCatraca";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">AcessoCatraca</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: AcessoCatraca
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="ApplicationRecord.html" title="ApplicationRecord (class)">ApplicationRecord</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next"><span class='object_link'><a href="ApplicationRecord.html" title="ApplicationRecord (class)">ApplicationRecord</a></span></li>
+          
+            <li class="next">AcessoCatraca</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>app/models/acesso_catraca.rb
+</dd>
+  </dl>
+  
+</div>
+
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="TURNOS-constant" class="">TURNOS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>lista de turno do RU</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Café da manhã</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Almoço</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Jantar</span><span class='tstring_end'>&quot;</span></span> <span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="TIMEOUT_SEG-constant" class="">TIMEOUT_SEG =
+          <div class="docstring">
+  <div class="discussion">
+    <p>tempo limite de timeout antes da trava de catraca</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>5</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ler_identificacao-class_method" title="ler_identificacao (class method)">.<strong>ler_identificacao</strong>(identificacao:, turno:, data: Date.current, tarifa_customizada: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>funçao para leitura de catraca, avalia todas as regras de bloqueio antes de autorizar a passagem.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#registrar_giro!-instance_method" title="#registrar_giro! (instance method)">#<strong>registrar_giro!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Função 2 método responsável por registrar o giro na catraca a (!) indica que indica alteração de dados criticos - saldo.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verificar_timeout!-instance_method" title="#verificar_timeout! (instance method)">#<strong>verificar_timeout!</strong>(segundos_decorridos)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>timeout de seg sem giro.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="ler_identificacao-class_method">
+  
+    .<strong>ler_identificacao</strong>(identificacao:, turno:, data: Date.current, tarifa_customizada: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>funçao para leitura de catraca, avalia todas as regras de bloqueio antes de autorizar a passagem</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/acesso_catraca.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ler_identificacao'>ler_identificacao</span><span class='lparen'>(</span><span class='label'>identificacao:</span><span class='comma'>,</span> <span class='label'>turno:</span><span class='comma'>,</span> <span class='label'>data:</span> <span class='const'>Date</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='comma'>,</span> <span class='label'>tarifa_customizada:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='comment'># busca o estudante pela matricula lido no sensor
+</span>  <span class='id identifier rubyid_estudante'>estudante</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Estudante.html" title="Estudante (class)">Estudante</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>matricula:</span> <span class='id identifier rubyid_identificacao'>identificacao</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
+
+  <span class='comment'># primeira regra: usuário não existe na base de dados, se não existe, bloqueia
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span>
+      <span class='label'>identificacao_lida:</span> <span class='id identifier rubyid_identificacao'>identificacao</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span>
+      <span class='label'>turno:</span> <span class='id identifier rubyid_turno'>turno</span><span class='comma'>,</span>
+      <span class='label'>data:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span>
+      <span class='label'>status_catraca:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bloqueada</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>status_acesso:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>negado</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>mensagem_visor:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Usuário não encontrado</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># segunda regra: bloqueio de dupla entrada no mesmo turno, verifica se o estudante ja completou uma refeição
+</span>  <span class='id identifier rubyid_ja_usou'>ja_usou</span> <span class='op'>=</span> <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span>
+    <span class='label'>estudante_id:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span>
+    <span class='label'>turno:</span> <span class='id identifier rubyid_turno'>turno</span><span class='comma'>,</span>
+    <span class='label'>data:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span>
+    <span class='label'>status_acesso:</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>registrado</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>isento</span><span class='tstring_end'>&quot;</span></span> <span class='rbracket'>]</span>
+  <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_ja_usou'>ja_usou</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span>
+      <span class='label'>estudante:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='comma'>,</span>
+      <span class='label'>identificacao_lida:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_matricula'>matricula</span><span class='comma'>,</span>
+      <span class='label'>turno:</span> <span class='id identifier rubyid_turno'>turno</span><span class='comma'>,</span>
+      <span class='label'>data:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span>
+      <span class='label'>status_catraca:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bloqueada</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>status_acesso:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>negado</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>mensagem_visor:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Refeição já utilizada neste turno</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># calcula quanto custa a refeição para o referido discente
+</span>  <span class='id identifier rubyid_tarifa'>tarifa</span> <span class='op'>=</span> <span class='id identifier rubyid_tarifa_customizada'>tarifa_customizada</span> <span class='op'>?</span> <span class='const'>BigDecimal</span><span class='lparen'>(</span><span class='id identifier rubyid_tarifa_customizada'>tarifa_customizada</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_tarifa_para'>tarifa_para</span><span class='lparen'>(</span><span class='id identifier rubyid_turno'>turno</span><span class='rparen'>)</span>
+
+
+  <span class='comment'># terceira regra: verificação de saldo para não isentos
+</span>  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_isento?'>isento?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_saldo'>saldo</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_tarifa'>tarifa</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span>
+      <span class='label'>estudante:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='comma'>,</span>
+      <span class='label'>identificacao_lida:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_matricula'>matricula</span><span class='comma'>,</span>
+      <span class='label'>turno:</span> <span class='id identifier rubyid_turno'>turno</span><span class='comma'>,</span>
+      <span class='label'>data:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span>
+      <span class='label'>status_catraca:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bloqueada</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>status_acesso:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>negado</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>mensagem_visor:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Saldo insuficiente</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># quarta regra: caminho feliz - autorização provisória
+</span>  <span class='comment'># destrava a catraca e aguarda o discente girar a catraca, o saldo aqui não é debitado, a catraca fica aguardando giro.
+</span>
+
+  <span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span>
+    <span class='label'>estudante:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='comma'>,</span>
+    <span class='label'>identificacao_lida:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_matricula'>matricula</span><span class='comma'>,</span>
+    <span class='label'>turno:</span> <span class='id identifier rubyid_turno'>turno</span><span class='comma'>,</span>
+    <span class='label'>data:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span>
+    <span class='label'>valor_debitado:</span> <span class='id identifier rubyid_tarifa'>tarifa</span><span class='comma'>,</span>
+    <span class='label'>isento:</span> <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_isento?'>isento?</span><span class='comma'>,</span>
+    <span class='label'>status_catraca:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>liberada</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>status_acesso:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>aguardando_giro</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>mensagem_visor:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Catraca liberada</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="registrar_giro!-instance_method">
+  
+    #<strong>registrar_giro!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Função 2
+método responsável por registrar o giro na catraca
+a (!) indica que indica alteração de dados criticos - saldo</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/acesso_catraca.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_registrar_giro!'>registrar_giro!</span>
+  <span class='comment'># só é permitido o giro se o acesso estiver com o status de catraca liberada e aguardando giro
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Catraca não está liberada</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_status_catraca'>status_catraca</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>liberada</span><span class='tstring_end'>&quot;</span></span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_status_acesso'>status_acesso</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>aguardando_giro</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='comment'># transaction garante que se der errado no meio do caminho ele volta o que fez
+</span>  <span class='id identifier rubyid_transaction'>transaction</span> <span class='kw'>do</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_isento?'>isento?</span>
+      <span class='comment'># grupo I passa sem debitar, apenas atualiza o status do acesso
+</span>      <span class='id identifier rubyid_update!'>update!</span><span class='lparen'>(</span>
+        <span class='label'>valor_debitado:</span> <span class='float'>0.0</span><span class='comma'>,</span>
+        <span class='label'>status_acesso:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>isento</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='label'>mensagem_visor:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Acesso Liberado - Isento</span><span class='tstring_end'>&quot;</span></span>
+      <span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='comment'># Estudante pagantes: debita a tarifa do saldo e atualiza o status do acesso
+</span>      <span class='id identifier rubyid_novo_saldo'>novo_saldo</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_saldo'>saldo</span> <span class='op'>-</span> <span class='id identifier rubyid_valor_debitado'>valor_debitado</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_estudante'>estudante</span><span class='period'>.</span><span class='id identifier rubyid_update!'>update!</span><span class='lparen'>(</span><span class='label'>saldo:</span> <span class='id identifier rubyid_novo_saldo'>novo_saldo</span><span class='rparen'>)</span>
+
+      <span class='comment'># marca acesso como concluído
+</span>      <span class='id identifier rubyid_update!'>update!</span><span class='lparen'>(</span>
+        <span class='label'>status_acesso:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>registrado</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+        <span class='label'>mensagem_visor:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Refeição efetuada com sucesso</span><span class='tstring_end'>&quot;</span></span>
+      <span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verificar_timeout!-instance_method">
+  
+    #<strong>verificar_timeout!</strong>(segundos_decorridos)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>timeout de seg sem giro</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/acesso_catraca.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_verificar_timeout!'>verificar_timeout!</span><span class='lparen'>(</span><span class='id identifier rubyid_segundos_decorridos'>segundos_decorridos</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_status_catraca'>status_catraca</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>liberada</span><span class='tstring_end'>&quot;</span></span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_status_acesso'>status_acesso</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>aguardando_giro</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_segundos_decorridos'>segundos_decorridos</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="#TIMEOUT_SEG-constant" title="AcessoCatraca::TIMEOUT_SEG (constant)">TIMEOUT_SEG</a></span></span>
+
+  <span class='id identifier rubyid_update!'>update!</span><span class='lparen'>(</span>
+    <span class='label'>valor_debitado:</span> <span class='float'>0.0</span><span class='comma'>,</span>
+    <span class='label'>status_catraca:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bloqueada</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>status_acesso:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cancelado</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>mensagem_visor:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Tempo esgotado - Catraca bloqueada</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rparen'>)</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Nov 25 10:48:01 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.4.11).
+</div>
+
+    </div>
+  </body>
+</html>

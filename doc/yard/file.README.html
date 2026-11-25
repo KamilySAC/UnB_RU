@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.45
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="Sistema_de_Gest_o_do_Restaurante_Universit_rio_da_UnB">Sistema de Gestão do Restaurante Universitário da UnB</h1>
+<p>Aplicação web Rails para apoiar a gestão dos restaurantes universitários, catracas e histórico de acessos.</p>
+<h2 id="Tecnologias">Tecnologias</h2>
+<ul>
+<li>Ruby 3.4.11 (versão definida em <code>.ruby-version</code>)</li>
+<li>Rails 8.1.4</li>
+<li>SQLite</li>
+<li>RSpec, Cucumber e RuboCop</li>
+</ul>
+<h2 id="Pr__requisitos">Pré-requisitos</h2>
+<ul>
+<li>Ruby 3.4.11</li>
+<li>Bundler 2.6.9</li>
+</ul>
+<p>Confira as versões instaladas:</p>
+<pre class="code bash"><code class="bash">ruby --version
+bundle --version
+</code></pre>
+<h2 id="Instala__o_e_execu__o">Instalação e execução</h2>
+<p>Na raiz do projeto, instale as gems e prepare o banco de dados:</p>
+<pre class="code bash"><code class="bash">bundle install
+bin/rails db:prepare
+</code></pre>
+<p>Inicie o servidor Rails:</p>
+<pre class="code bash"><code class="bash">bin/rails server
+</code></pre>
+<p>Acesse <a href="http://localhost:3000"><a href="http://localhost:3000">http://localhost:3000</a></a>. A página inicial mostra a lista de restaurantes. Encerre o servidor com <code>Ctrl+C</code>.</p>
+<h2 id="Testes_e_lint">Testes e lint</h2>
+<p>Execute os testes RSpec:</p>
+<pre class="code bash"><code class="bash">bundle exec rspec
+</code></pre>
+<p>Execute todos os cenários Cucumber:</p>
+<pre class="code bash"><code class="bash">bundle exec cucumber
+</code></pre>
+<p>Para executar um arquivo de feature específico:</p>
+<pre class="code bash"><code class="bash">bundle exec cucumber features/gerenciar_restaurantes.feature
+bundle exec cucumber features/historico_catraca.feature
+</code></pre>
+<p>Execute o RuboCop:</p>
+<pre class="code bash"><code class="bash">bundle exec rubocop
+</code></pre>
+<p>O GitHub Actions também executa RuboCop, RSpec e Cucumber em pull requests e em pushes para <code>main</code>.</p></div></div>
+
+      <div id="footer">
+  Generated on Wed Nov 25 10:48:01 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.4.11).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-
+# spec/rails_helper.rb
 require "spec_helper"
 
 ENV["RAILS_ENV"] ||= "test"
@@ -18,11 +18,11 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-  config.fixture_paths = [Rails.root.join("spec/fixtures")]
+  config.fixture_paths = [ Rails.root.join("spec/fixtures") ]
 
   # DatabaseCleaner será responsável pela limpeza do banco.
   config.use_transactional_fixtures = false
-
+  config.include FactoryBot::Syntax::Methods
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
 
