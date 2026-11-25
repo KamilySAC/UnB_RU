@@ -58,6 +58,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "rspec-rails"     # keep this one
   gem "rubycritic", require: false
+  gem "factory_bot_rails"
 end
 
 gem "cucumber-rails", require: false

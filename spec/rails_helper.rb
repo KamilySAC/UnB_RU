@@ -1,4 +1,4 @@
-
+# spec/rails_helper.rb
 require "spec_helper"
 
 ENV["RAILS_ENV"] ||= "test"
@@ -9,6 +9,7 @@ abort("Rails em modo produção!") if Rails.env.production?
 require "rspec/rails"
 require "shoulda/matchers"
 require "database_cleaner/active_record"
+
 # Garante que o schema do banco de testes esteja atualizado.
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -44,7 +45,4 @@ Shoulda::Matchers.configure do |shoulda|
     with.test_framework :rspec
     with.library :rails
   end
-end
-group :test do
-  gem "factory_bot_rails"
 end
