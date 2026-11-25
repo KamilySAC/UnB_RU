@@ -1,4 +1,5 @@
 # spec/models/recarga_spec.rb
+require "rails_helper"
 RSpec.describe Recarga, type: :model do
   it "happy path — valid attributes" do
     expect(build(:recarga)).to be_valid

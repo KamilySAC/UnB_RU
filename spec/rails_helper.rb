@@ -9,7 +9,6 @@ abort("Rails em modo produção!") if Rails.env.production?
 require "rspec/rails"
 require "shoulda/matchers"
 require "database_cleaner/active_record"
-
 # Garante que o schema do banco de testes esteja atualizado.
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -22,7 +21,7 @@ RSpec.configure do |config|
 
   # DatabaseCleaner será responsável pela limpeza do banco.
   config.use_transactional_fixtures = false
-
+  config.include FactoryBot::Syntax::Methods
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
 
@@ -45,4 +44,7 @@ Shoulda::Matchers.configure do |shoulda|
     with.test_framework :rspec
     with.library :rails
   end
+end
+group :test do
+  gem "factory_bot_rails"
 end

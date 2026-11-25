@@ -26,6 +26,9 @@
 #     en:
 #       "yes": yup
 #       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  recargas:
+    confirmar_pix:
+      success: "Recarga realizada com sucesso"
+    create_cartao:
+      invalid: "Dados do cartão inválidos"
