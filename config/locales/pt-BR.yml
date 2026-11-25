@@ -1,0 +1,8 @@
+pt-BR:
+  recargas:
+    create_cartao:
+      success: "Recarga realizada com sucesso"
+      invalid: "Dados do cartão inválidos"
+    confirmar_pix:
+      success: "Recarga realizada com sucesso"
+      invalid: "Pagamento não identificado"

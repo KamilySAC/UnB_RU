@@ -1,7 +1,7 @@
 class CreateCantinaTables < ActiveRecord::Migration[8.0]
   def change
     create_table :estudantes do |t|
-      t.string  :email, null: false
+      t.string  :email,
       t.string  :nome,  null: false
       t.decimal :saldo, precision: 10, scale: 2, default: 0.0, null: false
       t.timestamps

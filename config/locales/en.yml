@@ -28,7 +28,9 @@
 #       enabled: "ON"
 en:
   recargas:
+    create_cartao:
+      success: "Recarga realizada com sucesso"
+      invalid: "Dados do cartão inválidos"
     confirmar_pix:
       success: "Recarga realizada com sucesso"
-    create_cartao:
-      invalid: "Dados do cartão inválidos"
+      invalid: "Pagamento não identificado"

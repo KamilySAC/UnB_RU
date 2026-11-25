@@ -1,11 +1,16 @@
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your database schema.
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
+#
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_25_163549) do
   create_table "acessos", force: :cascade do |t|
     t.integer "catraca_id", null: false
     t.string "matricula_discente", null: false
@@ -42,7 +47,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
     t.string "codigo", null: false
     t.string "nome", null: false
     t.integer "piso", default: 1, null: false
-    t.integer "status", default: 0, null: false
+    t.integer "status", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurante_id", "codigo"], name: "index_catracas_on_restaurante_id_and_codigo", unique: true
@@ -51,16 +56,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   end
 
   create_table "estudantes", force: :cascade do |t|
+    t.string "email"
     t.string "nome", null: false
-    t.string "matricula", null: false
-    t.string "curso"
-    t.string "turno"
-    t.string "campus"
-    t.string "grupo", default: "Grupo II", null: false
     t.decimal "saldo", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "matricula"
     t.string "password_digest"
+    t.string "grupo", default: "Grupo II", null: false
+    t.string "curso"
+    t.string "turno"
+    t.string "campus"
+    t.index ["email"], name: "index_estudantes_on_email", unique: true
     t.index ["matricula"], name: "index_estudantes_on_matricula", unique: true
   end
 
@@ -79,7 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   create_table "recargas", force: :cascade do |t|
     t.integer "estudante_id", null: false
     t.decimal "valor", precision: 10, scale: 2, null: false
-    t.string "forma", default: "PIX", null: false
+    t.string "forma", null: false
     t.string "status", default: "Aprovada", null: false
     t.date "data", null: false
     t.datetime "created_at", null: false
@@ -89,7 +96,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
 
   create_table "refeicoes", force: :cascade do |t|
     t.integer "estudante_id", null: false
-    t.string "restaurante", default: "RU Darcy Ribeiro", null: false
+    t.string "restaurante", null: false
     t.decimal "valor", precision: 10, scale: 2, null: false
     t.date "data", null: false
     t.datetime "created_at", null: false

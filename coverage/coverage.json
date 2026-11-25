@@ -8,9 +8,9 @@
       "RSpec"
     ],
     "project_name": "Unb ru",
-    "timestamp": "2026-11-25T11:13:53.060-03:00",
+    "timestamp": "2026-11-25T13:21:26.768-03:00",
     "root": "/home/malu/Downloads/UnB_RU",
-    "commit": "aa633a9b01f653b8cde7184ae15d1c1b899ff808",
+    "commit": "8a0e9b0876ab08748833d4abb5789ab14082a5b7",
     "primary_coverage": "line",
     "line_coverage": true,
     "branch_coverage": false,
@@ -18,12 +18,12 @@
   },
   "total": {
     "lines": {
-      "covered": 3,
-      "missed": 626,
-      "omitted": 763,
-      "total": 629,
-      "percent": 0.4769475357710652,
-      "strength": 0.0047694753577106515
+      "covered": 21,
+      "missed": 603,
+      "omitted": 755,
+      "total": 624,
+      "percent": 3.3653846153846154,
+      "strength": 0.03365384615384615
     }
   },
   "coverage": {
@@ -190,7 +190,7 @@
       "source": [
         "class ApplicationController < ActionController::Base",
         "  helper_method :current_estudante, :estudante_logado?",
-        "  ",
+        "",
         "  include Autenticacao",
         "  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.",
         "  allow_browser versions: :modern",
@@ -1376,12 +1376,12 @@
         "end"
       ],
       "lines": [
-        0,
+        1,
         null
       ],
-      "lines_covered_percent": 0.0,
-      "covered_lines": 0,
-      "missed_lines": 1,
+      "lines_covered_percent": 100.0,
+      "covered_lines": 1,
+      "missed_lines": 0,
       "omitted_lines": 1,
       "total_lines": 1
     },
@@ -1407,28 +1407,28 @@
         "end"
       ],
       "lines": [
-        0,
+        1,
         null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        0,
-        0,
-        null,
+        1,
         0,
         null,
         null,
         null,
+        1,
         0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        1,
         0,
         null,
         null
       ],
-      "lines_covered_percent": 0.0,
-      "covered_lines": 0,
-      "missed_lines": 8,
+      "lines_covered_percent": 50.0,
+      "covered_lines": 4,
+      "missed_lines": 4,
       "omitted_lines": 10,
       "total_lines": 8
     },
@@ -1797,13 +1797,13 @@
         "end"
       ],
       "lines": [
-        0,
-        0,
+        1,
+        1,
         null
       ],
-      "lines_covered_percent": 0.0,
-      "covered_lines": 0,
-      "missed_lines": 2,
+      "lines_covered_percent": 100.0,
+      "covered_lines": 2,
+      "missed_lines": 0,
       "omitted_lines": 1,
       "total_lines": 2
     },
@@ -1871,7 +1871,7 @@
         "#   estudante.tarifa_para(\"Almoço\") #=> 0.0e0 for Grupo I",
         "class Estudante < ApplicationRecord",
         "  # Tariff groups recognized by the system.",
-        "  GRUPOS = [\"Grupo I\", \"Grupo II\", \"Grupo III\", \"Grupo IV\"].freeze",
+        "  GRUPOS = [ \"Grupo I\", \"Grupo II\", \"Grupo III\", \"Grupo IV\" ].freeze",
         "",
         "  # Per-shift prices (in BRL) for each tariff group.",
         "  #",
@@ -1937,43 +1937,35 @@
         null,
         null,
         null,
-        0,
+        1,
         null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
+        1,
         null,
         null,
         null,
         null,
         null,
-        0,
-        null,
-        0,
-        0,
-        0,
-        null,
-        0,
-        0,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        0,
-        0,
+        1,
         null,
         null,
         null,
         null,
         null,
+        1,
         null,
-        0,
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
         0,
         null,
         null,
@@ -1981,11 +1973,19 @@
         null,
         null,
         null,
-        null,
-        null,
-        null,
-        null,
+        1,
         0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
         0,
         0,
         0,
@@ -1995,9 +1995,9 @@
         null,
         null
       ],
-      "lines_covered_percent": 0.0,
-      "covered_lines": 0,
-      "missed_lines": 21,
+      "lines_covered_percent": 66.66666666666667,
+      "covered_lines": 14,
+      "missed_lines": 7,
       "omitted_lines": 45,
       "total_lines": 21
     },
@@ -2116,10 +2116,10 @@
         "# a valid payment form, a valid status, and a date.",
         "class Recarga < ApplicationRecord",
         "  # Accepted payment methods.",
-        "  FORMAS = [\"PIX\", \"Cartão de crédito\"].freeze",
+        "  FORMAS = [ \"PIX\", \"Cartão de crédito\" ].freeze",
         "",
         "  # Possible processing statuses.",
-        "  STATUS = [\"Aprovada\", \"Pendente\", \"Recusada\"].freeze",
+        "  STATUS = [ \"Aprovada\", \"Pendente\", \"Recusada\" ].freeze",
         "",
         "  belongs_to :estudante",
         "",
@@ -3136,43 +3136,6 @@
       "missed_lines": 56,
       "omitted_lines": 63,
       "total_lines": 56
-    },
-    "lib/rdoc/usage.rb": {
-      "source": [
-        "# frozen_string_literal: true",
-        "",
-        "# Compatibility shim for Saikuro 1.2.1 on Ruby 3.4+.",
-        "# Saikuro does `require \"rdoc/usage\"` at load time but never actually calls it.",
-        "module RDoc",
-        "  def self.usage(*_args, &_block)",
-        "    nil",
-        "  end",
-        "",
-        "  def self.usage_no_exit(*_args, &_block)",
-        "    nil",
-        "  end",
-        "end"
-      ],
-      "lines": [
-        null,
-        null,
-        null,
-        null,
-        1,
-        1,
-        0,
-        null,
-        null,
-        1,
-        0,
-        null,
-        null
-      ],
-      "lines_covered_percent": 60.0,
-      "covered_lines": 3,
-      "missed_lines": 2,
-      "omitted_lines": 8,
-      "total_lines": 5
     }
   },
   "groups": {
@@ -3205,12 +3168,12 @@
     },
     "Helpers": {
       "lines": {
-        "covered": 0,
-        "missed": 9,
+        "covered": 5,
+        "missed": 4,
         "omitted": 11,
         "total": 9,
-        "percent": 0.0,
-        "strength": 0.0
+        "percent": 55.55555555555556,
+        "strength": 0.5555555555555556
       },
       "files": [
         "app/helpers/application_helper.rb",
@@ -3230,19 +3193,6 @@
         "app/jobs/application_job.rb"
       ]
     },
-    "Libraries": {
-      "lines": {
-        "covered": 3,
-        "missed": 2,
-        "omitted": 8,
-        "total": 5,
-        "percent": 60.0,
-        "strength": 0.6
-      },
-      "files": [
-        "lib/rdoc/usage.rb"
-      ]
-    },
     "Mailers": {
       "lines": {
         "covered": 0,
@@ -3258,12 +3208,12 @@
     },
     "Models": {
       "lines": {
-        "covered": 0,
-        "missed": 117,
+        "covered": 16,
+        "missed": 101,
         "omitted": 201,
         "total": 117,
-        "percent": 0.0,
-        "strength": 0.0
+        "percent": 13.675213675213675,
+        "strength": 0.13675213675213677
       },
       "files": [
         "app/models/acesso.rb",
@@ -3298,7 +3248,7 @@
     "minimum_coverage": {
       "lines": {
         "expected": 90,
-        "actual": 0.47
+        "actual": 3.36
       }
     }
   }

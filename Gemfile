@@ -40,11 +40,11 @@ gem "kamal", require: false
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 # Ruby 3.4 removed getoptlong from default gems; Saikuro 1.2.1 still requires it.
-gem "getoptlong"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  gem "factory_bot_rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
@@ -57,7 +57,6 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
   gem "rspec-rails"     # keep this one
-  gem "saikuro"
   gem "rubycritic", require: false
 end
 

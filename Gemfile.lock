@@ -194,6 +194,11 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.2)
       tzinfo
+    factory_bot (6.6.0)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.5.1)
+      factory_bot (~> 6.5)
+      railties (>= 6.1.0)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-aarch64-linux-musl)
     ffi (1.17.4-arm-linux-gnu)
@@ -222,7 +227,6 @@ GEM
       rouge
       terminal-table
       thor
-    getoptlong (0.2.1)
     globalid (1.4.0)
       activesupport (>= 6.1)
     haml (7.5.2)
@@ -601,8 +605,8 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   debug
+  factory_bot_rails
   fukuzatsu
-  getoptlong
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

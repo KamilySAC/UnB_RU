@@ -16,8 +16,8 @@
 require "simplecov"
 SimpleCov.start "rails" do
   minimum_coverage 90
-  add_filter "/spec/"
-  add_filter "/test/"
+  skip "/spec/"
+  skip "/test/"
 end
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
