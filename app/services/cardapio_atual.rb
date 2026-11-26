@@ -1,7 +1,3 @@
-# Cardápio do dia, com as três refeições (café da manhã, almoço e jantar).
-# Lê o cardapio.json (dia da semana -> turno -> pratos), descobre o turno em andamento
-# pelo horário de Brasília e monta, para cada refeição, as 3 opções: padrão, ovolactovegetariano
-# e vegetariano estrito. A refeição em andamento é marcada como "atual" para a tela abri-la.
 class CardapioAtual
   MSG_INDISPONIVEL = "Cardápio indisponível para a refeição atual.".freeze
 
