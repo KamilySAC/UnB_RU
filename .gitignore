@@ -18,3 +18,6 @@ tmp/cache/bootsnap/*
 # Ignore master key
 /config/master.key
 /config/credentials/*.key
+
+
+/coverage/*

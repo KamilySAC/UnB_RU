@@ -1,36 +1,45 @@
+# Responsável por atender às requisições HTTP de exportação em PDF
+# do extrato de recargas e histórico de refeições do estudante autenticado.
 class HistoricosController < ApplicationController
-    # ação responsável por gersr e disparar o download do PDF
-    # GET /historico/exportar_pdf
-    def exportar_pdf
-      estudante = current_estudante
+  # Processa a solicitação +GET /historico/exportar_pdf+, gerando e enviando o arquivo PDF
+  # do mês vigente ou bloqueando a operação caso não existam movimentações.
+  # Utiliza o estudante autenticado via +session[:estudante_id]+ (sem argumentos diretos).
+  #
+  # Pode definir +flash[:alert]+, redirecionar para +root_path+ ou iniciar o download do PDF no navegador.
+  #
+  # @return [void] envia o binário +application/pdf+ (+historico_estudante.pdf+) com status +200 OK+ quando há movimentações,
+  #   renderiza texto simples com status +422 Unprocessable Entity+ quando não há movimentações no mês
+  #   ou redireciona (+302+) para +root_path+ caso não exista estudante autenticado.
+  def exportar_pdf
+    estudante = current_estudante
 
-      # se não houver discente autenticado, barra o acesso
-      unless estudante
-        flash[:alert] = "Você precisa estar autenticado como estudante"
-        return redirect_to root_path
-      end
+    # se não houver discente autenticado, barra o acesso
+    unless estudante
+      flash[:alert] = "Você precisa estar autenticado como estudante"
+      return redirect_to root_path
+    end
 
-      # instancia o gerador de pdf passando o estudante como parâmetro
-      gerador = GeradorHistoricoPdf.new(estudante)
+    # instancia o gerador de pdf passando o estudante como parâmetro
+    gerador = GeradorHistoricoPdf.new(estudante)
 
-      # regra: se possuir movimentações no mes atual, faz o download
-      if gerador.possui_movimentacoes?
-        pdf_data = gerador.gerar
-        send_data pdf_data,
+    # regra: se possuir movimentações no mes atual, faz o download
+    if gerador.possui_movimentacoes?
+      pdf_data = gerador.gerar
+      send_data pdf_data,
         filename: GeradorHistoricoPdf::NOME_ARQUIVO,
         type: "application/pdf", # define o tipo de arquivo
         disposition: "attachment" # força o download
-      else
-        # caminho triste: sem movimentações no mês atual - nenhum download e exibe mensagem
-        flash[:alert] = "Não há movimentações registradas no mês atual."
-        render plain: "Não há movimentações registradas no mês atual", status: :unprocessable_entity
-      end
+    else
+      # caminho triste: sem movimentações no mês atual - nenhum download e exibe mensagem
+      flash[:alert] = "Não há movimentações registradas no mês atual."
+      render plain: "Não há movimentações registradas no mês atual", status: :unprocessable_entity
     end
+  end
 
+  private
 
-    private
-    # retorna o estudante autenticado na sessão (ou primeiro para testes)
-    def current_estudante
-      @current_estudante ||= Estudante.find_by(id: session[:estudante_id]) || Estudante.first
-    end
+  # retorna o estudante autenticado na sessão (ou primeiro para testes)
+  def current_estudante
+    @current_estudante ||= Estudante.find_by(id: session[:estudante_id]) || Estudante.first
+  end
 end

@@ -44,5 +44,17 @@ RSpec.describe "Historicos", type: :request do
         expect(response.body).to include("Não há movimentações registradas no mês atual")
       end
     end
+
+    # caminho triste: tenta exportar o PDF sem nenhum estudante autenticado
+    context "quando não há estudante autenticado" do
+      before { Estudante.destroy_all }
+
+      it "redireciona para a página inicial com alerta de autenticação" do
+        get exportar_historico_pdf_path
+
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq("Você precisa estar autenticado como estudante")
+      end
+    end
   end
 end

@@ -53,7 +53,11 @@ group :development, :test do
   gem "rspec", "~> 3.13"
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  gem "rspec-rails"
+
+  # Gemas da Sprint 3: complexidade (ABC Score), cobertura (> 90%) e documentação
+  gem "rubycritic", require: false # calcula abc score que precisa ser < 20
+  gem "simplecov", require: false # calcula cobertura > 90%
+  gem "rdoc", require: false # gera documentação
 end
 
 gem "cucumber-rails", require: false

@@ -1,0 +1,136 @@
+<% content_for :title, "Terminal de Validação" %>
+
+<main class="container">
+  <h1>Terminal de Validação</h1>
+  <p>Operador: <%= funcionario_atual.nome %> (SIAPE <%= funcionario_atual.matricula_siape %>)</p>
+
+  <section aria-labelledby="titulo-leitura">
+    <h2 id="titulo-leitura">Leitura de identificação</h2>
+
+    <%= form_with url: validar_entrada_terminal_path, method: :post, html: { "aria-labelledby": "titulo-leitura" } do |f| %>
+      <% if @catracas.any? %>
+        <div class="campo">
+          <%= f.label :catraca_id, "Catraca" %>
+          <%= f.select :catraca_id,
+                       options_for_select(
+                         @catracas.map { |c| [ "#{c.restaurante.nome} - #{c.nome} (#{c.status.humanize})", c.id ] },
+                         @catraca&.id
+                       ),
+                       include_blank: "Sem catraca vinculada" %>
+        </div>
+      <% else %>
+        <p>Nenhuma catraca cadastrada. <%= link_to "Cadastrar restaurante e catraca", restaurantes_path %></p>
+      <% end %>
+
+      <fieldset>
+        <legend>Turno da refeição</legend>
+        <% AcessoCatraca::TURNOS.each_with_index do |turno, index| %>
+          <div>
+            <%= f.radio_button :turno, turno, checked: @turno == turno, id: "turno_#{index}" %>
+            <%= f.label :turno, turno, value: turno, for: "turno_#{index}" %>
+          </div>
+        <% end %>
+      </fieldset>
+
+      <div class="campo">
+        <%= f.label :identificacao, "Matrícula do estudante" %>
+        <%= f.text_field :identificacao,
+                         required: true,
+                         inputmode: "numeric",
+                         autocorrect: "off",
+                         autocapitalize: "none",
+                         spellcheck: false,
+                         enterkeyhint: "done" %>
+      </div>
+
+      <%= f.submit "Validar entrada" %>
+    <% end %>
+  </section>
+
+  <% if @acesso_atual.present? %>
+    <section id="visor-catraca" aria-labelledby="titulo-visor">
+      <h2 id="titulo-visor">Visor da catraca</h2>
+      <p id="mensagem-visor" role="status" aria-live="polite"><strong><%= @acesso_atual.mensagem_visor %></strong></p>
+
+      <dl>
+        <dt>Status da catraca</dt>
+        <dd><%= @acesso_atual.status_catraca.humanize %></dd>
+
+        <dt>Status do acesso</dt>
+        <dd><%= @acesso_atual.status_acesso.humanize %></dd>
+
+        <dt>Matrícula lida</dt>
+        <dd><%= @acesso_atual.identificacao_lida %></dd>
+
+        <dt>Turno</dt>
+        <dd><%= @acesso_atual.turno %></dd>
+
+        <% if @acesso_atual.estudante.present? %>
+          <dt>Estudante</dt>
+          <dd><%= @acesso_atual.estudante.nome %></dd>
+
+          <dt>Grupo tarifário</dt>
+          <dd><%= @acesso_atual.estudante.grupo %></dd>
+
+          <dt>Tarifa</dt>
+          <dd>R$ <%= format("%.2f", @acesso_atual.valor_debitado) %></dd>
+
+          <dt>Saldo atual</dt>
+          <dd>R$ <%= format("%.2f", @acesso_atual.estudante.saldo) %></dd>
+        <% end %>
+      </dl>
+
+      <% if @acesso_atual.aguardando_giro? %>
+        <div>
+          <%= button_to "Confirmar giro da catraca",
+                        registrar_giro_terminal_path(@acesso_atual),
+                        method: :post,
+                        params: { catraca_id: @catraca&.id } %>
+          <%= button_to "Simular timeout (5s sem giro)",
+                        timeout_terminal_path(@acesso_atual),
+                        method: :post,
+                        params: { catraca_id: @catraca&.id } %>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+
+  <section aria-labelledby="titulo-leituras">
+    <h2 id="titulo-leituras">Leituras de hoje</h2>
+
+    <% if @acessos_hoje.any? %>
+      <table id="leituras-terminal">
+        <thead>
+          <tr>
+            <th scope="col">Matrícula</th>
+            <th scope="col">Estudante</th>
+            <th scope="col">Turno</th>
+            <th scope="col">Tarifa</th>
+            <th scope="col">Status da catraca</th>
+            <th scope="col">Status do acesso</th>
+            <th scope="col">Mensagem do visor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @acessos_hoje.each do |acesso| %>
+            <tr>
+              <td><%= acesso.identificacao_lida %></td>
+              <td><%= acesso.estudante&.nome || "Não cadastrado" %></td>
+              <td><%= acesso.turno %></td>
+              <td>R$ <%= format("%.2f", acesso.valor_debitado) %></td>
+              <td><%= acesso.status_catraca.humanize %></td>
+              <td><%= acesso.status_acesso.humanize %></td>
+              <td><%= acesso.mensagem_visor %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>Nenhuma leitura registrada hoje neste terminal.</p>
+    <% end %>
+  </section>
+
+  <nav aria-label="Atalhos do operador">
+    <%= link_to "Gerenciar Restaurantes e Catracas", restaurantes_path %>
+  </nav>
+</main>
