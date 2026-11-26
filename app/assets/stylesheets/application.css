@@ -654,3 +654,256 @@ body > nav span {
     grid-column: auto;
   }
 }
+
+/* =====================================================================
+   Telas do estudante (inicial, login, cadastro, dashboard, cardápio,
+   recarga e extratos). Reaproveita as variáveis e os botões acima.
+   ===================================================================== */
+.student-page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+.student-page h1 {
+  margin: 0 0 6px;
+  color: var(--brand-blue);
+  font-size: 24px;
+  line-height: 1.2;
+}
+.student-page h2 {
+  margin: 24px 0 10px;
+  font-size: 16px;
+}
+.student-page p {
+  color: #344054;
+}
+
+/* cartão estreito e centralizado: tela inicial, login e cadastro */
+.auth-card {
+  max-width: 440px;
+  margin: 48px auto;
+  padding: 28px 24px;
+  background: #fff;
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+  box-shadow: 0 5px 16px rgba(39, 68, 112, 0.05);
+}
+
+/* formulários */
+.student-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+.student-page label {
+  margin-top: 8px;
+  color: #4b5870;
+  font-weight: 800;
+}
+.student-page input[type="text"],
+.student-page input[type="password"] {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 1px solid #ccd6e5;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+}
+.student-page input[type="submit"],
+.student-page button {
+  min-height: 42px;
+  margin-top: 14px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--brand-blue);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+.student-page input[type="submit"]:hover,
+.student-page button:hover {
+  background: var(--brand-blue-dark);
+}
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* tela inicial */
+.tela-inicial {
+  text-align: center;
+}
+.acessos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+.acessos .button {
+  min-height: 46px;
+  font-size: 15px;
+}
+
+/* botão "Voltar" */
+.back-link {
+  margin-top: 20px;
+}
+
+/* dashboard */
+#saldo {
+  display: inline-block;
+  margin: 12px 0 20px;
+  padding: 14px 20px;
+  background: #fff;
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+  box-shadow: 0 5px 16px rgba(39, 68, 112, 0.05);
+  color: var(--brand-blue);
+  font-size: 20px;
+  font-weight: 800;
+}
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dashboard-actions form {
+  margin: 0;
+}
+.dashboard-actions button {
+  margin-top: 0;
+  background: #fdeeee;
+  color: #a62d2d;
+}
+.dashboard-actions button:hover {
+  background: #f9dede;
+}
+
+/* tabelas (extratos) */
+.student-page table {
+  width: 100%;
+  margin: 14px 0;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #edf0f5;
+}
+.student-page th {
+  padding: 12px 14px;
+  background: #f7f9fc;
+  color: #58698b;
+  font-size: 11px;
+  text-align: left;
+  text-transform: uppercase;
+}
+.student-page td {
+  padding: 12px 14px;
+  border-top: 1px solid #edf0f5;
+  color: #344054;
+}
+#total {
+  font-weight: 800;
+}
+#abas {
+  display: flex;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+/* cardápio */
+#cardapio {
+  margin: 20px 0;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+  box-shadow: 0 5px 16px rgba(39, 68, 112, 0.05);
+}
+#cardapio h2 {
+  margin-top: 0;
+}
+.ajuda-cardapio {
+  color: var(--muted);
+}
+.turno-cardapio {
+  margin: 10px 0;
+}
+.turno-cardapio > summary {
+  list-style: none;
+}
+.turno-cardapio > summary::-webkit-details-marker {
+  display: none;
+}
+.botao-turno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--brand-blue-soft);
+  color: var(--brand-blue);
+  font-weight: 800;
+  cursor: pointer;
+}
+.botao-turno:hover,
+details[open] > .botao-turno {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: #fff;
+}
+.horario-turno {
+  font-size: 12px;
+  font-weight: 600;
+}
+.opcao-cardapio {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border: 1px solid #edf0f5;
+  border-radius: 9px;
+  background: #fff;
+}
+.opcao-cardapio h3 {
+  margin: 0 0 8px;
+  color: var(--brand-blue);
+  font-size: 15px;
+}
+.opcao-cardapio dl {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 6px 12px;
+  margin: 0;
+}
+.opcao-cardapio dt {
+  color: #58698b;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.opcao-cardapio dd {
+  margin: 0;
+}
+.acompanhamentos,
+.cardapio-indisponivel {
+  color: var(--muted);
+}
+
+@media (max-width: 620px) {
+  .student-page {
+    padding: 20px 14px 36px;
+  }
+  .auth-card {
+    margin: 20px 14px;
+  }
+  .opcao-cardapio dl {
+    grid-template-columns: 1fr;
+  }
+}
