@@ -1,7 +1,4 @@
 class HistoricosController < ApplicationController
-    # desativa temporariamente a verificação de navegadores para facilitar testes
-    allow_browser versions: :all if respond_to? (:allow_browser)
-
     # ação responsável por gersr e disparar o download do PDF
     # GET /historico/exportar_pdf
     def exportar_pdf
