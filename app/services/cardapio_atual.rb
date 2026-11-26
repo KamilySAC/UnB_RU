@@ -1,6 +1,7 @@
-# Cardápio da refeição que está sendo servida agora.
+# Cardápio do dia, com as três refeições (café da manhã, almoço e jantar).
 # Lê o cardapio.json (dia da semana -> turno -> pratos), descobre o turno em andamento
-# pelo horário de Brasília e monta as 3 opções: padrão, ovolactovegetariano e vegetariano estrito.
+# pelo horário de Brasília e monta, para cada refeição, as 3 opções: padrão, ovolactovegetariano
+# e vegetariano estrito. A refeição em andamento é marcada como "atual" para a tela abri-la.
 class CardapioAtual
   MSG_INDISPONIVEL = "Cardápio indisponível para a refeição atual.".freeze
 
@@ -29,6 +30,18 @@ class CardapioAtual
   # uma opção de cardápio pronta para exibir; campos sem valor ficam nil
   Opcao = Struct.new(:nome, :prato_principal, :guarnicao, :salada, :sobremesa, :bebida, keyword_init: true)
 
+  # uma refeição do dia (café, almoço ou jantar) pronta para exibir
+  Turno = Struct.new(:chave, :nome, :horario, :atual, :opcoes, :acompanhamentos, keyword_init: true) do
+    # true quando existe cardápio cadastrado para essa refeição
+    def disponivel?
+      opcoes.any?
+    end
+
+    def atual?
+      atual
+    end
+  end
+
   class << self
     # permite trocar o arquivo (usado nos testes)
     attr_writer :arquivo
@@ -44,9 +57,23 @@ class CardapioAtual
     @agora = agora.in_time_zone(FUSO)
   end
 
+  # as três refeições do dia, na ordem café, almoço e jantar (a em andamento vem com atual? true)
+  def turnos
+    @turnos ||= TURNOS.map do |chave, turno|
+      Turno.new(
+        chave: chave,
+        nome: turno[:nome],
+        horario: horario_de(turno),
+        atual: chave == turno_atual,
+        opcoes: opcoes_de(chave),
+        acompanhamentos: acompanhamentos_de(chave)
+      )
+    end
+  end
+
   # true quando existe cardápio para o dia e o turno em andamento
   def disponivel?
-    dados_do_turno.present?
+    dados_do_turno(turno_atual).present?
   end
 
   def turno_nome
@@ -56,22 +83,21 @@ class CardapioAtual
   # ex.: "11:00 às 14:30"
   def horario
     turno = TURNOS[turno_atual]
-    "#{turno[:inicio]} às #{turno[:fim]}" if turno
+    horario_de(turno) if turno
   end
 
   def restaurante_nome
     Restaurante.order(:nome).first&.nome || NOME_RESTAURANTE_PADRAO
   end
 
+  # opções da refeição em andamento
   def opcoes
-    return [] unless disponivel?
-
-    OPCOES.map { |chave, nome| montar_opcao(chave, nome) }
+    opcoes_de(turno_atual)
   end
 
   # arroz, feijão etc.: comum às três opções (não existe no café da manhã)
   def acompanhamentos
-    Array(dados_do_turno && dados_do_turno["acompanhamentos"]).join(" e ").presence
+    acompanhamentos_de(turno_atual)
   end
 
   private
@@ -87,31 +113,51 @@ class CardapioAtual
     (horas * 60) + minutos
   end
 
-  def dados_do_turno
-    return @dados_do_turno if defined?(@dados_do_turno)
+  def horario_de(turno)
+    "#{turno[:inicio]} às #{turno[:fim]}"
+  end
 
-    dados = turno_atual && cardapio_completo.dig(DIAS[agora.wday], turno_atual)
-    @dados_do_turno = dados.is_a?(Hash) ? dados : nil
+  # dados do dia para um turno (nil se não houver); cada turno é lido uma vez por instância
+  def dados_do_turno(chave)
+    @dados_dos_turnos ||= {}
+    return @dados_dos_turnos[chave] if @dados_dos_turnos.key?(chave)
+
+    dados = chave && cardapio_completo.dig(DIAS[agora.wday], chave)
+    @dados_dos_turnos[chave] = dados.is_a?(Hash) ? dados : nil
   end
 
   # arquivo ausente ou inválido equivale a "sem cardápio cadastrado"
   def cardapio_completo
-    conteudo = JSON.parse(File.read(self.class.arquivo))
-    conteudo.is_a?(Hash) ? conteudo : {}
-  rescue Errno::ENOENT, JSON::ParserError
-    {}
-  end
-
-  def montar_opcao(chave, nome)
-    if turno_atual == "cafe_da_manha"
-      opcao_do_cafe(chave, nome)
-    else
-      opcao_de_refeicao(chave, nome)
+    @cardapio_completo ||= begin
+      conteudo = JSON.parse(File.read(self.class.arquivo))
+      conteudo.is_a?(Hash) ? conteudo : {}
+    rescue Errno::ENOENT, JSON::ParserError
+      {}
     end
   end
 
-  def opcao_de_refeicao(chave, nome)
-    dados = dados_do_turno
+  def opcoes_de(turno)
+    return [] if dados_do_turno(turno).blank?
+
+    OPCOES.map { |chave, nome| montar_opcao(turno, chave, nome) }
+  end
+
+  def acompanhamentos_de(turno)
+    dados = dados_do_turno(turno)
+    Array(dados && dados["acompanhamentos"]).join(" e ").presence
+  end
+
+  def montar_opcao(turno, chave, nome)
+    dados = dados_do_turno(turno)
+
+    if turno == "cafe_da_manha"
+      opcao_do_cafe(dados, chave, nome)
+    else
+      opcao_de_refeicao(dados, chave, nome)
+    end
+  end
+
+  def opcao_de_refeicao(dados, chave, nome)
     Opcao.new(
       nome: nome,
       prato_principal: dados["prato_principal_#{chave}"],
@@ -123,8 +169,7 @@ class CardapioAtual
   end
 
   # o café não tem prato principal nem salada: o complemento do pão faz o papel de prato principal
-  def opcao_do_cafe(chave, nome)
-    dados = dados_do_turno
+  def opcao_do_cafe(dados, chave, nome)
     paes = juntar(Array(dados["panificacao"]), ", ")
     guarnicao = [ paes, dados["gordura"] ].compact_blank.join(" com ")
 
