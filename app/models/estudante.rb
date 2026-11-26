@@ -1,3 +1,6 @@
+# Representa o discente ou usuário cadastrado no Restaurante Universitário,
+# armazenando seu grupo tarifário, saldo disponível, credenciais de acesso
+# e relacionamentos com passagens na catraca, recargas e refeições.
 class Estudante < ApplicationRecord
   # grupos tarifários
   GRUPOS = [ "Grupo I", "Grupo II", "Grupo III", "Grupo IV" ].freeze
@@ -24,17 +27,32 @@ class Estudante < ApplicationRecord
   validates :grupo, inclusion: { in: GRUPOS }
   validates :saldo, numericality: { greater_than_or_equal_to: 0.00 }
 
-  # verifica se o estudante é isento
+  # Verifica se o estudante pertence ao Grupo I (isenção tarifária integral).
+  #
+  # Sem efeitos colaterais (apenas leitura em memória).
+  #
+  # @return [Boolean] +true+ caso +grupo+ seja +"Grupo I"+, +false+ para os demais grupos pagantes.
   def isento?
     grupo == "Grupo I"
   end
 
-  # retorna a tarifa de acordo com o turno
+  # Calcula o valor da tarifa aplicável ao estudante de acordo com o turno da refeição.
+  #
+  # Sem efeitos colaterais (consulta apenas a constante +TARIFAS+ em memória).
+  #
+  # @param turno [String] nome do turno (+"Café da manhã"+, +"Almoço"+ ou +"Jantar"+).
+  # @return [BigDecimal] valor monetário correspondente ao grupo e turno (ou +0.0+ caso o turno não exista na tabela).
   def tarifa_para(turno)
     BigDecimal((TARIFAS.dig(grupo, turno) || 0.0).to_s)
   end
 
-  # adiciona uma recarga ao saldo do estudante
+  # Persiste uma nova recarga associada ao estudante e soma o valor ao saldo atual.
+  #
+  # Abre transação inserindo o registro em +recargas+ e somando o valor na coluna +saldo+ em +estudantes+.
+  #
+  # @param recarga [Recarga] instância de recarga a ser salva e creditada.
+  # @return [Recarga] a própria instância de recarga persistida;
+  #   lança +ActiveRecord::RecordInvalid+ caso a recarga ou a atualização de saldo seja inválida.
   def adicionar_recarga(recarga)
     transaction do
       recarga.estudante = self

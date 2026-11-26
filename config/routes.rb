@@ -38,9 +38,12 @@ Rails.application.routes.draw do
   delete "funcionario/logout", to: "funcionario_sessions#destroy", as: :logout_funcionario
 
   # telas do aplicativo (exigem funcionário autenticado)
-  get "ponto-de-acesso",       to: "painel#configuracao_ponto", as: :configuracao_ponto
-  get "terminal-de-validacao", to: "painel#terminal_validacao", as: :terminal_validacao
-  get "historico-local",       to: "painel#historico_local",    as: :historico_local
+  get  "ponto-de-acesso",                  to: "painel#configuracao_ponto",        as: :configuracao_ponto
+  get  "terminal-de-validacao",            to: "terminal_validacao#show",           as: :terminal_validacao
+  post "terminal-de-validacao/validar",    to: "terminal_validacao#validar",        as: :validar_entrada_terminal
+  post "terminal-de-validacao/:id/giro",   to: "terminal_validacao#registrar_giro", as: :registrar_giro_terminal
+  post "terminal-de-validacao/:id/timeout", to: "terminal_validacao#timeout",       as: :timeout_terminal
+  get  "historico-local",                  to: "painel#historico_local",           as: :historico_local
 
   # histórico global de acessos do campus (somente administrador)
   get "historico-global",      to: "historico_global#index",    as: :historico_global

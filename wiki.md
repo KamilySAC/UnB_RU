@@ -613,3 +613,71 @@ Em conformidade com as diretrizes da disciplina de Engenharia de Software:
 - **Ferramenta Utilizada:** Claude.
 - **Partes do Projeto:** Apoio na autenticação do funcionário e correção de erro na visibilidade da senha; Na resolução dos conflitos do merge; na correção de erros de configuração do ambiente no Windows; e na escrita do texto da wiki das minhas duas features.
 - **Uso da ferramenta:** A IA foi usada como apoio para melhorar codigo e para explicar os erros que apareciam.
+
+---
+
+# Documentação da Sprint 3
+
+## Refatoração, Cobertura e Documentação — Arthur Santos Almeida (242009990)
+
+**Funcionalidades sob responsabilidade:**
+- Validação de Entrada na Catraca do RU (`AcessoCatraca`, `Estudante`, `OperacaoTerminalCatraca`, `TerminalValidacaoController`)
+- Exportação em PDF do Histórico do Estudante (`GeradorHistoricoPdf`, `HistoricosController`, `Recarga`, `Refeicao`)
+
+### 1. O que foi refatorado (Capítulo 9 — ESaaS)
+Aplicando os princípios de **Responsabilidade Única (SRP)** e **Extração de Método (Extract Method)** após análise estática com **RubyCritic / Flog**:
+- **`AcessoCatraca` (`app/models/acesso_catraca.rb`):**
+  - Removida a duplicação dos 3 blocos repetidos de criação de acesso bloqueado (`Duplication: 36 -> 0`) por meio da extração do método privado `registrar_bloqueio`.
+  - Extraídos os métodos coesos `aguardando_giro?`, `calcular_tarifa`, `motivo_bloqueio`, `refeicao_ja_realizada?`, `saldo_insuficiente?`, `registrar_liberacao`, `concluir_giro_isento!` e `concluir_giro_pagante!`, reduzindo drasticamente o tamanho e a complexidade de `ler_identificacao` e `registrar_giro!`.
+- **`GeradorHistoricoPdf` (`app/services/gerador_historico_pdf.rb`):**
+  - O método `gerar` concentrava o desenho das 5 seções do relatório e repetia chamadas de formatação monetária e cabeçalhos de seção.
+  - Extraídos os métodos privados `mes_referencia`, `formatar_moeda`, `desenhar_titulo_secao`, `desenhar_cabecalho`, `desenhar_dados_discente`, `linhas_discente`, `desenhar_resumo_financeiro`, `desenhar_extrato_recargas`, `desenhar_historico_refeicoes`, `desenhar_lista`, `texto_recarga` e `texto_refeicao`.
+- **Integração do Terminal de Validação (`OperacaoTerminalCatraca` e `TerminalValidacaoController`):**
+  - Substituída a tela provisória `/terminal-de-validacao` pelo fluxo completo de leitura da matrícula, liberação/bloqueio no visor, confirmação de giro físico e simulação de timeout de 5 segundos.
+  - Extraídos `OperacaoTerminalCatraca#nome_restaurante` e `TerminalValidacaoController#redirecionar_terminal` para eliminar duplicação de redirecionamento e manter todos os métodos abaixo de 15 no ABC Score.
+
+### 2. Tabela Comparativa Antes vs Depois (ABC Score — RubyCritic / Flog)
+Meta exigida: **ABC Score < 20 por método**.
+
+| Classe / Método | ABC Score (Antes) | ABC Score (Depois) | Duplicação (Antes -> Depois) | Status |
+| :--- | :---: | :---: | :---: | :---: |
+| `GeradorHistoricoPdf#gerar` | **101.7** | **9.3** | 0 -> 0 | ✅ `< 20` |
+| `AcessoCatraca.ler_identificacao` | **27.3** | **9.3** | 36 -> 0 | ✅ `< 20` |
+| `AcessoCatraca#registrar_giro!` | **22.2** | **7.3** | 36 -> 0 | ✅ `< 20` |
+| `AcessoCatraca#verificar_timeout!` | 7.4 | **3.8** | 0 -> 0 | ✅ `< 20` |
+| `TerminalValidacaoController#show` | — | **14.9** | 0 -> 0 | ✅ `< 20` |
+| `TerminalValidacaoController#validar` | — | **14.5** | 0 -> 0 | ✅ `< 20` |
+| `OperacaoTerminalCatraca.registrar_refeicao` | — | **14.5** | 0 -> 0 | ✅ `< 20` |
+| `HistoricosController#exportar_pdf` | 13.0 | **13.0** | 0 -> 0 | ✅ `< 20` |
+| `GeradorHistoricoPdf#initialize` | 12.9 | **12.9** | 0 -> 0 | ✅ `< 20` |
+| `Estudante#adicionar_recarga` | 10.5 | **10.5** | 0 -> 0 | ✅ `< 20` |
+| `TerminalValidacaoController#registrar_giro` | — | **10.1** | 0 -> 0 | ✅ `< 20` |
+| `TerminalValidacaoController#timeout` | — | **8.7** | 0 -> 0 | ✅ `< 20` |
+| `Estudante#tarifa_para` | 5.6 | **5.6** | 0 -> 0 | ✅ `< 20` |
+| `Estudante#isento?` | 2.2 | **2.2** | 0 -> 0 | ✅ `< 20` |
+| **Média Geral por Método (8 arquivos)** | **17.6** | **7.1** | **36 -> 0** | ✅ **Aprovado** |
+
+### 3. Cobertura de Testes RSpec (SimpleCov)
+Meta exigida: **> 90% em cada controller e model implementado**. Foram adicionados os testes para tentativa de exportação sem estudante autenticado (`spec/requests/historicos_spec.rb`) e para todo o fluxo do Terminal de Validação integrado (`spec/requests/terminal_validacao_spec.rb`).
+
+| Arquivo | Tipo | Linhas Cobertas | Cobertura SimpleCov | Status |
+| :--- | :---: | :---: | :---: | :---: |
+| `app/controllers/historicos_controller.rb` | Controller | 15 / 15 | **100.00%** | ✅ `> 90%` |
+| `app/controllers/terminal_validacao_controller.rb` | Controller | 37 / 37 | **100.00%** | ✅ `> 90%` |
+| `app/models/acesso_catraca.rb` | Model | 48 / 48 | **100.00%** | ✅ `> 90%` |
+| `app/models/estudante.rb` | Model | 21 / 21 | **100.00%** | ✅ `> 90%` |
+| `app/models/recarga.rb` | Model | 8 / 8 | **100.00%** | ✅ `> 90%` |
+| `app/models/refeicao.rb` | Model | 6 / 6 | **100.00%** | ✅ `> 90%` |
+| `app/services/gerador_historico_pdf.rb` | Service | 68 / 68 | **100.00%** | ✅ `> 90%` |
+| `app/services/operacao_terminal_catraca.rb` | Service | 30 / 30 | **100.00%** | ✅ `> 90%` |
+
+### 4. Happy Path, Sad Path e Regressão BDD (Cucumber)
+- Os arquivos `features/validacao_entrada.feature` e `features/exportar_historico_pdf.feature` **não foram alterados**, garantindo o teste de regressão pós-refatoração.
+- Resultado após a refatoração e integração do terminal: **25 cenários (25 aprovados) / 156 passos (156 aprovados)** nas duas funcionalidades e toda a suíte existente preservada.
+
+### 5. Documentação Técnica com RDoc
+Todos os 8 arquivos (`AcessoCatraca`, `Estudante`, `Recarga`, `Refeicao`, `GeradorHistoricoPdf`, `OperacaoTerminalCatraca`, `HistoricosController` e `TerminalValidacaoController`) foram documentados no formato oficial da gema **RDoc** especificando descrição, argumentos, retornos e efeitos colaterais (`Classes: 8 [0 undocumented]`, `Attributes: 6 [0 undocumented]`, `Methods: 20 [0 undocumented]`).
+
+```bash
+bundle exec rdoc app/models/estudante.rb app/models/acesso_catraca.rb app/models/recarga.rb app/models/refeicao.rb app/services/gerador_historico_pdf.rb app/services/operacao_terminal_catraca.rb app/controllers/historicos_controller.rb app/controllers/terminal_validacao_controller.rb
+```

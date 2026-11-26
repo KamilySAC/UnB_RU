@@ -1,3 +1,5 @@
+require "simplecov"
+SimpleCov.start "rails"
 
 require "spec_helper"
 
@@ -18,7 +20,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-  config.fixture_paths = [Rails.root.join("spec/fixtures")]
+  config.fixture_paths = [ Rails.root.join("spec/fixtures") ]
 
   # DatabaseCleaner será responsável pela limpeza do banco.
   config.use_transactional_fixtures = false

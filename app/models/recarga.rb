@@ -1,3 +1,5 @@
+# Representa uma operação financeira de adição de créditos (via PIX ou Cartão de crédito)
+# vinculada à conta de um estudante no Restaurante Universitário.
 class Recarga < ApplicationRecord
   FORMAS = [ "PIX", "Cartão de crédito" ].freeze
   STATUS = [ "Aprovada", "Pendente", "Recusada" ].freeze

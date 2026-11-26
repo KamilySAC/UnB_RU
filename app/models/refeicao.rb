@@ -1,3 +1,5 @@
+# Representa o registro de uma refeição consumida por um estudante
+# em um restaurante universitário específico, armazenando valor debitado e data.
 class Refeicao < ApplicationRecord
   self.table_name = "refeicoes"
 
