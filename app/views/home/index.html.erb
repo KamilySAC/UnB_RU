@@ -1,13 +1,13 @@
 <% content_for :title, "Un B RU" %>
 
-<main class="container">
-  <h1>Un B RU</h1>
+<main class="container tela-inicial">
+  <h1>UnB RU</h1>
+  <p>Restaurante Universitário da UnB. Como você quer entrar?</p>
 
-  <% if @estudante %>
-    <p>Olá, <%= @estudante.nome %>!</p>
-  <% else %>
-    <p>Crie sua conta para acessar o sistema.</p>
-    <p><%= link_to "Cadastre-se", cadastro_path %></p>
-    <p><%= link_to "Entrar como funcionário", login_funcionario_path %></p>
-  <% end %>
+  <div class="acessos">
+    <%= link_to "Sou estudante", login_path, class: "botao botao-estudante" %>
+    <%= link_to "Sou funcionário", login_funcionario_path, class: "botao botao-funcionario" %>
+  </div>
+
+  <p>Estudante e ainda não tem conta? <%= link_to "Cadastre-se", cadastro_path %></p>
 </main>
