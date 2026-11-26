@@ -1,5 +1,6 @@
 <h1>Dashboard</h1>
 <p>Olá, <%= @estudante.nome %>!</p>
+<p id="grupo">Grupo tarifário: <%= @estudante.grupo %></p>
 <p id="saldo">Saldo: R$ <%= format('%.2f', @estudante.saldo) %></p>
 <%= render "dashboard/cardapio", cardapio: @cardapio %>
 
@@ -7,5 +8,6 @@
   <li><%= link_to 'Recarregar', recarga_path %></li>
   <li><%= link_to 'Extrato de recargas', extrato_recargas_path %></li>
   <li><%= link_to 'Histórico de refeições', extrato_refeicoes_path %></li>
+  <li><%= link_to 'Exportar histórico em PDF', exportar_historico_pdf_path, data: { turbo: false } %></li>
   <li><%= button_to 'Sair', logout_path, method: :delete %></li>
 </ul>
