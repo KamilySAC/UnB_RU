@@ -2,7 +2,6 @@
   <h1>Dashboard</h1>
   <p>Olá, <%= @estudante.nome %>!</p>
   <p id="saldo">Saldo: R$ <%= format('%.2f', @estudante.saldo) %></p>
-  <%= render "dashboard/cardapio", cardapio: @cardapio %>
 
   <ul class="dashboard-actions">
     <li><%= link_to 'Recarregar', recarga_path, class: "button button-primary" %></li>
@@ -10,4 +9,6 @@
     <li><%= link_to 'Histórico de refeições', extrato_refeicoes_path, class: "button button-secondary" %></li>
     <li><%= button_to 'Sair', logout_path, method: :delete %></li>
   </ul>
+
+  <%= render "dashboard/cardapio", cardapio: @cardapio %>
 </main>
