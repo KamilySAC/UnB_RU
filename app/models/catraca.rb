@@ -4,8 +4,7 @@ class Catraca < ApplicationRecord
 
   enum :status, { offline: 0, online: 1 }
 
-  validates :codigo, presence: true, uniqueness: { scope: :restaurante_id }
-  validates :nome, presence: true
+  validates :nome, presence: true, uniqueness: { scope: :restaurante_id }
   validates :piso, numericality: { only_integer: true, greater_than: 0 }
   validate  :piso_existe_no_restaurante
 

@@ -48,6 +48,6 @@ Rails.application.routes.draw do
   # histórico global de acessos do campus (somente administrador)
   get "historico-global",      to: "historico_global#index",    as: :historico_global
 
-  root "sessions#new"
+  root "home#index"
 end
 

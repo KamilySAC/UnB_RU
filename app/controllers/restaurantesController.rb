@@ -1,6 +1,8 @@
 class RestaurantesController < ApplicationController
   def index
     @restaurantes = Restaurante.includes(:catracas).order(:nome)
+    @total_catracas = Catraca.count
+    @total_pisos = @restaurantes.sum(&:total_pisos)
   end
 
   def new
@@ -42,6 +44,6 @@ class RestaurantesController < ApplicationController
 
   def restaurante_params
     params.require(:restaurante)
-          .permit(:codigo, :nome, :campus, :capacidade_por_hora, :total_pisos)
+          .permit(:nome, :campus, :capacidade_por_hora, :total_pisos)
   end
 end

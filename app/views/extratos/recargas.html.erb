@@ -1,3 +1,4 @@
+<main class="student-page">
 <h1>Extrato de recargas</h1>
 
 <%= form_with url: extrato_recargas_path, method: :get, local: true do %>
@@ -27,3 +28,5 @@
   </table>
 <% end %>
 <p id="total">Total recarregado: R$ <%= format('%.2f', @total) %></p>
+<p class="back-link"><%= link_to "Voltar", dashboard_path, class: "button button-secondary" %></p>
+</main>

@@ -1,32 +1,41 @@
 <section id="cardapio" aria-labelledby="cardapio-titulo">
   <h2 id="cardapio-titulo">Cardápio da refeição atual</h2>
+  <p class="restaurante-cardapio"><strong><%= cardapio.restaurante_nome %></strong></p>
+  <p class="ajuda-cardapio">Escolha uma refeição para ver as três opções de hoje.</p>
 
-  <% if cardapio.disponivel? %>
-    <p><strong><%= cardapio.restaurante_nome %></strong></p>
-    <p>Horário de funcionamento (<%= cardapio.turno_nome %>): <%= cardapio.horario %></p>
+  <% cardapio.turnos.each do |turno| %>
+    <%# <details> abre e fecha sem JavaScript; "name" faz abrir um por vez; a refeição em andamento já vem aberta %>
+    <details class="turno-cardapio" name="turno-cardapio" id="turno-<%= turno.chave %>"<%= " open" if turno.atual? %>>
+      <summary class="botao-turno">
+        <span class="nome-turno"><%= turno.nome %></span>
+        <span class="horario-turno"><%= turno.horario %></span>
+      </summary>
 
-    <% cardapio.opcoes.each do |opcao| %>
-      <article class="opcao-cardapio">
-        <h3><%= opcao.nome %></h3>
-        <dl>
-          <dt>Prato principal</dt>
-          <dd><%= opcao.prato_principal.presence || "—" %></dd>
-          <dt>Guarnição</dt>
-          <dd><%= opcao.guarnicao.presence || "—" %></dd>
-          <dt>Salada</dt>
-          <dd><%= opcao.salada.presence || "—" %></dd>
-          <dt>Sobremesa</dt>
-          <dd><%= opcao.sobremesa.presence || "—" %></dd>
-          <dt>Bebida</dt>
-          <dd><%= opcao.bebida.presence || "—" %></dd>
-        </dl>
-      </article>
-    <% end %>
+      <% if turno.disponivel? %>
+        <% turno.opcoes.each do |opcao| %>
+          <article class="opcao-cardapio">
+            <h3><%= opcao.nome %></h3>
+            <dl>
+              <dt>Prato principal</dt>
+              <dd><%= opcao.prato_principal.presence || "—" %></dd>
+              <dt>Guarnição</dt>
+              <dd><%= opcao.guarnicao.presence || "—" %></dd>
+              <dt>Salada</dt>
+              <dd><%= opcao.salada.presence || "—" %></dd>
+              <dt>Sobremesa</dt>
+              <dd><%= opcao.sobremesa.presence || "—" %></dd>
+              <dt>Bebida</dt>
+              <dd><%= opcao.bebida.presence || "—" %></dd>
+            </dl>
+          </article>
+        <% end %>
 
-    <% if cardapio.acompanhamentos %>
-      <p>Acompanhamentos (todas as opções): <%= cardapio.acompanhamentos %></p>
-    <% end %>
-  <% else %>
-    <p><%= CardapioAtual::MSG_INDISPONIVEL %></p>
+        <% if turno.acompanhamentos %>
+          <p class="acompanhamentos">Acompanhamentos (todas as opções): <%= turno.acompanhamentos %></p>
+        <% end %>
+      <% else %>
+        <p class="cardapio-indisponivel"><%= CardapioAtual::MSG_INDISPONIVEL %></p>
+      <% end %>
+    </details>
   <% end %>
 </section>

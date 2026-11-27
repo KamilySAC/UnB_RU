@@ -1,6 +1,6 @@
 <% content_for :title, "Cadastro de estudante" %>
 
-<main class="container">
+<main class="student-page auth-card">
   <h1>Cadastro de estudante</h1>
   <p>Crie sua conta de acesso ao RU informando sua matrícula.</p>
 
@@ -37,4 +37,6 @@
 
     <%= f.submit "Cadastrar" %>
   <% end %>
+
+  <p class="back-link"><%= link_to "Voltar", root_path, class: "button button-secondary" %></p>
 </main>

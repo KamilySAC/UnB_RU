@@ -30,6 +30,7 @@
         <%= link_to "Histórico Local", historico_local_path %>
         <% if funcionario_atual.administrador? %>
           <%= link_to "Histórico Global", historico_global_path %>
+          <%= link_to "Restaurantes", restaurantes_path %>
         <% end %>
         <span><%= funcionario_atual.nome %></span>
         <%= button_to "Sair", logout_funcionario_path, method: :delete %>

@@ -24,7 +24,7 @@ RSpec.describe "Cardápio na página inicial do estudante", type: :request do
 
   before do
     Estudante.create!(matricula: "250000010", nome: "Ana Sarah Nagata", password: "senha123")
-    Restaurante.create!(codigo: "RU-01", nome: "RU Darcy Ribeiro", total_pisos: 1)
+    Restaurante.create!(nome: "RU Darcy Ribeiro", total_pisos: 1)
     File.write(arquivo, cardapio_json.to_json)
     CardapioAtual.arquivo = arquivo
     post login_path, params: { matricula: "250000010", senha: "senha123" }

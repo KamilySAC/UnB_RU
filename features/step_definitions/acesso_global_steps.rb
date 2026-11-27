@@ -69,12 +69,12 @@ World(AcessoGlobalHelpers)
 # ---------- Contexto ----------
 
 Dado("existem os restaurantes {string} e {string} com catracas cadastradas") do |nome_1, nome_2|
-  r1 = Restaurante.create!(codigo: "G1", nome: nome_1, capacidade_por_hora: 100, total_pisos: 2)
-  r2 = Restaurante.create!(codigo: "G2", nome: nome_2, capacidade_por_hora: 100, total_pisos: 2)
-  r1.catracas.create!(codigo: "CAT-01", nome: "Catraca 01", piso: 1, status: :online)
-  r1.catracas.create!(codigo: "CAT-04", nome: "Catraca 04", piso: 1, status: :online)
-  r2.catracas.create!(codigo: "CAT-02", nome: "Catraca 02", piso: 1, status: :online)
-  r2.catracas.create!(codigo: "CAT-05", nome: "Catraca 05", piso: 1, status: :online)
+  r1 = Restaurante.create!(nome: nome_1, capacidade_por_hora: 100, total_pisos: 2)
+  r2 = Restaurante.create!(nome: nome_2, capacidade_por_hora: 100, total_pisos: 2)
+  r1.catracas.create!(nome: "Catraca 01", piso: 1, status: :online)
+  r1.catracas.create!(nome: "Catraca 04", piso: 1, status: :online)
+  r2.catracas.create!(nome: "Catraca 02", piso: 1, status: :online)
+  r2.catracas.create!(nome: "Catraca 05", piso: 1, status: :online)
 end
 
 # a Catraca 05 fica sem acessos de propósito (cenário do filtro vazio)

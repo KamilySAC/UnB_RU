@@ -1,3 +1,4 @@
+<main class="student-page">
 <h1>Recarregar</h1>
 
 <h2>Via PIX</h2>
@@ -17,3 +18,5 @@
   <%= text_field_tag :cvv, nil, id: 'cvv' %>
   <%= submit_tag 'Confirmar recarga' %>
 <% end %>
+<p class="back-link"><%= link_to "Voltar", dashboard_path, class: "button button-secondary" %></p>
+</main>

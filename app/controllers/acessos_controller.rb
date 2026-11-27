@@ -6,6 +6,7 @@ class AcessosController < ApplicationController
     acessos_de_hoje = base.where(ocorrido_em: Time.zone.now.all_day)
 
     @giros = acessos_de_hoje.liberado.count
+    @registros_hoje = acessos_de_hoje.count
     @total_debito = acessos_de_hoje.liberado.sum(:tarifa)
 
     @acessos = base.order(ocorrido_em: :desc)
